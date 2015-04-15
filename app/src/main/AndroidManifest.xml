@@ -16,6 +16,22 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".MyGardenListActivity"
+            android:label="@string/title_activity_my_garden_list" >
+        </activity>
+        <activity
+            android:name=".NewGardenActivity"
+            android:label="@string/title_activity_new_garden" >
+        </activity>
+        <activity
+            android:name=".MyGardenActivity"
+            android:label="@string/title_activity_main_activity2"
+            android:parentActivityName=".MyGardenListActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.grupp3.projekt_it.MyGardenListActivity" />
+        </activity>
     </application>
 
 </manifest>
