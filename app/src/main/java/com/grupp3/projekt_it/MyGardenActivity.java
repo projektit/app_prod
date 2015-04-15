@@ -2,8 +2,11 @@ package com.grupp3.projekt_it;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -16,9 +19,10 @@ import java.io.IOException;
 
 
 public class MyGardenActivity extends ActionBarActivity {
-
+    String TAG = "com.grupp3.projekt_it";
     TextView textView1;
     TextView textView2;
+    TextView textView3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,18 +48,35 @@ public class MyGardenActivity extends ActionBarActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
+        //convert json to java object
         Gson gson = new Gson();
         Garden garden = gson.fromJson(json, Garden.class);
 
-        String name = garden.getName();
-        String location = garden.getLocation();
+        //get  weather from Open Weather Map
+        //First check network status:
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
 
         textView1 = (TextView) findViewById(R.id.textView1);
         textView2 = (TextView) findViewById(R.id.textView2);
+        textView3 = (TextView) findViewById(R.id.textView3);
 
-        textView1.setText(name);
-        textView2.setText(location);
+        if(networkInfo != null && networkInfo.isConnected()){
+
+            Forecast forecast = null;
+            try {
+                new DownloadData(fileName, context, textView1, textView2, textView3)
+                        .execute("http://api.openweathermap.org/data/2.5/weather?q=" + garden.location);
+            } catch (Exception e) {
+                e.printStackTrace();
+                Log.i(TAG, "Connected but failed anyway");
+            }
+
+        }else{
+            Log.i(TAG, "No connection");
+        }
+
+        //View stuff
 
     }
 

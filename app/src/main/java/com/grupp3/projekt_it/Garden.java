@@ -9,6 +9,7 @@ public class Garden {
     String location;
     String name;
     ArrayList <String> flowers;
+    Forecast forecast;
 
     public Garden(String name, String location){
         this.location = location;
@@ -22,5 +23,9 @@ public class Garden {
 
     public String getName() {
         return name;
+    }
+
+    public void setForecast(Forecast forecast){
+        this.forecast = forecast;
     }
 }

@@ -87,7 +87,6 @@ public class MyGardenListActivity extends ActionBarActivity {
         list.setAdapter(adapter);
 
         //set listener
-        list = (ListView) findViewById(R.id.listView1);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
