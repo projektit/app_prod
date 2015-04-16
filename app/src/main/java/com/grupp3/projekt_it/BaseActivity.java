@@ -61,7 +61,7 @@ public class BaseActivity extends ActionBarActivity {
     /**
      *  Base layout node of this Activity.
      * */
-    private DrawerLayout mDrawerLayout;
+    public DrawerLayout mDrawerLayout;
 
     /**
      * Drawer listner class for drawer open, close etc.
@@ -159,7 +159,12 @@ public class BaseActivity extends ActionBarActivity {
          * So whenever any activity is going to launch this BaseActivity is also going to be called and
          * it will reset this value because of initialization in onCreate method.
          * So that we are setting this in child activity.
+         *
+         * All activities with navigation drawer must contain this override function in order
+         * to not be able to launch another instance of itself from navigation bar.
+         * Remove correct startActivity(..) call to do so.
          */
+
 //		mDrawerList.setItemChecked(position, true);
 //		setTitle(listArray[position]);
         mDrawerLayout.closeDrawer(mDrawerList);
@@ -179,8 +184,6 @@ public class BaseActivity extends ActionBarActivity {
             default:
                 break;
         }
-
-        Toast.makeText(this, "Selected Item Position::"+position, Toast.LENGTH_LONG).show();
     }
 
     @Override

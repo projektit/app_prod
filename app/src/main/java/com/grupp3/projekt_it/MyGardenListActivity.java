@@ -116,4 +116,33 @@ public class MyGardenListActivity extends BaseActivity {
         });
 
     }
+
+    @Override
+    protected void openActivity(int position) {
+
+        /**
+         * All activities with navigation drawer must contain this override function in order
+         * to not be able to launch another instance of itself from navigation bar.
+         * Remove correct startActivity(..) call to do so.
+         */
+
+//		mDrawerList.setItemChecked(position, true);
+//		setTitle(listArray[position]);
+        mDrawerLayout.closeDrawer(mDrawerList);
+        BaseActivity.position = position; //Setting currently selected position in this field so that it will be available in our child activities.
+
+        switch (position) {
+            case 0:
+                startActivity(new Intent(this, MainActivity.class));
+                break;
+            case 1:
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
+            default:
+                break;
+        }
+    }
 }

@@ -1,5 +1,6 @@
 package com.grupp3.projekt_it;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -47,5 +48,33 @@ public class MainActivity extends BaseActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+    @Override
+    protected void openActivity(int position) {
+
+        /**
+         * All activities with navigation drawer must contain this override function in order
+         * to not be able to launch another instance of itself from navigation bar.
+         * Remove correct startActivity(..) call to do so.
+         */
+
+//		mDrawerList.setItemChecked(position, true);
+//		setTitle(listArray[position]);
+        mDrawerLayout.closeDrawer(mDrawerList);
+        BaseActivity.position = position; //Setting currently selected position in this field so that it will be available in our child activities.
+
+        switch (position) {
+            case 0:
+                break;
+            case 1:
+                startActivity(new Intent(this, MyGardenListActivity.class));
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
+            default:
+                break;
+        }
     }
 }
