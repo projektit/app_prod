@@ -19,4 +19,6 @@
     <string name="EnterGardenLocation">Ange stad</string>
     <string name="SaveNewGarden">Spara</string>
     <string name="title_activity_main_activity2">MainActivity2Activity</string>
+    <string name="open_drawer">\"open_drawer\"</string>
+    <string name="close_drawer">\"close_drawer\"</string>
 </resources>
