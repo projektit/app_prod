@@ -74,6 +74,7 @@ public class Forecast {
     public Rain getRain() {
         return rain;
     }
+
 }
 
 class Main {

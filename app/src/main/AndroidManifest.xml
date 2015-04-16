@@ -25,7 +25,12 @@
         </activity>
         <activity
             android:name=".NewGardenActivity"
-            android:label="@string/title_activity_new_garden" >
+            android:label="@string/title_activity_new_garden"
+            android:parentActivityName=".MyGardenListActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.grupp3.projekt_it.MyGardenListActivity" />
+            >
         </activity>
         <activity
             android:name=".MyGardenActivity"

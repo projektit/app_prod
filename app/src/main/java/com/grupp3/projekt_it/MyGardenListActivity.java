@@ -62,21 +62,27 @@ public class MyGardenListActivity extends ActionBarActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        String[] result = data.getStringArrayExtra("Result");
+        if(resultCode == NewGardenActivity.RESULT_OK )
+        {
+            if(requestCode == 1) {
+                String[] result = data.getStringArrayExtra("Result");
 
-        Garden garden = new Garden(result[0], result[1]);
-        Gson gson = new Gson();
-        String json = gson.toJson(garden);
-        try {
-            FileOutputStream fileOutputStream = openFileOutput(result[0], Context.MODE_PRIVATE);
-            fileOutputStream.write(json.getBytes());
-            fileOutputStream.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+                Garden garden = new Garden(result[0], result[1]);
+                Gson gson = new Gson();
+                String json = gson.toJson(garden);
+                try {
+                    FileOutputStream fileOutputStream = openFileOutput(result[0], Context.MODE_PRIVATE);
+                    fileOutputStream.write(json.getBytes());
+                    fileOutputStream.close();
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                buildListView();
+            }
         }
-        buildListView();
+
     }
     private void buildListView() {
         String [] items = getApplicationContext().fileList();
