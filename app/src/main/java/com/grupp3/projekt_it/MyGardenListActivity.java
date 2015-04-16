@@ -22,13 +22,24 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 
-public class MyGardenListActivity extends ActionBarActivity {
+public class MyGardenListActivity extends BaseActivity {
    String TAG = "com.grupp3.projekt_it";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_garden_list);
+        //setContentView(R.layout.activity_my_garden_list);
+        /**
+         * Adding our layout to parent class frame layout.
+         */
+        getLayoutInflater().inflate(R.layout.activity_my_garden_list, frameLayout);
+
+        /**
+         * Setting title and itemChecked
+         */
+        mDrawerList.setItemChecked(position, true);
+        //setTitle(listArray[position]);
+        //((ImageView)findViewById(R.id.image_view)).setBackgroundResource(R.drawable.image1);
         buildListView();
     }
 

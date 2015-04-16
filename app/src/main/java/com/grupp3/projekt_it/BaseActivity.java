@@ -176,9 +176,6 @@ public class BaseActivity extends ActionBarActivity {
                 break;
             case 3:
                 break;
-            case 4:
-                break;
-
             default:
                 break;
         }
@@ -188,9 +185,9 @@ public class BaseActivity extends ActionBarActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-
+        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
-        return super.onCreateOptionsMenu(menu);
+        return true;
     }
 
     @Override
@@ -226,7 +223,7 @@ public class BaseActivity extends ActionBarActivity {
         if(mDrawerLayout.isDrawerOpen(mDrawerList)){
             mDrawerLayout.closeDrawer(mDrawerList);
         }else {
-            mDrawerLayout.openDrawer(mDrawerList);
+            super.onBackPressed();
         }
     }
 }

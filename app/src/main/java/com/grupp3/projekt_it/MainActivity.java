@@ -22,7 +22,6 @@ public class MainActivity extends BaseActivity {
          * Setting title and itemChecked
          */
         mDrawerList.setItemChecked(position, true);
-
         //setTitle(listArray[position]);
         //((ImageView)findViewById(R.id.image_view)).setBackgroundResource(R.drawable.image1);
     }
