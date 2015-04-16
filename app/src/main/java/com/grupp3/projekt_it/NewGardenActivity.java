@@ -58,7 +58,20 @@ public class NewGardenActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
     private void buildSpinnerView() {
-        String [] items = {"Stockholm", "Nacka", "Kista", "Falun", "Mora", "Leksand", "Bjurs", "Särna", "Idre", "Ludvika"};
+        String [] items = {"Alingsås","Arboga","Arvika","Askersund","Avaskär","Avesta","Boden","Bollnäs","Borgholm","Borlänge",
+                "Borås","Broo","Brätte","Båstad","Djursholm","Eksjö","Elleholm","Enköping","Eskilstuna","Eslöv","Fagersta","Falkenberg",
+                "Falköping","Falsterbo","Falun","Filipstad","Flen","Gränna","Gävle","Göteborg","Hagfors","Halmstad","Haparanda","Hedemora",
+                "Helsingborg","Hjo","Hudiksvall","Huskvarna","Härnösand","Hässleholm","Höganäs","Järle","Jönköping","Kalmar","Karlshamn",
+                "Karlskoga","Karlskrona","Karlstad","Katrineholm","Kiruna","Kongahälla","Kramfors","Kristianopel","Kristianstad",
+                "Kristinehamn","Kumla","Kungsbacka","Kungälv","Köping","Laholm","Landskrona","Lidingö","Lidköping","Lindesberg","Linköping"
+                ,"Ljungby","Lomma","Ludvika","Luntertun","Luleå","Lund","Lycksele","Lyckå","Lysekil","Lödöse","Malmö","Mariefred","Mariestad"
+                ,"Marstrand","Mjölby","Motala","Mölndal","Mönsterås","Nacka","Nora","Norrköping","Norrtälje","Nybro","Nyköping","Nya Lidköping"
+                ,"Nynäshamn","Nässjö","Oskarshamn","Oxelösund","Piteå","Ronneby","Sala","Sandviken","Sigtuna","Simrishamn","Skanör","Skara",
+                "Skellefteå","Skänninge","Skövde","Sollefteå","Solna","Stockholm","Strängnäs","Strömstad","Sundbyberg","Sundsvall","Säffle",
+                "Säter","Sävsjö","Söderhamn","Söderköping","Södertälje","Sölvesborg","Tidaholm","Tommarp","Torget","Torshälla","Tranås",
+                "Trelleborg","Trollhättan","Trosa","Uddevalla","Ulricehamn","Umeå","Uppsala","Vadstena","Varberg","Vaxholm","Vetlanda",
+                "Vimmerby","Visby","Vä","Vänersborg","Värnamo","Västervik","Västerås","Växjö","Ystad","Åhus","Åmål","Älvsborg","Ängelholm",
+                "Örebro","Öregrund","Örnsköldsvik","Östersund","Östhammar"};
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, items);
         spinner1.setAdapter(adapter);
     }
