@@ -64,9 +64,13 @@ public class MyGardenActivity extends ActionBarActivity {
         if(networkInfo != null && networkInfo.isConnected()){
 
             Forecast forecast = null;
+            String urlLocation = garden.location.toLowerCase();
+            urlLocation = urlLocation.replaceAll("å", "a");
+            urlLocation = urlLocation.replaceAll("ä", "a");
+            urlLocation = urlLocation.replaceAll("ö", "o");
             try {
                 new DownloadData(fileName, context, textView1, textView2, textView3)
-                        .execute("http://api.openweathermap.org/data/2.5/weather?q=" + garden.location);
+                        .execute("http://api.openweathermap.org/data/2.5/weather?q=" + urlLocation);
             } catch (Exception e) {
                 e.printStackTrace();
                 Log.i(TAG, "Connected but failed anyway");
