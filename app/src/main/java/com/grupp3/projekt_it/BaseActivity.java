@@ -114,7 +114,7 @@ public class BaseActivity extends ActionBarActivity {
 
             @Override
             public void onDrawerOpened(View drawerView) {
-                getSupportActionBar().setTitle(R.string.title_section1);
+                //getSupportActionBar().setTitle("Hittade felet");
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
                 super.onDrawerOpened(drawerView);
             }
