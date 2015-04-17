@@ -28,4 +28,8 @@ public class Garden {
     public void setForecast(Forecast forecast){
         this.forecast = forecast;
     }
+
+    public Forecast getForecast() {
+        return forecast;
+    }
 }

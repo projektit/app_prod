@@ -25,15 +25,10 @@ public class DownloadData extends AsyncTask<String, Void, String> {
     String TAG = "com.grupp3.projekt_it";
     String fileName;
     Context context;
-    TextView textView1;
-    TextView textView2;
-    TextView textView3;
-    public DownloadData(String fileName, Context context, TextView textView1, TextView textView2, TextView textView3){
+
+    public DownloadData(String fileName, Context context){
         this.fileName = fileName;
         this.context = context;
-        this.textView1 = textView1;
-        this.textView2 = textView2;
-        this.textView3 = textView3;
     }
     @Override
     protected String doInBackground(String... urls){
@@ -94,11 +89,6 @@ public class DownloadData extends AsyncTask<String, Void, String> {
         garden.setForecast(forecast);
         //convert garden back to json
         String json = gson.toJson(garden);
-
-        textView1.setText("GardenLocation: " + garden.location);
-        textView2.setText("ForecastLocation: " + forecast.getName());
-        textView3.setText("ForecastLocation: " + forecast.getSys().getCountry());
-
         //save json in same file
         try {
             FileOutputStream fileOutputStream = context.openFileOutput(fileName, Context.MODE_PRIVATE);

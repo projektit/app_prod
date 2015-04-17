@@ -31,7 +31,6 @@ public class MyGardenActivity extends ActionBarActivity {
         Intent intent = getIntent();
         String fileName = intent.getStringExtra("fileName");
 
-        //open file with filename
         String json = "";
         Context context = getApplication();
         FileInputStream fileInputStream;
@@ -52,35 +51,20 @@ public class MyGardenActivity extends ActionBarActivity {
         Gson gson = new Gson();
         Garden garden = gson.fromJson(json, Garden.class);
 
-        //get  weather from Open Weather Map
-        //First check network status:
-        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
 
         textView1 = (TextView) findViewById(R.id.textView1);
         textView2 = (TextView) findViewById(R.id.textView2);
         textView3 = (TextView) findViewById(R.id.textView3);
-
-        if(networkInfo != null && networkInfo.isConnected()){
-
-            Forecast forecast = null;
-            String urlLocation = garden.location.toLowerCase();
-            urlLocation = urlLocation.replaceAll("å", "a");
-            urlLocation = urlLocation.replaceAll("ä", "a");
-            urlLocation = urlLocation.replaceAll("ö", "o");
-            try {
-                new DownloadData(fileName, context, textView1, textView2, textView3)
-                        .execute("http://api.openweathermap.org/data/2.5/weather?q=" + urlLocation);
-            } catch (Exception e) {
-                e.printStackTrace();
-                Log.i(TAG, "Connected but failed anyway");
+        Log.i(TAG, "success");
+        if(garden.getForecast() != null){
+            if(garden.getForecast().getName() != null)
+                textView1.setText("Station name: " + garden.getForecast().getName());
+            if(garden.getForecast().getWind() != null)
+                textView2.setText("Wind speed: " + Double.toString(garden.getForecast().getWind().getSpeed()));
+            if(garden.getForecast().getMain() != null) {
+                textView3.setText("Current Temperature: " + Double.toString(garden.getForecast().getMain().getTemp()));
             }
-
-        }else{
-            Log.i(TAG, "No connection");
         }
-
-        //View stuff
 
     }
 

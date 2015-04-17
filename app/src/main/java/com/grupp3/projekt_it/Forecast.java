@@ -27,9 +27,13 @@ public class Forecast {
     Wind wind;
     Clouds clouds;
     Weather[] weather;
-
+    Main main;
     Rain rain;
     Snow snow;
+
+    public Main getMain() {
+        return main;
+    }
 
     public Long getDt() {
         return dt;
