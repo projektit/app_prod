@@ -21,4 +21,8 @@
     <string name="title_activity_main_activity2">MainActivity2Activity</string>
     <string name="open_drawer">\"open_drawer\"</string>
     <string name="close_drawer">\"close_drawer\"</string>
+    <string name="title_activity_activity_init">activity_init</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_init">init</string>
 </resources>
