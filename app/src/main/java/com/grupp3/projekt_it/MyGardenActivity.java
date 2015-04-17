@@ -82,6 +82,16 @@ public class MyGardenActivity extends ActionBarActivity {
 
         //View stuff
 
+        //test open dB
+        DBHelper myDbhelper = new DBHelper(this);
+
+        myDbhelper.createDataBase();
+        myDbhelper.openDatabase();
+
+
+        textView1.setText(myDbhelper.toString());
+        Log.i("marcus", "so far");
+
     }
 
 
