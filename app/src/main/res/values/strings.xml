@@ -25,4 +25,6 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_init">init</string>
+    <string name="title_activity_login">login</string>
+    <string name="subscription_number">Prenumerationsnummer</string>
 </resources>

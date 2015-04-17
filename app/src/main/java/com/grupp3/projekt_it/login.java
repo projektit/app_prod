@@ -5,46 +5,33 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 
 
-public class init extends ActionBarActivity {
-
-    // Time the init activity runs on startup (ms)
-    private final int DURATION = 3000;
-    private Thread initThread;
+public class login extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_init);
-        // Hide the actionbar
+        setContentView(R.layout.activity_login);
         getSupportActionBar().hide();
-        // Run this activity for a time, then change to another
-        initThread = new Thread() {
+
+        Button button = (Button)findViewById(R.id.login_button);
+
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void run() {
-                synchronized (this) {
-                    try{
-                        wait(DURATION);
-                    }
-                    catch (InterruptedException e) {
-                    }
-                    finally {
-                            finish();
-                            Intent intent = new Intent(getBaseContext(), login.class);
-                        startActivity(intent);
-                    }
-                }
+            public void onClick(View v) {
+                startActivity(new Intent(login.this, MainActivity.class));
             }
-        };
-        initThread.start();
+        });
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_init, menu);
+        getMenuInflater().inflate(R.menu.menu_login, menu);
         return true;
     }
 
@@ -62,4 +49,5 @@ public class init extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
 }
