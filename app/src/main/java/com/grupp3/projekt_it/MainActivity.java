@@ -3,8 +3,11 @@ package com.grupp3.projekt_it;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import java.util.List;
 
 
 public class MainActivity extends BaseActivity {
@@ -25,6 +28,29 @@ public class MainActivity extends BaseActivity {
         mDrawerList.setItemChecked(position, true);
         //setTitle(listArray[position]);
         //((ImageView)findViewById(R.id.image_view)).setBackgroundResource(R.drawable.image1);
+
+        //DbTools test
+        DbTools db = new DbTools(this);
+
+        /**
+         * CRUD Operations
+         * */
+        // Inserting Contacts
+        Log.d("Insert: ", "Inserting ..");
+        db.addPlant(new Plant("Tjurfibbla", "Fibbla"));
+        db.addPlant(new Plant("Snorfibbla", "Fibbla"));
+        db.addPlant(new Plant("Havstulpan", "Tulpan"));
+        db.addPlant(new Plant("Maskros", "Ros"));
+
+        // Reading all contacts
+        Log.d("Reading: ", "Reading all plants..");
+        List<Plant> plants = db.getAllPlants();
+
+        for (Plant plant : plants) {
+            String log = "Id: " + plant.getID() + " ,Name: " + plant.getName() + " ,Type: " + plant.getType();
+            // Writing Contacts to log
+            Log.d("Name: ", log);
+        }
     }
 
 
