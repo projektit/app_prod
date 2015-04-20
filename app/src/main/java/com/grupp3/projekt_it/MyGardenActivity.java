@@ -55,7 +55,6 @@ public class MyGardenActivity extends ActionBarActivity {
         textView1 = (TextView) findViewById(R.id.textView1);
         textView2 = (TextView) findViewById(R.id.textView2);
         textView3 = (TextView) findViewById(R.id.textView3);
-        Log.i(TAG, "success");
         if(garden.getForecast() != null){
             if(garden.getForecast().getName() != null)
                 textView1.setText("Station name: " + garden.getForecast().getName());

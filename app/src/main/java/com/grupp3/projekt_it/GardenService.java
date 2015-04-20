@@ -20,13 +20,14 @@ import java.io.IOException;
  */
 @TargetApi(Build.VERSION_CODES.CUPCAKE)
 public class GardenService extends IntentService {
-    String TAG = "com.grupp3.testbackground";
+    String TAG = "com.grupp3.projekt_it";
     public GardenService() {
         super("GardenService");
     }
 
     @Override
     protected void onHandleIntent(Intent intent) {
+        Log.i(TAG, "service started");
         Context context = getApplicationContext();
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();

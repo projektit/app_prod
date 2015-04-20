@@ -91,6 +91,7 @@ public class MyGardenListActivity extends BaseActivity {
                     e.printStackTrace();
                 }
                 buildListView();
+                OnBootReceiver.setAlarms(getApplicationContext());
             }
         }
 

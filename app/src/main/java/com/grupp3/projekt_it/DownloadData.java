@@ -43,7 +43,6 @@ public class DownloadData extends AsyncTask<String, Void, String> {
 
             StringBuffer json = new StringBuffer(1024);
             String tmp="";
-            Log.i(TAG, "so far");
             while((tmp=reader.readLine())!=null)
                 json.append(tmp).append("\n");
             reader.close();
@@ -58,7 +57,7 @@ public class DownloadData extends AsyncTask<String, Void, String> {
 
             return rawData;
         }catch(Exception e){
-            Log.i(TAG, "Exception in client");
+            Log.i(TAG, "Exception in  weather client");
             return null;
         }
     }
