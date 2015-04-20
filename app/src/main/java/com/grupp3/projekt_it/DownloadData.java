@@ -34,19 +34,21 @@ public class DownloadData extends AsyncTask<String, Void, String> {
     protected String doInBackground(String... urls){
         String rawData = "";
         try {
+            // get url
             URL url = new URL(urls[0]);
+            // setup http connectuin
             HttpURLConnection connection = (HttpURLConnection)url.openConnection();
-
+            //add api key
             connection.addRequestProperty("x-api-key","92a437c886b5e874102c9d28c6c10359");
-
+            // get input
             BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-
+            // build string from input stream
             StringBuffer json = new StringBuffer(1024);
             String tmp="";
             while((tmp=reader.readLine())!=null)
                 json.append(tmp).append("\n");
             reader.close();
-
+            //check input satus code
             JSONObject data = new JSONObject(json.toString());
             rawData = json.toString();
 
@@ -54,7 +56,7 @@ public class DownloadData extends AsyncTask<String, Void, String> {
                 Log.i(TAG, "cod not 200");
                 return null;
             }
-
+            // return json string
             return rawData;
         }catch(Exception e){
             Log.i(TAG, "Exception in  weather client");

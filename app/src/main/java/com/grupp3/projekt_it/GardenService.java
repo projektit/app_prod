@@ -18,6 +18,9 @@ import java.io.IOException;
 /**
  * Created by Daniel on 2015-04-17.
  */
+
+//service which will run in background according to alarm setup in OnBootReceiver class
+
 @TargetApi(Build.VERSION_CODES.CUPCAKE)
 public class GardenService extends IntentService {
     String TAG = "com.grupp3.projekt_it";
@@ -29,12 +32,16 @@ public class GardenService extends IntentService {
     protected void onHandleIntent(Intent intent) {
         Log.i(TAG, "service started");
         Context context = getApplicationContext();
+        //get network info
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        //get all files in applications internal memory
         String[] fileNames = context.fileList();
+        //do for all gardens
         for(int i = 0; i < fileNames.length; i++) {
             String json = "";
             FileInputStream fileInputStream;
+            // open gardenfile
             try{
                 fileInputStream = context.openFileInput(fileNames[i]);
                 byte[] input = new byte[fileInputStream.available()];
@@ -52,17 +59,18 @@ public class GardenService extends IntentService {
             Gson gson = new Gson();
             Garden garden = gson.fromJson(json, Garden.class);
 
-
+            //if has network
             if (networkInfo != null && networkInfo.isConnected()) {
 
                 Forecast forecast = null;
+                //replace swedish chars
                 String urlLocation = garden.location.toLowerCase();
                 urlLocation = urlLocation.replaceAll("å", "a");
                 urlLocation = urlLocation.replaceAll("ä", "a");
                 urlLocation = urlLocation.replaceAll("ö", "o");
                 try {
                     new DownloadData(fileNames[i], context)
-                            .execute("http://api.openweathermap.org/data/2.5/weather?q=" + urlLocation);
+                            .execute("http://api.openweathermap.org/data/2.5/weather?q=" + urlLocation + "&units=metric");
                 } catch (Exception e) {
                     e.printStackTrace();
                     Log.i(TAG, "Connected but failed anyway");

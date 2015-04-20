@@ -2,9 +2,8 @@ package com.grupp3.projekt_it;
 
 import java.util.ArrayList;
 
-/**
- * Created by Daniel on 2015-04-15.
- */
+// POJO to garden object (which is in json format) to json string, for storage
+
 public class Garden {
     String location;
     String name;

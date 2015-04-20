@@ -51,10 +51,10 @@ public class MyGardenActivity extends ActionBarActivity {
         Gson gson = new Gson();
         Garden garden = gson.fromJson(json, Garden.class);
 
-
         textView1 = (TextView) findViewById(R.id.textView1);
         textView2 = (TextView) findViewById(R.id.textView2);
         textView3 = (TextView) findViewById(R.id.textView3);
+
         if(garden.getForecast() != null){
             if(garden.getForecast().getName() != null)
                 textView1.setText("Station name: " + garden.getForecast().getName());

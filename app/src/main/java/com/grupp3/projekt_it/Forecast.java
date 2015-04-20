@@ -14,6 +14,8 @@ import java.util.List;
  * Created by Daniel on 2015-04-15.
  */
 
+// POJO to convert weather data (which is in json format) to a java object using gson library
+
 public class Forecast {
     Long id;
     Long dt;
