@@ -3,8 +3,14 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
-        <item name="homeAsUpIndicator">@drawable/ic_drawer</item>
-        <item name="android:homeAsUpIndicator">@drawable/ic_drawer</item>
+       <!-- <item name="homeAsUpIndicator">@drawable/ic_drawer</item>
+        <item name="android:homeAsUpIndicator">@drawable/ic_drawer</item>-->
+    </style>
+    <!-- Theme to set the actionbar icon to ic_drawer a.k.a hamburger -->
+    <style name="Hamburger" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+         <item name="homeAsUpIndicator">@drawable/ic_drawer</item>
+         <item name="android:homeAsUpIndicator">@drawable/ic_drawer</item>
     </style>
 
 </resources>

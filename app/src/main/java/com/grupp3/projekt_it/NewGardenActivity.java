@@ -21,6 +21,7 @@ public class NewGardenActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_garden);
+
         editText1 = (EditText) findViewById(R.id.editText1);
         spinner1 = (Spinner) findViewById((R.id.spinner1));
         buildSpinnerView();
