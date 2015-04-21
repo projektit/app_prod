@@ -12,7 +12,7 @@
         android:label="@string/app_name"
         android:theme="@style/Hamburger">
         <activity
-            android:name=".init"
+            android:name=".Init"
             android:label="@string/title_activity_init">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -54,7 +54,7 @@
                 android:value="com.grupp3.projekt_it.MyGardenListActivity" />
         </activity>
         <activity
-            android:name=".login"
+            android:name=".Login"
             android:label="@string/title_activity_login"
             android:screenOrientation="portrait" >
         </activity>

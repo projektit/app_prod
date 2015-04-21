@@ -99,6 +99,9 @@ public class MainActivity extends BaseActivity {
                 break;
             case 3:
                 break;
+            case 4:
+                startActivity(new Intent(this, Login.class));
+                break;
             default:
                 break;
         }
