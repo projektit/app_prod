@@ -19,7 +19,7 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/editText"
+        android:id="@+id/user_login_info"
         android:width="300dp"
         android:height="50dp"
         android:hint="@string/subscription_number"
@@ -35,7 +35,7 @@
         android:layout_height="wrap_content"
         android:text="LOGGA IN"
         android:id="@+id/login_button"
-        android:layout_below="@+id/editText"
+        android:layout_below="@+id/user_login_info"
         android:layout_centerHorizontal="true"
         android:clickable="true" />
 

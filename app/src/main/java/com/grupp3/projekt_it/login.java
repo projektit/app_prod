@@ -7,22 +7,40 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import java.util.Arrays;
 
 
 public class login extends ActionBarActivity {
+
+    protected EditText mUserLogin;
+    String acceptedUsers[] = {"1234","4321"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        // hide the actionbar in this activity
         getSupportActionBar().hide();
 
+        mUserLogin = (EditText)findViewById(R.id.user_login_info);
+        // define the button
         Button button = (Button)findViewById(R.id.login_button);
-
+        // wait for the button to be clicked
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(login.this, MainActivity.class));
+                // get text from textbox
+                String user = mUserLogin.getText().toString().trim();
+                // check if the entered information is a valid user, if not show error message
+                if(Arrays.asList(acceptedUsers).contains(user)) {
+                    startActivity(new Intent(login.this, MainActivity.class));
+                }
+                else {
+                    Toast.makeText(login.this,"Ogiltigt prenumerationsnummer", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
