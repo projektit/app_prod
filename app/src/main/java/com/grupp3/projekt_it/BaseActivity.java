@@ -45,7 +45,7 @@ public class BaseActivity extends ActionBarActivity {
     /**
      * List item array for navigation drawer items.
      * */
-    protected String[] listArray = { "Hem", "Min Trädgård", "Sök", "Inställningar", "Logga ut"};
+    protected String[] listArray = { "Hem", "Min Trädgård", "Sök", "Inställningar", "Logga ut", "Vanliga Frågor"};
 
     /**
      * Static variable for selected item position. Which can be used in child activity to know which item is selected from the list.
