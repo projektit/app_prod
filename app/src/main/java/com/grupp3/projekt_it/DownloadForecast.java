@@ -21,12 +21,12 @@ import java.net.URL;
 /**
  * Created by Daniel on 2015-04-15.
  */
-public class DownloadData extends AsyncTask<String, Void, String> {
+public class DownloadForecast extends AsyncTask<String, Void, String> {
     String TAG = "com.grupp3.projekt_it";
     String fileName;
     Context context;
 
-    public DownloadData(String fileName, Context context){
+    public DownloadForecast(String fileName, Context context){
         this.fileName = fileName;
         this.context = context;
     }
@@ -49,10 +49,11 @@ public class DownloadData extends AsyncTask<String, Void, String> {
                 json.append(tmp).append("\n");
             reader.close();
             //check input satus code
-            JSONObject data = new JSONObject(json.toString());
+            Gson gson = new Gson();
+            Forecast forecast = gson.fromJson(json.toString(), Forecast.class);
             rawData = json.toString();
 
-            if(data.getInt("cod") != 200){
+            if(forecast.getCod() != 200){
                 Log.i(TAG, "cod not 200");
                 return null;
             }

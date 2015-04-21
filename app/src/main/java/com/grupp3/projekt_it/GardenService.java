@@ -69,7 +69,7 @@ public class GardenService extends IntentService {
                 urlLocation = urlLocation.replaceAll("ä", "a");
                 urlLocation = urlLocation.replaceAll("ö", "o");
                 try {
-                    new DownloadData(fileNames[i], context)
+                    new DownloadForecast(fileNames[i], context)
                             .execute("http://api.openweathermap.org/data/2.5/weather?q=" + urlLocation + "&units=metric");
                 } catch (Exception e) {
                     e.printStackTrace();

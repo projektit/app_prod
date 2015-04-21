@@ -1,5 +1,8 @@
 package com.grupp3.projekt_it;
 
+import android.app.AlertDialog;
+import android.app.DialogFragment;
+import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Environment;
@@ -96,15 +99,15 @@ public class MyGardenListActivity extends BaseActivity {
         }
 
     }
-    private void buildListView() {
+    public void buildListView() {
         String [] items = getApplicationContext().fileList();
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.list_item, items);
+        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.list_item, items);
 
         ListView list = (ListView) findViewById(R.id.listView1);
         list.setAdapter(adapter);
 
-        //set listener
+        //Listen for normal click on items in list
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -116,6 +119,24 @@ public class MyGardenListActivity extends BaseActivity {
             }
         });
 
+        //Listener for long click on items in list
+        list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                TextView textView = (TextView) view;
+                String fileName = textView.getText().toString();
+
+                FragmentManager fragmentManager = getFragmentManager();
+                GardenListFragment editNameDialog = new GardenListFragment();
+
+                Bundle bundle = new Bundle();
+                bundle.putString("fileName", fileName);
+
+                editNameDialog.setArguments(bundle);
+                editNameDialog.show(fragmentManager, "disIsTag");
+                return true;
+            }
+        });
     }
 
     @Override

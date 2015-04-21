@@ -58,14 +58,20 @@
             android:label="@string/title_activity_login"
             android:screenOrientation="portrait" >
         </activity>
-        <receiver android:name=".OnBootReceiver">
+
+        <receiver android:name=".OnBootReceiver" >
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
-        <service
-            android:name=".GardenService">
+
+        <service android:name=".GardenService" >
         </service>
+
+        <activity
+            android:name=".PlantSearchActivity"
+            android:label="@string/title_activity_plant_search" >
+        </activity>
     </application>
 
 </manifest>

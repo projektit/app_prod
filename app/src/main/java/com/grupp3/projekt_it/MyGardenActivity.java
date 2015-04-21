@@ -23,13 +23,14 @@ public class MyGardenActivity extends ActionBarActivity {
     TextView textView1;
     TextView textView2;
     TextView textView3;
+    String fileName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_garden);
         Intent intent = getIntent();
-        String fileName = intent.getStringExtra("fileName");
+        fileName = intent.getStringExtra("fileName");
 
         String json = "";
         Context context = getApplication();
@@ -85,6 +86,11 @@ public class MyGardenActivity extends ActionBarActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
+        }
+        if (id == R.id.action_new) {
+            Intent intent = new Intent(getApplicationContext(), PlantSearchActivity.class);
+            intent.putExtra("fileName", fileName);
+            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);
