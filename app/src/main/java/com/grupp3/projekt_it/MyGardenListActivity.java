@@ -127,13 +127,13 @@ public class MyGardenListActivity extends BaseActivity {
                 String fileName = textView.getText().toString();
 
                 FragmentManager fragmentManager = getFragmentManager();
-                GardenListFragment editNameDialog = new GardenListFragment();
+                GardenListFragment quickOptions = new GardenListFragment();
 
                 Bundle bundle = new Bundle();
                 bundle.putString("fileName", fileName);
 
-                editNameDialog.setArguments(bundle);
-                editNameDialog.show(fragmentManager, "disIsTag");
+                quickOptions.setArguments(bundle);
+                quickOptions.show(fragmentManager, "disIsTag");
                 return true;
             }
         });

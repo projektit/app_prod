@@ -3,6 +3,7 @@ package com.grupp3.projekt_it;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.app.FragmentManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -46,28 +47,11 @@ public class GardenListFragment extends DialogFragment {
                             startActivity(intent);
                         }
                         if(which == 1){
-                            String json = "";
-                            FileInputStream fileInputStream;
-                            try{
-                                fileInputStream = context.openFileInput(fileName);
-                                byte[] input = new byte[fileInputStream.available()];
-                                while(fileInputStream.read(input) != -1){
-                                    json += new String(input);
-                                }
-                                fileInputStream.close();
+                            FragmentManager fragmentManager = getFragmentManager();
+                            ChangeGardenNameFragment changName = new ChangeGardenNameFragment();
 
-                            } catch (FileNotFoundException e) {
-                                e.printStackTrace();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                            //convert json to java object
-                            Gson gson = new Gson();
-                            Garden garden = gson.fromJson(json, Garden.class);
-
-
-                            // SKRIV FRAGMENT FÖR ATT SLÅ IN NYTT NAMN
-
+                            changName.setArguments(bundle);
+                            changName.show(fragmentManager, "disIsTag2");
                         }
                         if(which == 2){
                             context.deleteFile(fileName);

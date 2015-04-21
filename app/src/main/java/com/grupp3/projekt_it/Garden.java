@@ -31,4 +31,8 @@ public class Garden {
     public Forecast getForecast() {
         return forecast;
     }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }
