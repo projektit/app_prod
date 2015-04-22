@@ -56,7 +56,7 @@ public class DbTools extends SQLiteOpenHelper {
         // Methods for Create, Read, Update and Delete in database.//
         /////////////////////////////////////////////////////////////
         // Adding new plant
-        public void addPlant(Plant plant) {
+        public void addPlant(Plant_test plant) {
 
             SQLiteDatabase db = this.getWritableDatabase();
 
@@ -71,7 +71,7 @@ public class DbTools extends SQLiteOpenHelper {
 
         // Getting single plant
         // Returns single row by id
-        public Plant getPlant(int id) {
+        public Plant_test getPlant(int id) {
 
             SQLiteDatabase db = this.getReadableDatabase();
 
@@ -81,16 +81,16 @@ public class DbTools extends SQLiteOpenHelper {
             if (cursor != null)
                 cursor.moveToFirst();
 
-            Plant plant = new Plant(Integer.parseInt(cursor.getString(0)),
+            Plant_test plant = new Plant_test(Integer.parseInt(cursor.getString(0)),
                     cursor.getString(1), cursor.getString(2));
             // return plant
             return plant;
         }
 
         // Getting all plants
-        public List<Plant> getAllPlants() {
+        public List<Plant_test> getAllPlants() {
 
-            List<Plant> plantList = new ArrayList<Plant>();
+            List<Plant_test> plantList = new ArrayList<Plant_test>();
             // Select All Query
             String selectQuery = "SELECT  * FROM " + TABLE_PLANTS;
 
@@ -100,7 +100,7 @@ public class DbTools extends SQLiteOpenHelper {
             // looping through all rows and adding to list
             if (cursor.moveToFirst()) {
                 do {
-                    Plant plant = new Plant();
+                    Plant_test plant = new Plant_test();
                     plant.setID(Integer.parseInt(cursor.getString(0)));
                     plant.setName(cursor.getString(1));
                     plant.setType(cursor.getString(2));
@@ -126,7 +126,7 @@ public class DbTools extends SQLiteOpenHelper {
         }
 
         // Updating single plant
-        public int updatePlant(Plant plant) {
+        public int updatePlant(Plant_test plant) {
 
             SQLiteDatabase db = this.getWritableDatabase();
 
@@ -140,7 +140,7 @@ public class DbTools extends SQLiteOpenHelper {
         }
 
         // Deleting single plant
-        public void deletePlant(Plant plant) {
+        public void deletePlant(Plant_test plant) {
 
             SQLiteDatabase db = this.getWritableDatabase();
             db.delete(TABLE_PLANTS, KEY_ID + " = ?",
@@ -149,7 +149,7 @@ public class DbTools extends SQLiteOpenHelper {
         }
 }
 
-class Plant{
+class Plant_test{
 
     // private variables
     int _id;
@@ -157,18 +157,18 @@ class Plant{
     String _type;
 
     // Empty constructor
-    public Plant(){
+    public Plant_test(){
 
     }
     // constructor
-    public Plant(int id, String name, String _type){
+    public Plant_test(int id, String name, String _type){
         this._id = id;
         this._name = name;
         this._type = _type;
     }
 
     // constructor
-    public Plant(String name, String _type){
+    public Plant_test(String name, String _type){
         this._name = name;
         this._type = _type;
     }

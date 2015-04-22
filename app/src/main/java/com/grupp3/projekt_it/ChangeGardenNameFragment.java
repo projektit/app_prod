@@ -1,14 +1,20 @@
 package com.grupp3.projekt_it;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.app.FragmentManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -22,6 +28,7 @@ import java.io.IOException;
  * Created by Daniel on 2015-04-21.
  */
 public class ChangeGardenNameFragment extends DialogFragment {
+    String TAG = "com.grupp3.projekt_it";
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
@@ -31,61 +38,34 @@ public class ChangeGardenNameFragment extends DialogFragment {
         final EditText editText = new EditText(getActivity().getApplicationContext());
         //get fileName
         Bundle bundle = getArguments();
-        String fileName1 = "";
+        String gardenName1 = "";
         if (bundle != null) {
-            fileName1 = bundle.getString("fileName");
+            gardenName1 = bundle.getString("gardenName");
         }
-        final String fileName = fileName1;
+        final String gardenName = gardenName1;
         //set fileName to textfield
-        editText.setText(fileName);
+        editText.setText(gardenName);
         builder.setView(editText);
         builder.setMessage(R.string.garden_list_menu_box_message2);
         //set listeners
         builder.setPositiveButton(R.string.garden_list_menu_box_message_save, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
 
-                String newFileName = editText.getText().toString();
-                if (fileName.equals(newFileName)) {
+                String newGardenName = editText.getText().toString();
+                if (gardenName.equals(newGardenName)) {
                     return;
                 }
-                String json = "";
-                FileInputStream fileInputStream;
-                try {
-                    fileInputStream = context.openFileInput(fileName);
-                    byte[] input = new byte[fileInputStream.available()];
-                    while (fileInputStream.read(input) != -1) {
-                        json += new String(input);
-                    }
-                    fileInputStream.close();
-
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                //convert json to java object
-                Gson gson = new Gson();
-                Garden garden = gson.fromJson(json, Garden.class);
-
-                //make change
-                garden.setName(newFileName);
-
+                GardenUtil gardenUtil = new GardenUtil();
+                Garden garden = gardenUtil.loadGarden(gardenName, context);
+                garden.setName(newGardenName);
                 //convert back
-                json = gson.toJson(garden);
-                //save json in same file
-                try {
-                    FileOutputStream fileOutputStream = context.openFileOutput(newFileName, Context.MODE_PRIVATE);
-                    fileOutputStream.write(json.getBytes());
-                    fileOutputStream.close();
-
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
+                gardenUtil.saveGarden(garden, context);
+                context.deleteFile(gardenName + ".grdn");
+                // call method to rebuild list view, it has to be if to avoid exceptions, will always go through though
+                Activity activity = getActivity();
+                if (activity instanceof MyGardenListActivity) {
+                    ((MyGardenListActivity) activity).buildListView();
                 }
-                context.deleteFile(fileName);
-                Intent intent = new Intent(context, MyGardenListActivity.class);
-                startActivity(intent);
             }
         });
         builder.setNegativeButton(R.string.garden_list_menu_box_message_cancel, new DialogInterface.OnClickListener() {

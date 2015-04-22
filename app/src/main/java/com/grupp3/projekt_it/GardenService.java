@@ -2,6 +2,8 @@ package com.grupp3.projekt_it;
 
 import android.annotation.TargetApi;
 import android.app.IntentService;
+import android.app.Notification;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
@@ -14,6 +16,7 @@ import com.google.gson.Gson;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * Created by Daniel on 2015-04-17.
@@ -36,32 +39,21 @@ public class GardenService extends IntentService {
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
         //get all files in applications internal memory
-        String[] fileNames = context.fileList();
-        //do for all gardens
-        for(int i = 0; i < fileNames.length; i++) {
-            String json = "";
-            FileInputStream fileInputStream;
-            // open gardenfile
-            try{
-                fileInputStream = context.openFileInput(fileNames[i]);
-                byte[] input = new byte[fileInputStream.available()];
-                while(fileInputStream.read(input) != -1){
-                    json += new String(input);
-                }
-                fileInputStream.close();
-
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
+        String [] files = getApplicationContext().fileList();
+        ArrayList<String> desiredFiles = new ArrayList<>();
+        for(int i = 0; i < files.length; i ++){
+            if (files[i].endsWith(".grdn")){
+                desiredFiles.add(files[i].substring(0, files[i].length()-5));
             }
-            //convert json to java object
-            Gson gson = new Gson();
-            Garden garden = gson.fromJson(json, Garden.class);
+        }
+        String [] items = desiredFiles.toArray(new String[desiredFiles.size()]);
+        //do for all gardens
+        for(int i = 0; i < items.length; i++) {
+            GardenUtil gardenUtil = new GardenUtil();
+            Garden garden = gardenUtil.loadGarden(items[i], context);
 
             //if has network
             if (networkInfo != null && networkInfo.isConnected()) {
-
                 Forecast forecast = null;
                 //replace swedish chars
                 String urlLocation = garden.location.toLowerCase();
@@ -69,7 +61,7 @@ public class GardenService extends IntentService {
                 urlLocation = urlLocation.replaceAll("ä", "a");
                 urlLocation = urlLocation.replaceAll("ö", "o");
                 try {
-                    new DownloadForecast(fileNames[i], context)
+                    new DownloadForecast(items[i], context, garden)
                             .execute("http://api.openweathermap.org/data/2.5/weather?q=" + urlLocation + "&units=metric");
                 } catch (Exception e) {
                     e.printStackTrace();

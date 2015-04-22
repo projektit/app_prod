@@ -23,15 +23,18 @@ public class MyGardenActivity extends ActionBarActivity {
     TextView textView1;
     TextView textView2;
     TextView textView3;
-    String fileName;
+    String gardenName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_garden);
         Intent intent = getIntent();
-        fileName = intent.getStringExtra("fileName");
-
+        gardenName = intent.getStringExtra("gardenName");
+        GardenUtil gardenUtil = new GardenUtil();
+        Log.i(TAG, "");
+        Garden garden = gardenUtil.loadGarden(gardenName, getApplicationContext());
+        /*
         String json = "";
         Context context = getApplication();
         FileInputStream fileInputStream;
@@ -51,6 +54,7 @@ public class MyGardenActivity extends ActionBarActivity {
         //convert json to java object
         Gson gson = new Gson();
         Garden garden = gson.fromJson(json, Garden.class);
+        */
 
         textView1 = (TextView) findViewById(R.id.textView1);
         textView2 = (TextView) findViewById(R.id.textView2);
@@ -89,7 +93,7 @@ public class MyGardenActivity extends ActionBarActivity {
         }
         if (id == R.id.action_new) {
             Intent intent = new Intent(getApplicationContext(), PlantSearchActivity.class);
-            intent.putExtra("fileName", fileName);
+            intent.putExtra("gardeName", gardenName);
             startActivity(intent);
         }
 
