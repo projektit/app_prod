@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:title="Användare">
+
+        <Preference
+            android:key="subscription_number"
+            android:title="Prenumerationsnummer" />
+
+
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:title="Notifikationer">
+
+        <CheckBoxPreference
+            android:key="@string/notification_id_on"
+            android:title="@string/notifications_on"
+            android:summary="@string/notification_on_summary"
+            android:defaultValue="true" />
+
+        <CheckBoxPreference
+            android:key="@string/notification_id_sound"
+            android:title="@string/notifications_sound"
+            android:summary="@string/notification_sound_summary"
+            android:defaultValue="true" />
+
+        <CheckBoxPreference
+            android:key="@string/notification_id_vibration"
+            android:title="@string/notification_vibration"
+            android:summary="@string/notification_vibration_summary"
+            android:defaultValue="true" />
+
+    </PreferenceCategory>
+</PreferenceScreen>

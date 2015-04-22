@@ -182,6 +182,9 @@ public class BaseActivity extends ActionBarActivity {
             case 4:
                 startActivity(new Intent(this, Login.class));
                 break;
+            case 5:
+                startActivity(new Intent(this, Preferences.class));
+                break;
             default:
                 break;
         }

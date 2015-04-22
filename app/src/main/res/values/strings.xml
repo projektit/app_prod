@@ -33,4 +33,16 @@
     <string name="garden_list_menu_box_message_save">Spara</string>
     <string name="garden_list_menu_box_message_cancel">Avbryt</string>
 
+    <!-- SETTINGS -->
+    <string name="notification_id_on">notification_on</string>
+    <string name="notifications_on">Push Notifikationer</string>
+    <string name="notification_on_summary">Tillåt att notifikationer skickas</string>
+    <string name="notification_id_sound">notification_sound</string>
+    <string name="notifications_sound">Ljud</string>
+    <string name="notification_sound_summary">Tillåt ljud vid notifikationer</string>
+    <string name="notification_id_vibration">notification_vibration</string>
+    <string name="notification_vibration">Vibration</string>
+    <string name="notification_vibration_summary">Tillåt vibration vid notifikationer</string>
+
+
 </resources>

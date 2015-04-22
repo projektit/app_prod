@@ -73,6 +73,10 @@
             android:name=".PlantSearchActivity"
             android:label="@string/title_activity_plant_search" >
         </activity>
+        <activity
+            android:name=".Preferences"
+            android:label="settings" >
+        </activity>
     </application>
 
 </manifest>

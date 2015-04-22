@@ -36,7 +36,10 @@ public class Login extends ActionBarActivity {
                 String user = mUserLogin.getText().toString().trim();
                 // check if the entered information is a valid user, if not show error message
                 if(Arrays.asList(acceptedUsers).contains(user)) {
-                    startActivity(new Intent(Login.this, MainActivity.class));
+                    // Change activity and send the user number to be used in other activities
+                    Intent i = new Intent(Login.this, MainActivity.class);
+                    i.putExtra("user", user);
+                    startActivity(i);
                 }
                 else {
                     Toast.makeText(Login.this,"Ogiltigt prenumerationsnummer", Toast.LENGTH_SHORT).show();
