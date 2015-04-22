@@ -27,4 +27,10 @@
     <string name="title_activity_init">init</string>
     <string name="title_activity_login">login</string>
     <string name="subscription_number">Prenumerationsnummer</string>
+    <string name="title_activity_plant_search">PlantSearchActivity</string>
+    <string name="garden_list_menu_box_message">Alternativ</string>
+    <string name="garden_list_menu_box_message2">Ange ett nytt namn</string>
+    <string name="garden_list_menu_box_message_save">Spara</string>
+    <string name="garden_list_menu_box_message_cancel">Avbryt</string>
+
 </resources>

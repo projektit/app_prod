@@ -7,7 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 
-public class init extends ActionBarActivity {
+public class Init extends ActionBarActivity {
 
     // Time the init activity runs on startup (ms)
     private final int DURATION = 3000;
@@ -31,7 +31,7 @@ public class init extends ActionBarActivity {
                     }
                     finally {
                             finish();
-                            Intent intent = new Intent(getBaseContext(), login.class);
+                            Intent intent = new Intent(getBaseContext(), Login.class);
                         startActivity(intent);
                     }
                 }

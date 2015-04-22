@@ -4,7 +4,6 @@ package com.grupp3.projekt_it;
  * Created by Oscar.Melin on 2015-04-16.
  */
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -18,7 +17,6 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.ListView;
-import android.widget.Toast;
 
 /**
  * @author dipenp
@@ -45,7 +43,7 @@ public class BaseActivity extends ActionBarActivity {
     /**
      * List item array for navigation drawer items.
      * */
-    protected String[] listArray = { "Hem", "Min Trädgård", "Sök", "Inställningar", "Logga ut", "Vanliga Frågor"};
+    protected String[] listArray = { "Hem", "Min Trädgård", "Sök", "Vanliga Frågor", "Logga ut", "Inställningar"};
 
     /**
      * Static variable for selected item position. Which can be used in child activity to know which item is selected from the list.
@@ -180,6 +178,9 @@ public class BaseActivity extends ActionBarActivity {
             case 2:
                 break;
             case 3:
+                break;
+            case 4:
+                startActivity(new Intent(this, Login.class));
                 break;
             default:
                 break;

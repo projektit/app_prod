@@ -13,7 +13,7 @@ import android.widget.Toast;
 import java.util.Arrays;
 
 
-public class login extends ActionBarActivity {
+public class Login extends ActionBarActivity {
 
     protected EditText mUserLogin;
     String acceptedUsers[] = {"1234","4321"};
@@ -36,10 +36,10 @@ public class login extends ActionBarActivity {
                 String user = mUserLogin.getText().toString().trim();
                 // check if the entered information is a valid user, if not show error message
                 if(Arrays.asList(acceptedUsers).contains(user)) {
-                    startActivity(new Intent(login.this, MainActivity.class));
+                    startActivity(new Intent(Login.this, MainActivity.class));
                 }
                 else {
-                    Toast.makeText(login.this,"Ogiltigt prenumerationsnummer", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Login.this,"Ogiltigt prenumerationsnummer", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -68,4 +68,12 @@ public class login extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    // on back button click, exit the application, hence skip the login screen
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.addCategory(Intent.CATEGORY_HOME);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+    }
 }
