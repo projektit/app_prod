@@ -23,6 +23,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 
 
 public class MyGardenListActivity extends BaseActivity {
@@ -80,8 +81,11 @@ public class MyGardenListActivity extends BaseActivity {
         {
             if(requestCode == 1) {
                 String[] result = data.getStringArrayExtra("Result");
-
+                Context context = getApplicationContext();
                 Garden garden = new Garden(result[0], result[1]);
+                GardenUtil gardenUtil = new GardenUtil();
+                gardenUtil.saveGarden(garden, context);
+                /*
                 Gson gson = new Gson();
                 String json = gson.toJson(garden);
                 try {
@@ -93,6 +97,7 @@ public class MyGardenListActivity extends BaseActivity {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+                */
                 buildListView();
                 OnBootReceiver.setAlarms(getApplicationContext());
             }
@@ -100,8 +105,15 @@ public class MyGardenListActivity extends BaseActivity {
 
     }
     public void buildListView() {
-        Log.i(TAG, "build list");
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.list_item, getApplicationContext().fileList());
+        String [] files = getApplicationContext().fileList();
+        ArrayList <String> desiredFiles = new ArrayList<>();
+        for(int i = 0; i < files.length; i ++){
+            if (files[i].endsWith(".grdn")){
+                desiredFiles.add(files[i].substring(0, files[i].length()-5));
+            }
+        }
+        String [] items = desiredFiles.toArray(new String[desiredFiles.size()]);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.list_item, items);
 
         ListView list = (ListView) findViewById(R.id.listView1);
         list.setAdapter(adapter);
@@ -111,9 +123,9 @@ public class MyGardenListActivity extends BaseActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 TextView textView = (TextView) view;
-                String fileName = textView.getText().toString();
+                String gardenName = textView.getText().toString();
                 Intent intent = new Intent(getApplicationContext(), MyGardenActivity.class);
-                intent.putExtra("fileName", fileName);
+                intent.putExtra("gardenName", gardenName);
                 startActivity(intent);
             }
         });
@@ -123,13 +135,13 @@ public class MyGardenListActivity extends BaseActivity {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 TextView textView = (TextView) view;
-                String fileName = textView.getText().toString();
+                String gardenName = textView.getText().toString();
 
                 FragmentManager fragmentManager = getFragmentManager();
                 GardenListFragment quickOptions = new GardenListFragment();
 
                 Bundle bundle = new Bundle();
-                bundle.putString("fileName", fileName);
+                bundle.putString("gardenName", gardenName);
 
                 quickOptions.setArguments(bundle);
                 quickOptions.show(fragmentManager, "disIsTag");

@@ -31,23 +31,20 @@ public class GardenListFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         final Context context = getActivity().getApplicationContext();
-        String fileName = "";
         String[] options = {"Öppna trädgård", "Byt namn", "Ta bort", "Lägg till växt"};
 
-        // Use the Builder class for convenient dialog construction
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle(R.string.garden_list_menu_box_message)
                 .setItems(options, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        String fileName = "";
+                        String gardenName = "";
                         Bundle bundle = getArguments();
                         if (bundle != null) {
-                            fileName = bundle.getString("fileName");
-
+                            gardenName = bundle.getString("gardenName");
                         }
                         if(which == 0){
                             Intent intent = new Intent(context, MyGardenActivity.class);
-                            intent.putExtra("fileName", fileName);
+                            intent.putExtra("gardenName", gardenName);
                             startActivity(intent);
                         }
                         if(which == 1){
@@ -58,13 +55,12 @@ public class GardenListFragment extends DialogFragment {
                             changName.show(fragmentManager, "disIsTag2");
                         }
                         if(which == 2){
-                            context.deleteFile(fileName);
+                            context.deleteFile(gardenName + ".grdn");
                             // call method to rebuild list view, it has to be if to avoid exceptions, will always go through though
                             Activity activity = getActivity();
                             if (activity instanceof MyGardenListActivity) {
                                 ((MyGardenListActivity) activity).buildListView();
                             }
-
                         }
                         if(which == 3){
                             Intent intent = new Intent(context, PlantSearchActivity.class);

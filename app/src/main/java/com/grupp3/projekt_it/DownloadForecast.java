@@ -25,10 +25,12 @@ public class DownloadForecast extends AsyncTask<String, Void, String> {
     String TAG = "com.grupp3.projekt_it";
     String fileName;
     Context context;
+    Garden garden;
 
-    public DownloadForecast(String fileName, Context context){
+    public DownloadForecast(String fileName, Context context, Garden garden){
         this.fileName = fileName;
         this.context = context;
+        this.garden = garden;
     }
     @Override
     protected String doInBackground(String... urls){
@@ -65,41 +67,15 @@ public class DownloadForecast extends AsyncTask<String, Void, String> {
         }
     }
     protected void onPostExecute(String result){
-        //open file
-        String value = "";
-        FileInputStream fileInputStream;
-        try{
-            fileInputStream = context.openFileInput(fileName);
-            byte[] input = new byte[fileInputStream.available()];
-            while(fileInputStream.read(input) != -1){
-                value += new String(input);
-            }
-            fileInputStream.close();
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
         //convert from json to java object for both weather and garden
         Gson gson = new Gson();
         //convert forecast json to java object
         Forecast forecast = gson.fromJson(result, Forecast.class);
-        //convert json file to java object;
-        Garden garden = gson.fromJson(value, Garden.class);
         //add forecast to garden object
+        Log.i(TAG, " saving new forecast");
         garden.setForecast(forecast);
         //convert garden back to json
-        String json = gson.toJson(garden);
-        //save json in same file
-        try {
-            FileOutputStream fileOutputStream = context.openFileOutput(fileName, Context.MODE_PRIVATE);
-            fileOutputStream.write(json.getBytes());
-            fileOutputStream.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        GardenUtil gardenUtil = new GardenUtil();
+        gardenUtil.saveGarden(garden, context);
     }
 }
