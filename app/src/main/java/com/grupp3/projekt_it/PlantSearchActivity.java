@@ -2,6 +2,7 @@ package com.grupp3.projekt_it;
 
 import android.app.Notification;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -26,7 +27,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 
-public class PlantSearchActivity extends ActionBarActivity {
+public class PlantSearchActivity extends BaseActivity {
     String TAG = "com.grupp3.projekt_it";
     String searchQuery;
     Drawable searchIcon;
@@ -39,7 +40,10 @@ public class PlantSearchActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_plant_search);
+        //setContentView(R.layout.activity_plant_search);
+
+        getLayoutInflater().inflate(R.layout.activity_main, frameLayout);
+        mDrawerList.setItemChecked(position, true);
 
         if (savedInstanceState == null) {
             //code if no previous search exists
@@ -58,6 +62,41 @@ public class PlantSearchActivity extends ActionBarActivity {
             openSearchBar(searchQuery);
         }
 
+    }
+    @Override
+    protected void openActivity(int position) {
+
+        /**
+         * All activities with navigation drawer must contain this override function in order
+         * to not be able to launch another instance of itself from navigation bar.
+         * Remove correct startActivity(..) call to do so.
+         */
+
+        //mDrawerList.setItemChecked(position, true);
+        //setTitle(listArray[position]);
+        mDrawerLayout.closeDrawer(mDrawerList);
+        BaseActivity.position = position; //Setting currently selected position in this field so that it will be available in our child activities.
+
+        switch (position) {
+            case 0:
+                startActivity(new Intent(this, MainActivity.class));
+                break;
+            case 1:
+                startActivity(new Intent(this, MyGardenListActivity.class));
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
+            case 4:
+                startActivity(new Intent(this, Login.class));
+                break;
+            case 5:
+                startActivity(new Intent(this, Preferences.class));
+                break;
+            default:
+                break;
+        }
     }
     public void search(){
         String plant = SearchEditText.getText().toString();
@@ -84,8 +123,12 @@ public class PlantSearchActivity extends ActionBarActivity {
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         searchItem = menu.findItem(R.id.search);
-        return super.onPrepareOptionsMenu(menu);
+        MenuItem item = menu.findItem(R.id.action_settings);
+        item.setVisible(false);
+        return true;
+        //return super.onPrepareOptionsMenu(menu);
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -98,6 +141,11 @@ public class PlantSearchActivity extends ActionBarActivity {
             }
             return true;
         }
+
+        else if (id == R.id.action_settings) {
+            return true;
+        }
+
         return super.onOptionsItemSelected(item);
     }
 

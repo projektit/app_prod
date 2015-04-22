@@ -30,7 +30,12 @@ public class MainActivity extends BaseActivity {
         //((ImageView)findViewById(R.id.image_view)).setBackgroundResource(R.drawable.image1);
 
     }
-
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu){
+        MenuItem item = menu.findItem(R.id.action_settings);
+        item.setVisible(false);
+        return true;
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -74,6 +79,7 @@ public class MainActivity extends BaseActivity {
                 startActivity(new Intent(this, MyGardenListActivity.class));
                 break;
             case 2:
+                startActivity(new Intent(this, PlantSearchActivity.class));
                 break;
             case 3:
                 break;

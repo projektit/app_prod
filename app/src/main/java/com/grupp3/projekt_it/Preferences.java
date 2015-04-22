@@ -15,11 +15,11 @@ public class Preferences extends PreferenceActivity {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.settings);
         // Get user number from previous activity
-        Intent intent = getIntent();
+        /*Intent intent = getIntent();
         String user = intent.getExtras().getString("userNumber");
         // Set the preference to current user number
         mPreference = getPreferenceScreen().findPreference("subscription_number");
-        mPreference.setSummary(user);
+        mPreference.setSummary(user);*/
     }
 
 }

@@ -43,7 +43,7 @@ public class BaseActivity extends ActionBarActivity {
     /**
      * List item array for navigation drawer items.
      * */
-    protected String[] listArray = { "Hem", "Min Trädgård", "Sök", "Vanliga Frågor", "Logga ut", "Inställningar"};
+    protected String[] listArray = { "Hem", "Min Trädgård", "Sök", "Hjälp", "Logga ut", "Inställningar"};
 
     /**
      * Static variable for selected item position. Which can be used in child activity to know which item is selected from the list.
@@ -176,6 +176,7 @@ public class BaseActivity extends ActionBarActivity {
                 startActivity(new Intent(this, MyGardenListActivity.class));
                 break;
             case 2:
+                startActivity(new Intent(this, PlantSearchActivity.class));
                 break;
             case 3:
                 break;
