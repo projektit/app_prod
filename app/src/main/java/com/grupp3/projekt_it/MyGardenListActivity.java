@@ -100,9 +100,8 @@ public class MyGardenListActivity extends BaseActivity {
 
     }
     public void buildListView() {
-        String [] items = getApplicationContext().fileList();
-
-        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.list_item, items);
+        Log.i(TAG, "build list");
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.list_item, getApplicationContext().fileList());
 
         ListView list = (ListView) findViewById(R.id.listView1);
         list.setAdapter(adapter);

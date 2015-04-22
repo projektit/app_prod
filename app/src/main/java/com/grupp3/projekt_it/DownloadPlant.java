@@ -42,13 +42,9 @@ public class DownloadPlant extends AsyncTask<String, Void, String> {
             BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
             // build string from input stream
             StringBuffer json = new StringBuffer(1024);
-            String tmp="";
-            while((tmp=reader.readLine())!=null) {
-                Log.i(TAG, reader.readLine());
-                json.append(tmp).append("\n");
-            }
+            String result = reader.readLine();
             reader.close();
-            return rawData;
+            return result;
         }catch(Exception e){
             Log.i(TAG, "Exception in  plant client");
             return null;

@@ -67,7 +67,7 @@ public class PlantSearchActivity extends ActionBarActivity {
         TextView textView = (TextView) findViewById(R.id.textView);
         if (networkInfo != null && networkInfo.isConnected()) {
             try {
-                new DownloadPlant(context, textView).execute("http://46.101.8.10/" + plant);
+                new DownloadPlant(context, textView).execute("http://46.101.8.10/" + "?name=maskros");
             } catch (Exception e) {
                 e.printStackTrace();
                 Log.i(TAG, "Connected but failed anyway");

@@ -1,5 +1,6 @@
 package com.grupp3.projekt_it;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
@@ -9,6 +10,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,7 +36,6 @@ public class GardenListFragment extends DialogFragment {
 
         // Use the Builder class for convenient dialog construction
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-
         builder.setTitle(R.string.garden_list_menu_box_message)
                 .setItems(options, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
@@ -55,8 +59,12 @@ public class GardenListFragment extends DialogFragment {
                         }
                         if(which == 2){
                             context.deleteFile(fileName);
-                            Intent intent = new Intent(context, MyGardenListActivity.class);
-                            startActivity(intent);
+                            // call method to rebuild list view, it has to be if to avoid exceptions, will always go through though
+                            Activity activity = getActivity();
+                            if (activity instanceof MyGardenListActivity) {
+                                ((MyGardenListActivity) activity).buildListView();
+                            }
+
                         }
                         if(which == 3){
                             Intent intent = new Intent(context, PlantSearchActivity.class);

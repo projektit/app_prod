@@ -1,14 +1,20 @@
 package com.grupp3.projekt_it;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.app.FragmentManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -22,6 +28,7 @@ import java.io.IOException;
  * Created by Daniel on 2015-04-21.
  */
 public class ChangeGardenNameFragment extends DialogFragment {
+    String TAG = "com.grupp3.projekt_it";
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
@@ -66,10 +73,8 @@ public class ChangeGardenNameFragment extends DialogFragment {
                 //convert json to java object
                 Gson gson = new Gson();
                 Garden garden = gson.fromJson(json, Garden.class);
-
                 //make change
                 garden.setName(newFileName);
-
                 //convert back
                 json = gson.toJson(garden);
                 //save json in same file
@@ -83,9 +88,13 @@ public class ChangeGardenNameFragment extends DialogFragment {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+                //context.deleteFile(fileName);
                 context.deleteFile(fileName);
-                Intent intent = new Intent(context, MyGardenListActivity.class);
-                startActivity(intent);
+                // call method to rebuild list view, it has to be if to avoid exceptions, will always go through though
+                Activity activity = getActivity();
+                if (activity instanceof MyGardenListActivity) {
+                    ((MyGardenListActivity) activity).buildListView();
+                }
             }
         });
         builder.setNegativeButton(R.string.garden_list_menu_box_message_cancel, new DialogInterface.OnClickListener() {

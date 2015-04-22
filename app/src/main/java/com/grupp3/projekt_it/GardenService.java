@@ -2,6 +2,8 @@ package com.grupp3.projekt_it;
 
 import android.annotation.TargetApi;
 import android.app.IntentService;
+import android.app.Notification;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;

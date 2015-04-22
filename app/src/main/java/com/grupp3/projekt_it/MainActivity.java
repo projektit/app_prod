@@ -29,28 +29,6 @@ public class MainActivity extends BaseActivity {
         //setTitle(listArray[position]);
         //((ImageView)findViewById(R.id.image_view)).setBackgroundResource(R.drawable.image1);
 
-        //DbTools test
-        DbTools db = new DbTools(this);
-
-        /**
-         * CRUD Operations
-         * */
-        // Inserting Contacts
-        Log.d("Insert: ", "Inserting ..");
-        db.addPlant(new Plant("Tjurfibbla", "Fibbla"));
-        db.addPlant(new Plant("Snorfibbla", "Fibbla"));
-        db.addPlant(new Plant("Havstulpan", "Tulpan"));
-        db.addPlant(new Plant("Maskros", "Ros"));
-
-        // Reading all contacts
-        Log.d("Reading: ", "Reading all plants..");
-        List<Plant> plants = db.getAllPlants();
-
-        for (Plant plant : plants) {
-            String log = "Id: " + plant.getID() + " ,Name: " + plant.getName() + " ,Type: " + plant.getType();
-            // Writing Contacts to log
-            Log.d("Name: ", log);
-        }
     }
 
 
