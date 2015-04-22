@@ -48,7 +48,8 @@
         <activity
             android:name=".MyGardenActivity"
             android:label="@string/title_activity_main_activity2"
-            android:parentActivityName=".MyGardenListActivity" >
+            android:parentActivityName=".MyGardenListActivity"
+            android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.grupp3.projekt_it.MyGardenListActivity" />
