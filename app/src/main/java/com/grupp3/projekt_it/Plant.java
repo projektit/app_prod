@@ -16,7 +16,7 @@ public class Plant {
     String zone_max;
     int water;
     String misc;
-    String sun;
+    int sun;
 
     public int getId() {
         return id;
@@ -58,7 +58,8 @@ public class Plant {
         return misc;
     }
 
-    public String getSun() {
+    public int getSun() {
         return sun;
     }
 }
+

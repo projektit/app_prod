@@ -17,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -25,9 +26,11 @@ import org.w3c.dom.Text;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 
 
 public class PlantSearchActivity extends BaseActivity {
+    //initialing variables
     String TAG = "com.grupp3.projekt_it";
     String searchQuery;
     Drawable searchIcon;
@@ -40,11 +43,13 @@ public class PlantSearchActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_plant_search);
 
-        getLayoutInflater().inflate(R.layout.activity_main, frameLayout);
-        mDrawerList.setItemChecked(position, true);
+        //getLayoutInflater().inflate(R.layout.activity_main, frameLayout);
+        //mDrawerList.setItemChecked(position, true);
 
+        // set layout
+        setContentView(R.layout.activity_plant_search);
+        // saved instance not supported yet
         if (savedInstanceState == null) {
             //code if no previous search exists
             Log.i(TAG, "so far");
@@ -54,10 +59,11 @@ public class PlantSearchActivity extends BaseActivity {
             //searchQuery = savedInstance.searchQuery
             //restore previous results
         }
+        // fetch resources
         searchIcon = getResources().getDrawable(R.drawable.ic_action_search);
         closeSearchIcon = getResources().getDrawable(R.drawable.ic_action_remove);
         listView = (ListView) findViewById(R.id.listView1);
-
+        // needs savedInstance to work, if it was open when saved it will now be restored
         if (SearchOpened) {
             openSearchBar(searchQuery);
         }
@@ -98,15 +104,19 @@ public class PlantSearchActivity extends BaseActivity {
                 break;
         }
     }
+    // method for searching stuff
     public void search(){
+        // get user search input
         String plant = SearchEditText.getText().toString();
         Context context = getApplicationContext();
+        // check network status, needs permissions see manifest
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-        TextView textView = (TextView) findViewById(R.id.textView);
         if (networkInfo != null && networkInfo.isConnected()) {
             try {
-                new DownloadPlant(context, textView).execute("http://46.101.8.10/" + "?name=maskros");
+                //create new async task to download plants from database
+                //from name query in sqlite database
+                new DownloadPlant(context, listView).execute("http://46.101.8.10/" + "?name=" + plant);
             } catch (Exception e) {
                 e.printStackTrace();
                 Log.i(TAG, "Connected but failed anyway");
@@ -116,12 +126,14 @@ public class PlantSearchActivity extends BaseActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        //inflate menu
         getMenuInflater().inflate(R.menu.menu_plant_search, menu);
         return true;
     }
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
+        //code to change actionbar on search icon click
         searchItem = menu.findItem(R.id.search);
         MenuItem item = menu.findItem(R.id.action_settings);
         item.setVisible(false);
@@ -135,8 +147,10 @@ public class PlantSearchActivity extends BaseActivity {
         int id = item.getItemId();
         if (id == R.id.search) {
             if (SearchOpened) {
+                //close search bar
                 closeSearchBar();
             } else {
+                //open search bar
                 openSearchBar(searchQuery);
             }
             return true;
@@ -158,7 +172,7 @@ public class PlantSearchActivity extends BaseActivity {
 
         // Search edit text field setup.
         SearchEditText = (EditText) actionBar.getCustomView().findViewById(R.id.editTextSearch);
-        //
+
         SearchEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
