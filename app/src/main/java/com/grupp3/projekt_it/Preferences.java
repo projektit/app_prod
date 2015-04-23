@@ -1,10 +1,13 @@
 package com.grupp3.projekt_it;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +30,26 @@ public class Preferences extends PreferenceActivity {
         // Set the preference to current user number
         mPreference = getPreferenceScreen().findPreference("subscription_number");
         mPreference.setSummary(user);*/
+
+
+
+    //Auto-fill EditText
+    String premNum = getPremNumber2();
+        Log.i("After getPremNumber", "HEJ0");
+        if(premNum != null) {
+            Log.i("After getPremNumber", "HEJ1");
+            Log.i("After getPremNumber", premNum);
+            Log.i("After getPremNumber", "HEJ2");
+        }
+        Log.i("After getPremNumber", "HEJ3");
+        //Log.i("After getPremNumber", premNum);
+    premNum = "1234";
+    if(premNum != null){
+        mPreference = getPreferenceScreen().findPreference("subscription_number");
+        mPreference.setSummary(premNum);
+
+    }
+
     }
     // Add a custom "fake" actionbar to the activity which contains a title and a back button
     @Override
@@ -53,6 +76,23 @@ public class Preferences extends PreferenceActivity {
         LayoutInflater.from(this).inflate(layoutResID, contentWrapper, true);
 
         getWindow().setContentView(contentView);
+    }
+
+
+    private String getPremNumber2() {
+        SharedPreferences sharedPreferences = getPreferences(Context.MODE_PRIVATE);
+        Log.i("After getPremNumber", "HEJ10");
+
+        String key = getString(R.string.premKey);
+        Log.i("After getPremNumber", key);
+        String existingPrem = sharedPreferences.getString(key, null);
+
+        if (existingPrem != null) {
+            Log.i("After getPremNumber", existingPrem);
+            return existingPrem;
+        }
+        Log.i("After getPremNumber", "HEJ12");
+        return null;
     }
 
 }
