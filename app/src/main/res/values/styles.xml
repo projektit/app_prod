@@ -13,4 +13,29 @@
          <item name="android:homeAsUpIndicator">@drawable/ic_drawer</item>
     </style>
 
+    <style name="Theme.Application" parent="@style/Theme.AppCompat" />
+
+    <style name="Theme.Settings" parent="@style/Theme.Application">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowActionBar">false</item>
+
+        <item name="toolbarStyle">@style/Widget.Toolbar</item>
+    </style>
+
+    <style name="Widget.Toolbar" parent="@style/Widget.AppCompat.Toolbar">
+        <item name="android:background">?attr/colorPrimary</item>
+        <item name="android:navigationIcon">?attr/homeAsUpIndicator</item>
+        <item name="navigationIcon">?attr/homeAsUpIndicator</item>
+    </style>
+
+    <style name="Widget.MyApp.ActionBar" parent="Widget.AppCompat.ActionBar">
+        <item name="android:background">@android:color/black</item>
+        <item name="theme">@style/ThemeOverlay.MyApp.ActionBar</item>
+        <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
+    </style>
+
+    <style name="ThemeOverlay.MyApp.ActionBar" parent="ThemeOverlay.AppCompat.ActionBar">
+        <item name="android:textColorPrimary">@android:color/white</item>
+    </style>
+
 </resources>
