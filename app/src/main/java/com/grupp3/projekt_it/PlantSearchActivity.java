@@ -49,6 +49,8 @@ public class PlantSearchActivity extends BaseActivity {
 
         // set layout
         setContentView(R.layout.activity_plant_search);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         // saved instance not supported yet
         if (savedInstanceState == null) {
             //code if no previous search exists
@@ -158,6 +160,11 @@ public class PlantSearchActivity extends BaseActivity {
 
         else if (id == R.id.action_settings) {
             return true;
+        }
+
+        else if (id== android.R.id.home){
+            onBackPressed();
+
         }
 
         return super.onOptionsItemSelected(item);
