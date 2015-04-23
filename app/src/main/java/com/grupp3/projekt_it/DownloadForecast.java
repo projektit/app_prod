@@ -65,6 +65,9 @@ public class DownloadForecast extends AsyncTask<String, Void, String> {
         }
     }
     protected void onPostExecute(String result){
+        if(result == null){
+            return;
+        }
         //convert from json to java object for both weather and garden
         Gson gson = new Gson();
         //convert forecast json to java object

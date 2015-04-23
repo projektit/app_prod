@@ -61,26 +61,22 @@ public class DownloadPlant extends AsyncTask<String, Void, String> {
     }
     protected void onPostExecute(String result) {
         if(result.equals("")){
-
+            Log.i(TAG, "No search match");
             return;
         }
-        Log.i(TAG, "results: " + result);
+        if(result == null){
+            return;
+        }
         Gson gson = new Gson();
         Plant [] plants = gson.fromJson(result, Plant[].class);
 
-        Log.i(TAG, "so far");
         ArrayList<String> plantNames = new ArrayList<>();
-        Log.i(TAG, "so far2");
         for (int i = 0; i < plants.length; i++) {
             plantNames.add(plants[i].getName());
         }
-        Log.i(TAG, "so far3");
         String[] items = plantNames.toArray(new String[plantNames.size()]);
-        Log.i(TAG, "so far4");
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, R.layout.list_item, items);
-        Log.i(TAG, "so far5 " + items[0]);
         listView.setAdapter(adapter);
-        Log.i(TAG, "so far6");
         /*
         //Listen for normal click on items in list
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
