@@ -2,8 +2,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.grupp3.projekt_it.MyGardenListActivity">
-    <item android:id="@+id/action_settings" android:title="@string/action_settings"
-        android:orderInCategory="100" app:showAsAction="never" />
+
+    <item android:id="@+id/action_settings" android:title="Byt namn"
+        android:orderInCategory="100"
+        app:showAsAction="never"/>
+            <item android:id="@+id/remove_garden"
+                android:orderInCategory="100"
+                android:title="Ta bort trädgård"/>
+
     <item android:id="@+id/action_new"
         android:title="New"
         android:icon="@drawable/ic_action_new"
