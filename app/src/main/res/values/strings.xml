@@ -44,5 +44,6 @@
     <string name="notification_vibration">Vibration</string>
     <string name="notification_vibration_summary">Tillåt vibration vid notifikationer</string>
 
+    <string name="premKey">premnummer</string>
 
 </resources>
