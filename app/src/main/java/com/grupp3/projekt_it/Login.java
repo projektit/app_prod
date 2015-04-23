@@ -38,7 +38,7 @@ public class Login extends ActionBarActivity {
                 if(Arrays.asList(acceptedUsers).contains(user)) {
                     // Change activity and send the user number to be used in other activities
                     Intent i = new Intent(Login.this, MainActivity.class);
-                    i.putExtra("user", user);
+                    //i.putExtra("user", user);
                     startActivity(i);
                 }
                 else {

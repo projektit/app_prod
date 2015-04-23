@@ -88,10 +88,10 @@ public class MainActivity extends BaseActivity {
                 break;
             case 5:
                 // Send the user number to the preference activity
-                Intent intent = getIntent();
-                String user = intent.getExtras().getString("user");
+                //Intent intent = getIntent();
+                //String user = intent.getExtras().getString("user");
                 Intent i = new Intent(MainActivity.this, Preferences.class);
-                i.putExtra("userNumber", user);
+                //i.putExtra("userNumber", user);
                 startActivity(i);
                 break;
             default:

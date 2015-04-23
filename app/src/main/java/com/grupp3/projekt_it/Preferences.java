@@ -34,7 +34,7 @@ public class Preferences extends PreferenceActivity {
                 R.layout.settings_activity, new LinearLayout(this), false);
 
         mActionBar = (Toolbar) contentView.findViewById(R.id.action_bar);
-        mActionBar.setNavigationIcon(getResources().getDrawable(R.drawable.ic_action_new));
+        mActionBar.setNavigationIcon(getResources().getDrawable(R.drawable.ic_action_back));
         mActionBar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
