@@ -11,22 +11,15 @@
         <!-- Customize your theme here. -->
          <item name="homeAsUpIndicator">@drawable/ic_drawer</item>
          <item name="android:homeAsUpIndicator">@drawable/ic_drawer</item>
+        <item name="actionOverflowButtonStyle">@style/MyOverflowButton</item>
+        <item name="android:actionOverflowButtonStyle"> @style/MyOverflowButton</item>
     </style>
 
-    <!--<style name="Theme.Application" parent="@style/Theme.AppCompat" />
-
-    <style name="Theme.Settings" parent="@style/Theme.Application">
-        <item name="android:windowNoTitle">true</item>
-        <item name="android:windowActionBar">false</item>
-
-        <item name="toolbarStyle">@style/Widget.Toolbar</item>
+    <style name="MyOverflowButton" parent="android:style/Widget.Holo.Light.ActionButton.Overflow">
+        <item name="android:src">@drawable/ic_action_settings</item>
     </style>
 
-    <style name="Widget.Toolbar" parent="@style/Widget.AppCompat.Toolbar">
-        <item name="android:background">?attr/colorPrimary</item>
-        <item name="android:navigationIcon">?attr/homeAsUpIndicator</item>
-        <item name="navigationIcon">?attr/homeAsUpIndicator</item>
-    </style>-->
+
 
     <style name="Widget.MyApp.ActionBar" parent="Widget.AppCompat.ActionBar">
         <item name="android:background">@android:color/black</item>
