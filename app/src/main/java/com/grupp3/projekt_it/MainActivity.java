@@ -14,6 +14,9 @@ import java.util.List;
 
 public class MainActivity extends BaseActivity {
 
+    private static final int TIME_INTERVAL = 2000; // # milliseconds, desired time passed between two back presses.
+    private long mBackPressed;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -101,34 +104,27 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-
-
-    private static final int TIME_INTERVAL = 2000; // # milliseconds, desired time passed between two back presses.
-    private long mBackPressed;
-
     // on back button click, exit the application, hence skip the login screen
     @Override
     public void onBackPressed() {
-        /*
-        Toast.makeText(MainActivity.this, "Klicka igen för att avsluta", Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(Intent.ACTION_MAIN);
-            intent.addCategory(Intent.CATEGORY_HOME);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
-        */
-        if (mBackPressed + TIME_INTERVAL > java.lang.System.currentTimeMillis())
-        {
-            Intent intent = new Intent(Intent.ACTION_MAIN);
-            intent.addCategory(Intent.CATEGORY_HOME);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
+        //Back closes drawer if opened
+        if(mDrawerLayout.isDrawerOpen(mDrawerList)){
+
+            mDrawerLayout.closeDrawer(mDrawerList);
+
+        } else {
+
+            if (mBackPressed + TIME_INTERVAL > java.lang.System.currentTimeMillis()) {
+                Intent intent = new Intent(Intent.ACTION_MAIN);
+                intent.addCategory(Intent.CATEGORY_HOME);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+            }
+            else {
+
+                Toast.makeText(getBaseContext(), "Klicka igen för att avsluta", Toast.LENGTH_SHORT).show();
+            }
+            mBackPressed = java.lang.System.currentTimeMillis();
         }
-        else { Toast.makeText(getBaseContext(), "Klicka igen för att avsluta", Toast.LENGTH_SHORT).show(); }
-
-        mBackPressed = java.lang.System.currentTimeMillis();
-
-
-
-
     }
 }
