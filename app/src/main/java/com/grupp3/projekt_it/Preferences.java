@@ -28,6 +28,7 @@ public class Preferences extends PreferenceActivity {
         mPreference = getPreferenceScreen().findPreference("subscription_number");
         mPreference.setSummary(user);*/
     }
+    // Add a custom "fake" actionbar to the activity which contains a title and a back button
     @Override
     public void setContentView(int layoutResID) {
         ViewGroup contentView = (ViewGroup) LayoutInflater.from(this).inflate(
