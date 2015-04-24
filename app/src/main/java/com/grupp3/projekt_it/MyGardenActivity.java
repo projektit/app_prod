@@ -1,5 +1,6 @@
 package com.grupp3.projekt_it;
 
+import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
@@ -9,6 +10,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -16,13 +21,11 @@ import com.google.gson.Gson;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 
 
 public class MyGardenActivity extends ActionBarActivity {
     String TAG = "com.grupp3.projekt_it";
-    TextView textView1;
-    TextView textView2;
-    TextView textView3;
     String gardenName;
 
     @Override
@@ -34,42 +37,61 @@ public class MyGardenActivity extends ActionBarActivity {
         GardenUtil gardenUtil = new GardenUtil();
         Log.i(TAG, "");
         Garden garden = gardenUtil.loadGarden(gardenName, getApplicationContext());
+        buildListView();
+
+
+    }
+    // method to populate listview from garden database
+    public void buildListView() {
+        GardenUtil gardenUtil = new GardenUtil();
+        int currentVersion = gardenUtil.getDBversion(getApplicationContext());
+        SQLPlantHelper sqlPlantHelper = new SQLPlantHelper(getApplicationContext());
+        final ArrayList <Plant_DB> allPlants = sqlPlantHelper.getAllPlants(gardenName);
+        ArrayList <String> plantNames = new ArrayList<>();
+        // extract swe name from arraylist
+        Log.i(TAG, Integer.toString(allPlants.size()));
+        for(Plant_DB plant : allPlants){
+            plantNames.add(plant.get_swe_name());
+        }
+
+        String [] items = plantNames.toArray(new String[plantNames.size()]);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.list_item, items);
+
+        ListView list = (ListView) findViewById(R.id.listView1);
+        list.setAdapter(adapter);
+
         /*
-        String json = "";
-        Context context = getApplication();
-        FileInputStream fileInputStream;
-        try{
-            fileInputStream = context.openFileInput(fileName);
-            byte[] input = new byte[fileInputStream.available()];
-            while(fileInputStream.read(input) != -1){
-                json += new String(input);
+        //Listen for normal click on items in list
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                TextView textView = (TextView) view;
+                String gardenName = textView.getText().toString();
+                Intent intent = new Intent(getApplicationContext(), MyGardenActivity.class);
+                intent.putExtra("gardenName", gardenName);
+                startActivity(intent);
             }
-            fileInputStream.close();
+        });
 
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        //convert json to java object
-        Gson gson = new Gson();
-        Garden garden = gson.fromJson(json, Garden.class);
+        //Listener for long click on items in list
+        list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                TextView textView = (TextView) view;
+                String gardenName = textView.getText().toString();
+
+                FragmentManager fragmentManager = getFragmentManager();
+                GardenListFragment quickOptions = new GardenListFragment();
+
+                Bundle bundle = new Bundle();
+                bundle.putString("gardenName", gardenName);
+
+                quickOptions.setArguments(bundle);
+                quickOptions.show(fragmentManager, "disIsTag");
+                return true;
+            }
+        });
         */
-
-        textView1 = (TextView) findViewById(R.id.textView1);
-        textView2 = (TextView) findViewById(R.id.textView2);
-        textView3 = (TextView) findViewById(R.id.textView3);
-
-        if(garden.getForecast() != null){
-            if(garden.getForecast().getName() != null)
-                textView1.setText("Station name: " + garden.getForecast().getName());
-            if(garden.getForecast().getWind() != null)
-                textView2.setText("Wind speed: " + Double.toString(garden.getForecast().getWind().getSpeed()));
-            if(garden.getForecast().getMain() != null) {
-                textView3.setText("Current Temperature: " + Double.toString(garden.getForecast().getMain().getTemp()));
-            }
-        }
-
     }
 
 

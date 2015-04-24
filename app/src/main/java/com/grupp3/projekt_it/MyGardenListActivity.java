@@ -6,6 +6,7 @@ import android.app.DialogFragment;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Environment;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -28,6 +29,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Arrays;
 
 
 public class MyGardenListActivity extends BaseActivity {
@@ -95,28 +97,37 @@ public class MyGardenListActivity extends BaseActivity {
                 String[] result = data.getStringArrayExtra("Result");
                 Context context = getApplicationContext();
                 Garden garden = new Garden(result[0], result[1]);
-                GardenUtil gardenUtil = new GardenUtil();
-                gardenUtil.saveGarden(garden, context);
-                /*
-                Gson gson = new Gson();
-                String json = gson.toJson(garden);
-                try {
-                    FileOutputStream fileOutputStream = openFileOutput(result[0], Context.MODE_PRIVATE);
-                    fileOutputStream.write(json.getBytes());
-                    fileOutputStream.close();
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
+                String [] files = getApplicationContext().fileList();
+                ArrayList<String> files2 = new ArrayList<String>(Arrays.asList(files));
+                if(files2.contains(result[0] + ".grdn")){
+                    Toast toast = Toast.makeText(context, "Trädgård finns redan", Toast.LENGTH_SHORT);
+                    toast.show();
+                    return;
                 }
-                */
+
+
+                GardenUtil gardenUtil = new GardenUtil();
+                int version = gardenUtil.getDBversion(context);
+                SQLPlantHelper sqlPlantHelper = new SQLPlantHelper(getApplicationContext());
+                sqlPlantHelper.createNewTable(result[0]);
+
+                gardenUtil.setDBversion(context, version + 1);
+
+                //Plant_DB plant_db = new Plant_DB();
+                //sqlPlantHelper.addPlant(plant_db, result[0]);
+                //Plant_DB plant_db2 = sqlPlantHelper.getPlant(plant_db.get_id(), result[0]);
+                //Plant_DB plant_db3 = sqlPlantHelper.getPlant(plant_db2.get_id(), result[0]);
+
+                //Log.i(TAG, plant_db.get_swe_name() + " " +  plant_db2.get_swe_name() + " " + plant_db3.get_swe_name());
+
+                gardenUtil.saveGarden(garden, context);
                 buildListView();
                 OnBootReceiver.setAlarms(getApplicationContext());
             }
         }
-
     }
     public void buildListView() {
+
         String [] files = getApplicationContext().fileList();
         ArrayList <String> desiredFiles = new ArrayList<>();
         for(int i = 0; i < files.length; i ++){

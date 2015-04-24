@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 
@@ -34,10 +35,12 @@ public class DownloadPlant extends AsyncTask<String, Void, String> {
     String TAG = "com.grupp3.projekt_it";
     Context context;
     ListView listView;
+    FragmentManager fragmentManager;
 
-    public DownloadPlant(Context context, ListView listView){
+    public DownloadPlant(Context context, ListView listView, FragmentManager fragmentManager){
         this.context = context;
         this.listView = listView;
+        this.fragmentManager = fragmentManager;
     }
     @Override
     protected String doInBackground(String... urls){
@@ -60,6 +63,7 @@ public class DownloadPlant extends AsyncTask<String, Void, String> {
         }
     }
     protected void onPostExecute(String result) {
+        final Context context1 = context;
         if(result.equals("")){
             Log.i(TAG, "No search match");
             return;
@@ -68,46 +72,48 @@ public class DownloadPlant extends AsyncTask<String, Void, String> {
             return;
         }
         Gson gson = new Gson();
-        Plant [] plants = gson.fromJson(result, Plant[].class);
+        final Plant [] plants = gson.fromJson(result, Plant[].class);
 
-        ArrayList<String> plantNames = new ArrayList<>();
+        final ArrayList<String> plantNames = new ArrayList<>();
         for (int i = 0; i < plants.length; i++) {
             plantNames.add(plants[i].getName());
         }
         String[] items = plantNames.toArray(new String[plantNames.size()]);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, R.layout.list_item, items);
         listView.setAdapter(adapter);
-        /*
+
         //Listen for normal click on items in list
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 TextView textView = (TextView) view;
+                String plantName = plantNames.get(position);
+                /*
+                TextView textView = (TextView) view;
                 String gardenName = textView.getText().toString();
                 Intent intent = new Intent(context, MyGardenActivity.class);
                 intent.putExtra("gardenName", gardenName);
                 startActivity(intent);
+                */
             }
         });
 
         //Listener for long click on items in list
-        list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 TextView textView = (TextView) view;
-                String gardenName = textView.getText().toString();
-
-                FragmentManager fragmentManager = getFragmentManager();
-                GardenListFragment quickOptions = new GardenListFragment();
-
+                Plant plant = plants[position];
+                Gson gson = new Gson();
+                String json = gson.toJson(plant);
                 Bundle bundle = new Bundle();
-                bundle.putString("gardenName", gardenName);
+                bundle.putString("plantJson", json);
 
+                PlantSearchFragment quickOptions = new PlantSearchFragment();
                 quickOptions.setArguments(bundle);
-                quickOptions.show(fragmentManager, "disIsTag");
+                quickOptions.show(fragmentManager, "disIsTag3");
                 return true;
             }
         });
-        */
     }
 }

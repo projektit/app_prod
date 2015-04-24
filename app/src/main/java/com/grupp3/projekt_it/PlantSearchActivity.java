@@ -1,5 +1,6 @@
 package com.grupp3.projekt_it;
 
+import android.app.FragmentManager;
 import android.app.Notification;
 import android.content.Context;
 import android.content.Intent;
@@ -116,9 +117,10 @@ public class PlantSearchActivity extends BaseActivity {
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
         if (networkInfo != null && networkInfo.isConnected()) {
             try {
+                FragmentManager fragmentManager = getFragmentManager();
                 //create new async task to download plants from database
                 //from name query in sqlite database
-                new DownloadPlant(context, listView).execute("http://46.101.8.10/" + "?name=" + plant);
+                new DownloadPlant(context, listView, fragmentManager).execute("http://46.101.8.10/" + "?name=" + plant);
             } catch (Exception e) {
                 e.printStackTrace();
                 Log.i(TAG, "Connected but failed anyway");
