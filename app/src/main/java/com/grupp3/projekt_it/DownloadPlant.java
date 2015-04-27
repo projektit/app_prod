@@ -27,6 +27,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Created by Daniel on 2015-04-21.
@@ -73,6 +74,7 @@ public class DownloadPlant extends AsyncTask<String, Void, String> {
         }
         Gson gson = new Gson();
         final Plant [] plants = gson.fromJson(result, Plant[].class);
+        final ArrayList <Plant> allPlants = new ArrayList<Plant>(Arrays.asList(plants));
 
         final ArrayList<String> plantNames = new ArrayList<>();
         for (int i = 0; i < plants.length; i++) {
@@ -88,13 +90,17 @@ public class DownloadPlant extends AsyncTask<String, Void, String> {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 TextView textView = (TextView) view;
                 String plantName = plantNames.get(position);
-                /*
-                TextView textView = (TextView) view;
-                String gardenName = textView.getText().toString();
-                Intent intent = new Intent(context, MyGardenActivity.class);
-                intent.putExtra("gardenName", gardenName);
-                startActivity(intent);
-                */
+                Plant plant = allPlants.get(position);
+                //create new Gson object
+                Gson gson = new Gson();
+                //create jsonPlant string of DB
+                String jsonPlant = gson.toJson(plant);
+                //create new intent for starting MyFlowerActivity.class
+                Intent intent = new Intent(context1, MyFlowerWebActivity.class);
+                //send flower info to MyFlowerActivity
+                intent.putExtra("jsonPlant", jsonPlant);
+                //start Activity
+                context1.startActivity(intent);
             }
         });
 

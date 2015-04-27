@@ -205,8 +205,6 @@ public class PlantSearchActivity extends BaseActivity {
 
     }
 
-
-
     private void closeSearchBar() {
         // Remove custom view.
         getSupportActionBar().setDisplayShowCustomEnabled(false);

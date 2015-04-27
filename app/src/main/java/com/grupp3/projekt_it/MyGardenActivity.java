@@ -85,12 +85,9 @@ public class MyGardenActivity extends ActionBarActivity {
                 startActivity(intent);
             }
         });
-
-
         //Listener for long click on items in list
 
-       /* //Listener for long click on items in list
->>>>>>> 8e8dff3... Add MyFlowerActivity that start when flower in list is pushed
+       //Listener for long click on items in list
         list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
@@ -111,13 +108,7 @@ public class MyGardenActivity extends ActionBarActivity {
             }
 
         });
-
-        });*/
-
-
     }
-
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.

@@ -26,10 +26,10 @@ public class PlantSearchFragment extends DialogFragment {
         builder.setTitle(R.string.garden_list_menu_box_message)
                 .setItems(options, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        String json = "";
+                        String jsonPlant = "";
                         Bundle bundle = getArguments();
                         if (bundle != null) {
-                            json = bundle.getString("jsonPlant");
+                            jsonPlant = bundle.getString("jsonPlant");
                         }
                         if(which == 0){
                             FragmentManager fragmentManager = getFragmentManager();
@@ -38,13 +38,9 @@ public class PlantSearchFragment extends DialogFragment {
                             chooseGardenFragment.show(fragmentManager, "disIsTag4");
                         }
                         if(which == 1){
-                            /*
-                            FragmentManager fragmentManager = getFragmentManager();
-                            ChangeGardenNameFragment changName = new ChangeGardenNameFragment();
-
-                            changName.setArguments(bundle);
-                            changName.show(fragmentManager, "disIsTag4");
-                            */
+                            Intent intent = new Intent(context, MyFlowerWebActivity.class);
+                            intent.putExtra("jsonPlant", jsonPlant);
+                            context.startActivity(intent);
                         }
                     }
                 });
