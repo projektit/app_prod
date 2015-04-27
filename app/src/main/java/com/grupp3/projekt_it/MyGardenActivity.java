@@ -36,7 +36,6 @@ public class MyGardenActivity extends ActionBarActivity {
         gardenName = intent.getStringExtra("gardenName");
         getSupportActionBar().setTitle(gardenName);
         GardenUtil gardenUtil = new GardenUtil();
-        Log.i(TAG, "");
         Garden garden = gardenUtil.loadGarden(gardenName, getApplicationContext());
         buildListView();
 
@@ -52,7 +51,6 @@ public class MyGardenActivity extends ActionBarActivity {
         final ArrayList <Plant_DB> allPlants = sqlPlantHelper.getAllPlants(garden.getTableName());
         ArrayList <String> plantNames = new ArrayList<>();
         // extract swe name from arraylist
-        Log.i(TAG, Integer.toString(allPlants.size()));
         for(Plant_DB plant : allPlants){
             plantNames.add(plant.get_swe_name());
         }
@@ -96,14 +94,16 @@ public class MyGardenActivity extends ActionBarActivity {
         list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                TextView textView = (TextView) view;
-                String gardenName = textView.getText().toString();
+                Plant_DB plant_db = allPlants.get(position);
+                Gson gson = new Gson();
+                String jsonPlant = gson.toJson(plant_db);
 
                 FragmentManager fragmentManager = getFragmentManager();
-                GardenListFragment quickOptions = new GardenListFragment();
+                GardenFragment quickOptions = new GardenFragment();
 
                 Bundle bundle = new Bundle();
-                bundle.putString("gardenName", gardenName);
+                String [] info = {jsonPlant, gardenName};
+                bundle.putStringArray("info", info);
 
                 quickOptions.setArguments(bundle);
                 quickOptions.show(fragmentManager, "disIsTag");
@@ -138,7 +138,7 @@ public class MyGardenActivity extends ActionBarActivity {
         }
         if (id == R.id.action_new) {
             Intent intent = new Intent(getApplicationContext(), PlantSearchActivity.class);
-            intent.putExtra("gardeName", gardenName);
+            intent.putExtra("gardenName", gardenName);
             startActivity(intent);
         }
 

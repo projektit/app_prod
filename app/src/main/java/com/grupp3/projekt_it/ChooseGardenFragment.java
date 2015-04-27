@@ -1,5 +1,6 @@
 package com.grupp3.projekt_it;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
@@ -57,6 +58,7 @@ public class ChooseGardenFragment extends DialogFragment {
                         Plant_DB plant_db = new Plant_DB(plant, "", "", "");
                         SQLPlantHelper sqlPlantHelper = new SQLPlantHelper(context);
                         sqlPlantHelper.addPlant(plant_db, garden.getTableName());
+
                     }
                 });
         return builder.create();

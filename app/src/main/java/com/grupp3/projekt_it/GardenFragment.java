@@ -9,6 +9,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+
+import com.google.gson.Gson;
 
 /**
  * Created by Daniel on 2015-04-27.
@@ -24,26 +27,31 @@ public class GardenFragment extends DialogFragment {
         builder.setTitle(R.string.garden_list_menu_box_message)
                 .setItems(options, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        String gardenName = "";
+                        String [] info = new String[2];
                         Bundle bundle = getArguments();
                         if (bundle != null) {
-                            gardenName = bundle.getString("gardenName");
+                            info = bundle.getStringArray("info");
                         }
                         if(which == 0){
-                            /*
-                            Intent intent = new Intent(context, MyGardenActivity.class);
-                            intent.putExtra("gardenName", gardenName);
-                            startActivity(intent);
-                            */
+
                         }
                         if(which == 1){
-                            /*
-                            FragmentManager fragmentManager = getFragmentManager();
-                            ChangeGardenNameFragment changName = new ChangeGardenNameFragment();
+                            String jsonPlant = info[0];
+                            String gardenName = info[1];
 
-                            changName.setArguments(bundle);
-                            changName.show(fragmentManager, "disIsTag2");
-                            */
+                            Gson gson = new Gson();
+                            Plant_DB plant_db = gson.fromJson(jsonPlant, Plant_DB.class);
+                            GardenUtil gardenUtil = new GardenUtil();
+                            Garden garden = gardenUtil.loadGarden(gardenName, context);
+
+                            SQLPlantHelper sqlPlantHelper = new SQLPlantHelper(context);
+                            Log.i(TAG, "frag " + Integer.toString(plant_db.get_id()));
+                            sqlPlantHelper.deletePlant_ID(plant_db.get_id(), garden.getTableName());
+
+                            Activity activity = getActivity();
+                            if (activity instanceof MyGardenActivity) {;
+                                ((MyGardenActivity) activity).buildListView();
+                            }
                         }
                     }
 

@@ -107,7 +107,7 @@ public class DownloadPlant extends AsyncTask<String, Void, String> {
                 Gson gson = new Gson();
                 String json = gson.toJson(plant);
                 Bundle bundle = new Bundle();
-                bundle.putString("plantJson", json);
+                bundle.putString("jsonPlant", json);
 
                 PlantSearchFragment quickOptions = new PlantSearchFragment();
                 quickOptions.setArguments(bundle);

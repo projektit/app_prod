@@ -29,7 +29,7 @@ public class PlantSearchFragment extends DialogFragment {
                         String json = "";
                         Bundle bundle = getArguments();
                         if (bundle != null) {
-                            json = bundle.getString("plantJson");
+                            json = bundle.getString("jsonPlant");
                         }
                         if(which == 0){
                             FragmentManager fragmentManager = getFragmentManager();

@@ -41,10 +41,11 @@ class SQLPlantHelper extends SQLiteOpenHelper {
     public SQLPlantHelper(Context context) {
         //super(context, DATABASE_NAME, factory, DATABASE_VERSION);
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
-        Log.i(TAG, "constructor");
+        Log.i(TAG, " sql helper constructor");
     }
 
     public void createNewTable(String tableName){
+        Log.i(TAG, " sql helper create table");
         newTableName = tableName;
         SQLiteDatabase db = getWritableDatabase();
         String query = "CREATE TABLE " + newTableName + "(" +
@@ -63,8 +64,6 @@ class SQLPlantHelper extends SQLiteOpenHelper {
                 COLUMN_USER_SOIL + " TEXT, " +
                 COLUMN_USER_ZONE + " TEXT " +
                 ");";
-
-        Log.i(TAG, "onCreate: " + newTableName + " " + Integer.toString(db.getVersion()));
         db.execSQL(query);
     }
     public void deleteTable(String tableName){
@@ -134,9 +133,14 @@ class SQLPlantHelper extends SQLiteOpenHelper {
         db.close();
         return plant;
     }
-    public void deleteFlower(String flowerName, String tableName){
+    public void deletePlant_ID(int id, String tableName){
         SQLiteDatabase db = getWritableDatabase();
-        db.execSQL("DELETE FROM " + tableName + " WHERE " + COLUMN_SWENAME + "+\"" + flowerName + "\";");
+        //db.execSQL("DELETE FROM " + tableName + " WHERE " + COLUMN_ID + "+\"" + id + "\";");
+        db.delete(tableName, COLUMN_ID + "=" + id, null);
+    }
+    public void deletePlant_SWE(String sweName, String tableName){
+        SQLiteDatabase db = getWritableDatabase();
+        db.execSQL("DELETE FROM " + tableName + " WHERE " + COLUMN_SWENAME + "+\"" + sweName + "\";");
     }
 
     public ArrayList<Plant_DB> getAllPlants(String tableName) {
@@ -175,7 +179,6 @@ class SQLPlantHelper extends SQLiteOpenHelper {
         db.close();
         return plantList;
     }
-
 
 }
 class Plant_DB{
