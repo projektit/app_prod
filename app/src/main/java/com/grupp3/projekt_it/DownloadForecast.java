@@ -38,7 +38,7 @@ public class DownloadForecast extends AsyncTask<String, Void, String> {
         try {
             // get url
             URL url = new URL(urls[0]);
-            // setup http connectuin
+            // setup http connection
             HttpURLConnection connection = (HttpURLConnection)url.openConnection();
             //add api key
             connection.addRequestProperty("x-api-key","92a437c886b5e874102c9d28c6c10359");
@@ -51,11 +51,9 @@ public class DownloadForecast extends AsyncTask<String, Void, String> {
                 json.append(tmp).append("\n");
             reader.close();
             //check input satus code
-            Gson gson = new Gson();
-            Forecast forecast = gson.fromJson(json.toString(), Forecast.class);
+            JSONObject data = new JSONObject(json.toString());
             rawData = json.toString();
-
-            if(forecast.getCod() != 200){
+            if(data.getInt("cod") != 200){
                 Log.i(TAG, "cod not 200");
                 return null;
             }
@@ -67,12 +65,15 @@ public class DownloadForecast extends AsyncTask<String, Void, String> {
         }
     }
     protected void onPostExecute(String result){
+        if(result == null){
+            return;
+        }
         //convert from json to java object for both weather and garden
         Gson gson = new Gson();
         //convert forecast json to java object
         Forecast forecast = gson.fromJson(result, Forecast.class);
         //add forecast to garden object
-        Log.i(TAG, " saving new forecast");
+        Log.i(TAG, " saving new forecast, name, time: " + Long.toString(forecast.getDt()) + ", " + forecast.name);
         garden.setForecast(forecast);
         //convert garden back to json
         GardenUtil gardenUtil = new GardenUtil();

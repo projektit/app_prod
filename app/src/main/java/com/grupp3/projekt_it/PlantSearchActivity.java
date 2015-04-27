@@ -1,7 +1,9 @@
 package com.grupp3.projekt_it;
 
+import android.app.FragmentManager;
 import android.app.Notification;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -16,6 +18,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -24,9 +27,11 @@ import org.w3c.dom.Text;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 
 
-public class PlantSearchActivity extends ActionBarActivity {
+public class PlantSearchActivity extends BaseActivity {
+    //initialing variables
     String TAG = "com.grupp3.projekt_it";
     String searchQuery;
     Drawable searchIcon;
@@ -39,8 +44,15 @@ public class PlantSearchActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_plant_search);
 
+        //getLayoutInflater().inflate(R.layout.activity_main, frameLayout);
+        //mDrawerList.setItemChecked(position, true);
+
+        // set layout
+        setContentView(R.layout.activity_plant_search);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        // saved instance not supported yet
         if (savedInstanceState == null) {
             //code if no previous search exists
             Log.i(TAG, "so far");
@@ -50,24 +62,65 @@ public class PlantSearchActivity extends ActionBarActivity {
             //searchQuery = savedInstance.searchQuery
             //restore previous results
         }
+        // fetch resources
         searchIcon = getResources().getDrawable(R.drawable.ic_action_search);
         closeSearchIcon = getResources().getDrawable(R.drawable.ic_action_remove);
         listView = (ListView) findViewById(R.id.listView1);
-
+        // needs savedInstance to work, if it was open when saved it will now be restored
         if (SearchOpened) {
             openSearchBar(searchQuery);
         }
 
     }
+    @Override
+    protected void openActivity(int position) {
+
+        /**
+         * All activities with navigation drawer must contain this override function in order
+         * to not be able to launch another instance of itself from navigation bar.
+         * Remove correct startActivity(..) call to do so.
+         */
+
+        //mDrawerList.setItemChecked(position, true);
+        //setTitle(listArray[position]);
+        mDrawerLayout.closeDrawer(mDrawerList);
+        BaseActivity.position = position; //Setting currently selected position in this field so that it will be available in our child activities.
+
+        switch (position) {
+            case 0:
+                startActivity(new Intent(this, MainActivity.class));
+                break;
+            case 1:
+                startActivity(new Intent(this, MyGardenListActivity.class));
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
+            case 4:
+                startActivity(new Intent(this, Login.class));
+                break;
+            case 5:
+                startActivity(new Intent(this, Preferences.class));
+                break;
+            default:
+                break;
+        }
+    }
+    // method for searching stuff
     public void search(){
+        // get user search input
         String plant = SearchEditText.getText().toString();
         Context context = getApplicationContext();
+        // check network status, needs permissions see manifest
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-        TextView textView = (TextView) findViewById(R.id.textView);
         if (networkInfo != null && networkInfo.isConnected()) {
             try {
-                new DownloadPlant(context, textView).execute("http://46.101.8.10/" + "?name=maskros");
+                FragmentManager fragmentManager = getFragmentManager();
+                //create new async task to download plants from database
+                //from name query in sqlite database
+                new DownloadPlant(context, listView, fragmentManager).execute("http://46.101.8.10/" + "?name=" + plant);
             } catch (Exception e) {
                 e.printStackTrace();
                 Log.i(TAG, "Connected but failed anyway");
@@ -77,27 +130,45 @@ public class PlantSearchActivity extends ActionBarActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        //inflate menu
         getMenuInflater().inflate(R.menu.menu_plant_search, menu);
         return true;
     }
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
+        //code to change actionbar on search icon click
         searchItem = menu.findItem(R.id.search);
-        return super.onPrepareOptionsMenu(menu);
+        MenuItem item = menu.findItem(R.id.action_settings);
+        item.setVisible(false);
+        return true;
+        //return super.onPrepareOptionsMenu(menu);
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.search) {
             if (SearchOpened) {
+                //close search bar
                 closeSearchBar();
             } else {
+                //open search bar
                 openSearchBar(searchQuery);
             }
             return true;
         }
+
+        else if (id == R.id.action_settings) {
+            return true;
+        }
+
+        else if (id== android.R.id.home){
+            onBackPressed();
+
+        }
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -110,7 +181,7 @@ public class PlantSearchActivity extends ActionBarActivity {
 
         // Search edit text field setup.
         SearchEditText = (EditText) actionBar.getCustomView().findViewById(R.id.editTextSearch);
-        //
+
         SearchEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {

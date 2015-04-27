@@ -3,6 +3,38 @@
     android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainActivity">
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="com.grupp3.projekt_it.mon_tips"
+    android:background="@drawable/background_tips">
 
+    <TextView
+        android:layout_width="320dp"
+        android:layout_height="480dp"
+        android:text="Saker att göra och check-lista för trädgården i april. Rabatter förbereds, och vi börjar så smått att plantera och så i söder. Kallväxthusen tas i bruk. Nu är bästa tiden att satsa på ogräs- och snigelbekämpning, så att du får försprång istället för tvärtom!
+
+Växtskydd och ogräsbekämpning - starta nu!
+Rensa ogräset nu, så blir ligger du på plus och får mindre att hålla efter senare. Se till att gräva bort alla rotdelar av flerårigt ogräs. Använd gärna ett täckmaterial i rabatterna, så får eventuella fröogräs svårare att nå upp till ljuset.
+
+Börja håll efter den röda liljebaggen som har kejsarkronan och andra liljor som stående huvudrätt på vårmenyn. Plocka bort baggarna en och en för hand. Avlägsna ägg och larver från undersidan av bladen. Läs: Hur bekämpa liljebaggar?
+
+Plocka snäckor och sniglar nu! Först ut på våren är trädgårdssnäckan som kan ställa till stor skada både på perenner och köksväxter. Plocka de stora snäckorna så fort du ser dem så hinner de inte lägga sina ägg. Titta också efter nykläckta småsnäckor – de är bara några millimeter stora, men ack så hungriga. Spansk skogssnigel (mördarsnigel) och åkersnigel kommer fram senare på våren, men du kan redan nu hitta deras gömmor när du vänder på saker i trädgården.
+
+Växtskydda tulpaner, uppstickande flox, kärleksört och annan växtlighet som rådjur och harar älskar behöver skyddas. Använd viltskrämma eller oasis, tygklut eller kökssvamp och ammoniak som fästs på en pinne och placeras ut strategiskt bland växterna."
+        android:id="@+id/mon_tips_text"
+        android:background="#CCFFFFFF"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:paddingTop="50dp"
+        android:paddingLeft="23dp"
+        android:paddingRight="23dp"
+        android:maxLines = "26"
+        android:scrollbars = "vertical"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView"
+        android:background="@drawable/rubrik"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="2dp"/>
 </RelativeLayout>

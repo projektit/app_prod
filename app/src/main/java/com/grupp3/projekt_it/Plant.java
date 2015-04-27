@@ -16,7 +16,7 @@ public class Plant {
     String zone_max;
     int water;
     String misc;
-    String sun;
+    int sun;
 
     public int getId() {
         return id;
@@ -24,6 +24,50 @@ public class Plant {
 
     public String getName() {
         return name;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setSwe_name(String swe_name) {
+        this.swe_name = swe_name;
+    }
+
+    public void setLatin_name(String latin_name) {
+        this.latin_name = latin_name;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public void setSoil(String soil) {
+        this.soil = soil;
+    }
+
+    public void setZone_min(String zone_min) {
+        this.zone_min = zone_min;
+    }
+
+    public void setZone_max(String zone_max) {
+        this.zone_max = zone_max;
+    }
+
+    public void setWater(int water) {
+        this.water = water;
+    }
+
+    public void setMisc(String misc) {
+        this.misc = misc;
+    }
+
+    public void setSun(int sun) {
+        this.sun = sun;
     }
 
     public String getSwe_name() {
@@ -58,7 +102,8 @@ public class Plant {
         return misc;
     }
 
-    public String getSun() {
+    public int getSun() {
         return sun;
     }
 }
+

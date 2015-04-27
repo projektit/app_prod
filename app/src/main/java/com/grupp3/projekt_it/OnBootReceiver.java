@@ -18,7 +18,7 @@ import android.util.Log;
 
 public class OnBootReceiver extends BroadcastReceiver{
     static String TAG = "com.grupp3.projekt_it";
-    private static final int PERIOD = 1000 * 60 * 60;
+    private static final int PERIOD = 1000 * 60;
 
     //on receive restarts alarm after device reboot
     @Override

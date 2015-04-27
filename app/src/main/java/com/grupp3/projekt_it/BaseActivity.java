@@ -43,7 +43,7 @@ public class BaseActivity extends ActionBarActivity {
     /**
      * List item array for navigation drawer items.
      * */
-    protected String[] listArray = { "Hem", "Min Trädgård", "Sök", "Vanliga Frågor", "Logga ut", "Inställningar"};
+    protected String[] listArray = { "Hem", "Min Trädgård", "Sök", "Hjälp", "Logga ut", "Inställningar"};
 
     /**
      * Static variable for selected item position. Which can be used in child activity to know which item is selected from the list.
@@ -105,14 +105,14 @@ public class BaseActivity extends ActionBarActivity {
         {
             @Override
             public void onDrawerClosed(View drawerView) {
-                getSupportActionBar().setTitle(listArray[position]);
+
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
                 super.onDrawerClosed(drawerView);
             }
 
             @Override
             public void onDrawerOpened(View drawerView) {
-                //getSupportActionBar().setTitle("Hittade felet");
+
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
                 super.onDrawerOpened(drawerView);
             }
@@ -176,11 +176,15 @@ public class BaseActivity extends ActionBarActivity {
                 startActivity(new Intent(this, MyGardenListActivity.class));
                 break;
             case 2:
+                startActivity(new Intent(this, PlantSearchActivity.class));
                 break;
             case 3:
                 break;
             case 4:
                 startActivity(new Intent(this, Login.class));
+                break;
+            case 5:
+                startActivity(new Intent(this, Preferences.class));
                 break;
             default:
                 break;

@@ -1,6 +1,8 @@
 package com.grupp3.projekt_it;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -28,6 +30,14 @@ public class Login extends ActionBarActivity {
         mUserLogin = (EditText)findViewById(R.id.user_login_info);
         // define the button
         Button button = (Button)findViewById(R.id.login_button);
+
+        //Auto-fill EditText
+        String premNum = getPremNumber();
+        //premNum = "1234";
+        if(premNum != null){
+            mUserLogin.setText(premNum);
+        }
+
         // wait for the button to be clicked
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -36,7 +46,19 @@ public class Login extends ActionBarActivity {
                 String user = mUserLogin.getText().toString().trim();
                 // check if the entered information is a valid user, if not show error message
                 if(Arrays.asList(acceptedUsers).contains(user)) {
-                    startActivity(new Intent(Login.this, MainActivity.class));
+                    // Save valid premnumber
+                    SharedPreferences sharedPreferences = getPreferences(Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+
+                    String key = getString(R.string.premKey);
+                    editor.putString(key, user);
+
+                    editor.commit();
+
+                    // Change activity and send the user number to be used in other activities
+                    Intent i = new Intent(Login.this, MainActivity.class);
+                    //i.putExtra("user", user);
+                    startActivity(i);
                 }
                 else {
                     Toast.makeText(Login.this,"Ogiltigt prenumerationsnummer", Toast.LENGTH_SHORT).show();
@@ -76,4 +98,18 @@ public class Login extends ActionBarActivity {
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
     }
+
+
+    private String getPremNumber() {
+        SharedPreferences sharedPreferences = getPreferences(Context.MODE_PRIVATE);
+
+        String key = getString(R.string.premKey);
+        String existingPrem = sharedPreferences.getString(key, null);
+
+        if (existingPrem != null) {
+            return existingPrem;
+        }
+        return null;
+    }
+
 }
