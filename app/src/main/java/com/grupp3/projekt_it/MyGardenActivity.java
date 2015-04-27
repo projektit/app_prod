@@ -62,20 +62,36 @@ public class MyGardenActivity extends ActionBarActivity {
         ListView list = (ListView) findViewById(R.id.listView1);
         list.setAdapter(adapter);
 
-        /*
+
+        //Methods for starting MyFlowerActivity after click on list items
+        //started from flowers in users MyGarden
+
         //Listen for normal click on items in list
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 TextView textView = (TextView) view;
-                String gardenName = textView.getText().toString();
-                Intent intent = new Intent(getApplicationContext(), MyGardenActivity.class);
-                intent.putExtra("gardenName", gardenName);
+                //create new PLANT_DB locally
+                //get all plants by position, depends on which flower user push on
+                Plant_DB plant_db = allPlants.get(position);
+                //create new Gson object
+                Gson gson = new Gson();
+                //create jsonPlant string of DB
+                String jsonPlant = gson.toJson(plant_db);
+                //create new intent for starting MyFlowerActivity.class
+                Intent intent = new Intent(getApplicationContext(), MyFlowerActivity.class);
+                //send flower info to MyFlowerActivity
+                intent.putExtra("jsonPlant", jsonPlant);
+                //start Activity
                 startActivity(intent);
             }
         });
-        */
+
+
         //Listener for long click on items in list
+
+       /* //Listener for long click on items in list
+>>>>>>> 8e8dff3... Add MyFlowerActivity that start when flower in list is pushed
         list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
@@ -92,7 +108,11 @@ public class MyGardenActivity extends ActionBarActivity {
                 quickOptions.show(fragmentManager, "disIsTag");
                 return true;
             }
+
         });
+
+        });*/
+
 
     }
 
