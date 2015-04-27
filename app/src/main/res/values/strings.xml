@@ -90,4 +90,12 @@
         ]]>
     </string>
 
+    <string-array name="list_items">
+        <item>Hem</item>
+        <item>Min Trädgård</item>
+        <item>Sök</item>
+        <item>Hjälp</item>
+        <item>Logga ut</item>
+        <item>Inställningar</item>
+    </string-array>
 </resources>

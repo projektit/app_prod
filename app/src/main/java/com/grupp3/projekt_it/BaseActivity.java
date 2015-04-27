@@ -4,19 +4,25 @@ package com.grupp3.projekt_it;
  * Created by Oscar.Melin on 2015-04-16.
  */
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 /**
  * @author dipenp
@@ -66,6 +72,8 @@ public class BaseActivity extends ActionBarActivity {
      */
     private ActionBarDrawerToggle actionBarDrawerToggle;
 
+    private MyAdapter myAdapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +88,9 @@ public class BaseActivity extends ActionBarActivity {
         //mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
 
         // set up the drawer's list view with items and click listener
-        mDrawerList.setAdapter(new ArrayAdapter<String>(this, R.layout.navigation_drawer_list_item, listArray));
+        //mDrawerList.setAdapter(new ArrayAdapter<String>(this, R.layout.navigation_drawer_list_item, listArray));
+        myAdapter = new MyAdapter(this);
+        mDrawerList.setAdapter(myAdapter);
         mDrawerList.setOnItemClickListener(new OnItemClickListener() {
 
             @Override
@@ -235,5 +245,46 @@ public class BaseActivity extends ActionBarActivity {
         }else {
             super.onBackPressed();
         }
+    }
+}
+
+class MyAdapter extends BaseAdapter{
+    private Context context;
+    String [] listItems;
+    int [] images = {R.drawable.ic_menu_home, R.drawable.ic_menu_star, R.drawable.ic_action_search, R.drawable.ic_menu_info_details, R.drawable.ic_action_back, R.drawable.ic_menu_manage};
+    public MyAdapter(Context context){
+        this.context = context;
+        listItems = context.getResources().getStringArray(R.array.list_items);
+    }
+    @Override
+    public int getCount() {
+        return listItems.length;
+    }
+
+    @Override
+    public Object getItem(int position) {
+        return listItems[position];
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+       View row = null;
+        if(convertView == null){
+          LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+          row = inflater.inflate(R.layout.custom_row, parent, false);
+       }
+        else{
+           row = convertView;
+       }
+        TextView tv = (TextView) row.findViewById(R.id.textView);
+        ImageView im = (ImageView) row.findViewById(R.id.imageView2);
+        tv.setText(listItems[position]);
+        im.setImageResource(images[position]);
+        return row;
     }
 }

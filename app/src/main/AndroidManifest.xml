@@ -76,8 +76,7 @@
         </activity>
         <activity
             android:name=".Preferences"
-            android:label="settings"
-            android:theme="@style/AppTheme">
+            android:label="settings">
         </activity>
         <activity
             android:name=".MyFlowerActivity"
