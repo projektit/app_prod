@@ -3,7 +3,10 @@ package com.grupp3.projekt_it;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.text.method.ScrollingMovementMethod;
+import android.text.util.Linkify;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -34,10 +37,18 @@ public class MainActivity extends BaseActivity {
          * Setting title and itemChecked
          */
         mDrawerList.setItemChecked(position, true);
-        //setTitle(listArray[position]);
-        //((ImageView)findViewById(R.id.image_view)).setBackgroundResource(R.drawable.image1);
+
+        /**
+         * Textview settings
+         */
+        // Define the specific textview
         TextView tv=(TextView)findViewById(R.id.mon_tips_text);
+        // Set the text in the textview
+        tv.setText(Html.fromHtml(getString(R.string.mon_tips)));
+        // Allow scrolling
         tv.setMovementMethod(new ScrollingMovementMethod());
+        // Allow links to be clicked
+        tv.setMovementMethod(LinkMovementMethod.getInstance());
 
     }
     @Override

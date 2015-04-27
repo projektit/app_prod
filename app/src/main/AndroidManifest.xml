@@ -78,10 +78,6 @@
             android:name=".Preferences"
             android:label="settings" >
         </activity>
-        <activity
-            android:name=".mon_tips"
-            android:label="@string/title_activity_mon_tips" >
-        </activity>
     </application>
 
 </manifest>

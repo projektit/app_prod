@@ -1,10 +1,14 @@
 package com.grupp3.projekt_it;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
+import android.preference.PreferenceManager;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +31,18 @@ public class Preferences extends PreferenceActivity {
         // Set the preference to current user number
         mPreference = getPreferenceScreen().findPreference("subscription_number");
         mPreference.setSummary(user);*/
+
+
+
+    //Auto-fill EditText
+        Context context = getBaseContext();
+        String premNum = getDefaults("premKey", context);
+
+    if(premNum != null){
+        mPreference = getPreferenceScreen().findPreference("subscription_number");
+        mPreference.setSummary(premNum);
+    }
+
     }
     // Add a custom "fake" actionbar to the activity which contains a title and a back button
     @Override
@@ -54,5 +70,14 @@ public class Preferences extends PreferenceActivity {
 
         getWindow().setContentView(contentView);
     }
+
+
+
+    public static String getDefaults(String key, Context context) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        return preferences.getString(key, null);
+    }
+
+
 
 }

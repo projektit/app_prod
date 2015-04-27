@@ -106,6 +106,8 @@ public class BaseActivity extends ActionBarActivity {
             @Override
             public void onDrawerClosed(View drawerView) {
 
+                //getSupportActionBar().setTitle(listArray[0]);
+
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
                 super.onDrawerClosed(drawerView);
             }

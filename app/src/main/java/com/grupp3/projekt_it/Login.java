@@ -3,6 +3,7 @@ package com.grupp3.projekt_it;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -32,10 +33,13 @@ public class Login extends ActionBarActivity {
         Button button = (Button)findViewById(R.id.login_button);
 
         //Auto-fill EditText
-        String premNum = getPremNumber();
-        //premNum = "1234";
+        Context context = getBaseContext();
+        String premNum = getDefaults("premKey", context);
+
+
         if(premNum != null){
             mUserLogin.setText(premNum);
+
         }
 
         // wait for the button to be clicked
@@ -47,13 +51,10 @@ public class Login extends ActionBarActivity {
                 // check if the entered information is a valid user, if not show error message
                 if(Arrays.asList(acceptedUsers).contains(user)) {
                     // Save valid premnumber
-                    SharedPreferences sharedPreferences = getPreferences(Context.MODE_PRIVATE);
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
 
-                    String key = getString(R.string.premKey);
-                    editor.putString(key, user);
+                    Context context = getBaseContext();
+                    setDefaults("premKey", user, context);
 
-                    editor.commit();
 
                     // Change activity and send the user number to be used in other activities
                     Intent i = new Intent(Login.this, MainActivity.class);
@@ -100,16 +101,17 @@ public class Login extends ActionBarActivity {
     }
 
 
-    private String getPremNumber() {
-        SharedPreferences sharedPreferences = getPreferences(Context.MODE_PRIVATE);
+    public static void setDefaults(String key, String value, Context context) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString(key, value);
+        editor.commit();
+    }
 
-        String key = getString(R.string.premKey);
-        String existingPrem = sharedPreferences.getString(key, null);
 
-        if (existingPrem != null) {
-            return existingPrem;
-        }
-        return null;
+    public static String getDefaults(String key, Context context) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        return preferences.getString(key, null);
     }
 
 }

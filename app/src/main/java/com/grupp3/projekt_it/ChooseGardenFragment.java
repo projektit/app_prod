@@ -50,11 +50,13 @@ public class ChooseGardenFragment extends DialogFragment {
                         if (bundle != null) {
                             json = bundle.getString("plantJson");
                         }
+                        GardenUtil gardenUtil = new GardenUtil();
+                        Garden garden = gardenUtil.loadGarden(gardenName, context);
                         Gson gson = new Gson();
                         Plant plant = gson.fromJson(json, Plant.class);
                         Plant_DB plant_db = new Plant_DB(plant, "", "", "");
                         SQLPlantHelper sqlPlantHelper = new SQLPlantHelper(context);
-                        sqlPlantHelper.addPlant(plant_db, gardenName);
+                        sqlPlantHelper.addPlant(plant_db, garden.getTableName());
                     }
                 });
         return builder.create();
