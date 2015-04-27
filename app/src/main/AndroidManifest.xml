@@ -22,13 +22,13 @@
         </activity>
         <activity
             android:name=".MainActivity"
-            android:label="@string/title_section1" >
+            android:label="@string/title_section1">
         </activity>
         <activity android:name=".BaseActivity" >
         </activity>
         <activity
             android:name=".MyGardenListActivity"
-            android:label="@string/title_activity_my_garden_list" >
+            android:label="@string/title_section2" >
 
             <!--
                 meta-data
@@ -71,12 +71,13 @@
 
         <activity
             android:name=".PlantSearchActivity"
-            android:label="@string/title_activity_plant_search"
+            android:label="@string/title_section3"
             android:theme="@style/AppTheme" >
         </activity>
         <activity
             android:name=".Preferences"
-            android:label="settings" >
+            android:label="settings"
+            android:theme="@style/AppTheme">
         </activity>
 
         <activity

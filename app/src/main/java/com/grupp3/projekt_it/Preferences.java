@@ -32,8 +32,6 @@ public class Preferences extends PreferenceActivity {
         mPreference = getPreferenceScreen().findPreference("subscription_number");
         mPreference.setSummary(user);*/
 
-
-
     //Auto-fill EditText
         Context context = getBaseContext();
         String premNum = getDefaults("premKey", context);
@@ -70,7 +68,6 @@ public class Preferences extends PreferenceActivity {
 
         getWindow().setContentView(contentView);
     }
-
 
 
     public static String getDefaults(String key, Context context) {

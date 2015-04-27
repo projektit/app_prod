@@ -5,6 +5,8 @@
         <!-- Customize your theme here. -->
        <!-- <item name="homeAsUpIndicator">@drawable/ic_drawer</item>
         <item name="android:homeAsUpIndicator">@drawable/ic_drawer</item>-->
+        <item name="actionOverflowButtonStyle">@style/MyOverflowButton</item>
+        <item name="android:actionOverflowButtonStyle"> @style/MyOverflowButton</item>
     </style>
     <!-- Theme to set the actionbar icon to ic_drawer a.k.a hamburger -->
     <style name="Hamburger" parent="Theme.AppCompat.Light.DarkActionBar">

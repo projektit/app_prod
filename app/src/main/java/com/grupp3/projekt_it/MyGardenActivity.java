@@ -34,6 +34,7 @@ public class MyGardenActivity extends ActionBarActivity {
         setContentView(R.layout.activity_my_garden);
         Intent intent = getIntent();
         gardenName = intent.getStringExtra("gardenName");
+        getSupportActionBar().setTitle(gardenName);
         GardenUtil gardenUtil = new GardenUtil();
         Log.i(TAG, "");
         Garden garden = gardenUtil.loadGarden(gardenName, getApplicationContext());
