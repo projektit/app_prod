@@ -128,6 +128,8 @@ public class PlantSearchActivity extends BaseActivity {
         }
     }
 
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         //inflate menu
@@ -200,7 +202,10 @@ public class PlantSearchActivity extends BaseActivity {
         // Change search icon accordingly.
         searchItem.setIcon(closeSearchIcon);
         SearchOpened = true;
+
     }
+
+
 
     private void closeSearchBar() {
         // Remove custom view.
