@@ -53,42 +53,8 @@ public class GardenUtil {
         Garden garden = gson.fromJson(json, Garden.class);
         return garden;
     }
-    public int getDBversion(Context context){
-        String [] files = context.fileList();
-        List <String> files2 = Arrays.asList(files);
-        if(files2.contains("version.dbv")){
-            String file = "";
-            FileInputStream fileInputStream;
-            try{
-                fileInputStream = context.openFileInput("version.dbv");
-                byte[] input = new byte[fileInputStream.available()];
-                while(fileInputStream.read(input) != -1){
-                    file += new String(input);
-                }
-                fileInputStream.close();
-
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return Integer.parseInt(file);
-        }else{
-            setDBversion(context, 1);
-            return 1;
-        }
-    }
-    public void setDBversion(Context context, int version){
-        String version2 = Integer.toString(version);
-        try {
-            FileOutputStream fileOutputStream = context.openFileOutput("version.dbv", Context.MODE_PRIVATE);
-            fileOutputStream.write(version2.getBytes());
-            fileOutputStream.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public void deleteGarden(String gardenName, Context context){
+        context.deleteFile(gardenName + ".grdn");
     }
 }
 
