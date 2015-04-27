@@ -2,6 +2,7 @@ package com.grupp3.projekt_it;
 
 import android.app.Activity;
 import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -86,15 +87,10 @@ public class DownloadPlant extends AsyncTask<String, Void, String> {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                TextView textView = (TextView) view;
-                String plantName = plantNames.get(position);
-                /*
-                TextView textView = (TextView) view;
-                String gardenName = textView.getText().toString();
-                Intent intent = new Intent(context, MyGardenActivity.class);
-                intent.putExtra("gardenName", gardenName);
-                startActivity(intent);
-                */
+                Plant plant = plants[position];
+                Gson gson = new Gson();
+                String json = gson.toJson(plant);
+
             }
         });
 
@@ -102,7 +98,6 @@ public class DownloadPlant extends AsyncTask<String, Void, String> {
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                TextView textView = (TextView) view;
                 Plant plant = plants[position];
                 Gson gson = new Gson();
                 String json = gson.toJson(plant);
