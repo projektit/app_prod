@@ -80,10 +80,6 @@
         </activity>
 
         <activity
-            android:name=".mon_tips"
-            android:label="@string/title_activity_mon_tips" >
-        </activity>
-        <activity
             android:name=".MyFlowerActivity"
             android:label="@string/title_activity_my_flower" >
         </activity>
