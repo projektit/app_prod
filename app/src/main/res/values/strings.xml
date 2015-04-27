@@ -50,6 +50,7 @@
     <string name="premKey">premnummer</string>
     <string name="title_activity_mon_tips">mon_tips</string>
     <string name="title_activity_my_flower">MyFlowerActivity</string>
+    <string name="title_activity_my_flower_web">MyFlowerWebActivity</string>
 
     <string name="mon_tips">
         <![CDATA[

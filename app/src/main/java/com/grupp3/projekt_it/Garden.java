@@ -23,6 +23,7 @@ public class Garden {
     String location;
     String name;
     List<Plant> plants;
+    int zone;
     Forecast forecast;
     public Garden(){
 

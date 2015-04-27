@@ -37,11 +37,13 @@ public class DownloadPlant extends AsyncTask<String, Void, String> {
     Context context;
     ListView listView;
     FragmentManager fragmentManager;
+    Activity activity;
 
-    public DownloadPlant(Context context, ListView listView, FragmentManager fragmentManager){
+    public DownloadPlant(Context context, ListView listView, FragmentManager fragmentManager, Activity activity){
         this.context = context;
         this.listView = listView;
         this.fragmentManager = fragmentManager;
+        this.activity = activity;
     }
     @Override
     protected String doInBackground(String... urls){
@@ -100,7 +102,7 @@ public class DownloadPlant extends AsyncTask<String, Void, String> {
                 //send flower info to MyFlowerActivity
                 intent.putExtra("jsonPlant", jsonPlant);
                 //start Activity
-                context1.startActivity(intent);
+                activity.startActivity(intent);
             }
         });
 

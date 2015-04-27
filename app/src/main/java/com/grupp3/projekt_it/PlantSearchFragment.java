@@ -40,7 +40,7 @@ public class PlantSearchFragment extends DialogFragment {
                         if(which == 1){
                             Intent intent = new Intent(context, MyFlowerWebActivity.class);
                             intent.putExtra("jsonPlant", jsonPlant);
-                            context.startActivity(intent);
+                            getActivity().startActivity(intent);
                         }
                     }
                 });

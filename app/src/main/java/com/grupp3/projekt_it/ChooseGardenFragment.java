@@ -49,7 +49,7 @@ public class ChooseGardenFragment extends DialogFragment {
                         String json = "";
                         Bundle bundle = getArguments();
                         if (bundle != null) {
-                            json = bundle.getString("plantJson");
+                            json = bundle.getString("jsonPlant");
                         }
                         GardenUtil gardenUtil = new GardenUtil();
                         Garden garden = gardenUtil.loadGarden(gardenName, context);

@@ -117,6 +117,9 @@
             TextView textView10 =(TextView) findViewById(R.id.textView10);
             textView10.setText("Sol : " +plant_db.get_sun());
 
+            TextView textView0 =(TextView) findViewById(R.id.textView0);
+            textView0.setText("Id : " +plant_db.get_id());
+
 
 
             }
