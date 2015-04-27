@@ -32,13 +32,14 @@ public class GardenFragment extends DialogFragment {
                         if (bundle != null) {
                             info = bundle.getStringArray("info");
                         }
+                        String jsonPlant = info[0];
+                        String gardenName = info[1];
                         if(which == 0){
-
+                            Intent intent = new Intent(context, MyFlowerWebActivity.class);
+                            intent.putExtra("jsonPlant", jsonPlant);
+                            getActivity().startActivity(intent);
                         }
                         if(which == 1){
-                            String jsonPlant = info[0];
-                            String gardenName = info[1];
-
                             Gson gson = new Gson();
                             Plant_DB plant_db = gson.fromJson(jsonPlant, Plant_DB.class);
                             GardenUtil gardenUtil = new GardenUtil();

@@ -54,11 +54,11 @@ public class GardenUtil {
         return garden;
     }
     public void deleteGarden(String gardenName, Context context){
-        context.deleteFile(gardenName + ".grdn");
-        SQLPlantHelper sqlPlantHelper = new SQLPlantHelper(context);
         Garden garden = loadGarden(gardenName, context);
         String tableName = garden.getTableName();
+        SQLPlantHelper sqlPlantHelper = new SQLPlantHelper(context);
         sqlPlantHelper.deleteTable(tableName);
+        context.deleteFile(gardenName + ".grdn");
     }
     public int getTableNumber(Context context){
         String [] files = context.fileList();
