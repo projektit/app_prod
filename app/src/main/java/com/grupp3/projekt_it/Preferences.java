@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
+import android.preference.PreferenceManager;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -34,20 +35,12 @@ public class Preferences extends PreferenceActivity {
 
 
     //Auto-fill EditText
-    String premNum = getPremNumber2();
-        Log.i("After getPremNumber", "HEJ0");
-        if(premNum != null) {
-            Log.i("After getPremNumber", "HEJ1");
-            Log.i("After getPremNumber", premNum);
-            Log.i("After getPremNumber", "HEJ2");
-        }
-        Log.i("After getPremNumber", "HEJ3");
-        //Log.i("After getPremNumber", premNum);
-    premNum = "1234";
+        Context context = getBaseContext();
+        String premNum = getDefaults("premKey", context);
+
     if(premNum != null){
         mPreference = getPreferenceScreen().findPreference("subscription_number");
         mPreference.setSummary(premNum);
-
     }
 
     }
@@ -79,20 +72,12 @@ public class Preferences extends PreferenceActivity {
     }
 
 
-    private String getPremNumber2() {
-        SharedPreferences sharedPreferences = getPreferences(Context.MODE_PRIVATE);
-        Log.i("After getPremNumber", "HEJ10");
 
-        String key = getString(R.string.premKey);
-        Log.i("After getPremNumber", key);
-        String existingPrem = sharedPreferences.getString(key, null);
-
-        if (existingPrem != null) {
-            Log.i("After getPremNumber", existingPrem);
-            return existingPrem;
-        }
-        Log.i("After getPremNumber", "HEJ12");
-        return null;
+    public static String getDefaults(String key, Context context) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        return preferences.getString(key, null);
     }
+
+
 
 }

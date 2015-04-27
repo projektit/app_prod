@@ -12,8 +12,8 @@
     <string name="action_example">Example action</string>
     <string name="action_settings">Settings</string>
 
-    <string name="title_activity_my_garden_list">MyGardenListActivity</string>
-    <string name="title_activity_new_garden">NewGardenActivity</string>
+    <string name="title_activity_my_garden_list">Min Trädgård</string>
+    <string name="title_activity_new_garden">Ny Trädgård</string>
 
     <string name="EnterGardenName">Ange trädgårdens namn</string>
     <string name="EnterGardenLocation">Ange stad</string>
