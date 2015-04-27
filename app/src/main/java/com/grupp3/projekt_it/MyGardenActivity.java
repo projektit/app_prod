@@ -44,9 +44,11 @@ public class MyGardenActivity extends ActionBarActivity {
     // method to populate listview from garden database
     public void buildListView() {
         GardenUtil gardenUtil = new GardenUtil();
-        int currentVersion = gardenUtil.getDBversion(getApplicationContext());
+        Garden garden = gardenUtil.loadGarden(gardenName, getApplicationContext());
+
         SQLPlantHelper sqlPlantHelper = new SQLPlantHelper(getApplicationContext());
-        final ArrayList <Plant_DB> allPlants = sqlPlantHelper.getAllPlants(gardenName);
+
+        final ArrayList <Plant_DB> allPlants = sqlPlantHelper.getAllPlants(garden.getTableName());
         ArrayList <String> plantNames = new ArrayList<>();
         // extract swe name from arraylist
         Log.i(TAG, Integer.toString(allPlants.size()));
@@ -72,7 +74,7 @@ public class MyGardenActivity extends ActionBarActivity {
                 startActivity(intent);
             }
         });
-
+        */
         //Listener for long click on items in list
         list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
@@ -91,7 +93,7 @@ public class MyGardenActivity extends ActionBarActivity {
                 return true;
             }
         });
-        */
+
     }
 
 

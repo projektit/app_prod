@@ -96,8 +96,17 @@ public class MyGardenListActivity extends BaseActivity {
             if(requestCode == 1) {
                 String[] result = data.getStringArrayExtra("Result");
                 Context context = getApplicationContext();
-                Garden garden = new Garden(result[0], result[1]);
+                GardenUtil gardenUtil = new GardenUtil();
+
+                int tableNumber = gardenUtil.getTableNumber(context);
+                gardenUtil.setTableNumber(context, tableNumber + 1);
+                Log.i(TAG, Integer.toString(tableNumber));
+                String tableName = "t" + Integer.toString(tableNumber);
+                Log.i(TAG, tableName);
+
+                Garden garden = new Garden(result[0], result[1], tableName);
                 String [] files = getApplicationContext().fileList();
+
                 ArrayList<String> files2 = new ArrayList<String>(Arrays.asList(files));
                 if(files2.contains(result[0] + ".grdn")){
                     Toast toast = Toast.makeText(context, "Trädgård finns redan", Toast.LENGTH_SHORT);
@@ -105,20 +114,8 @@ public class MyGardenListActivity extends BaseActivity {
                     return;
                 }
 
-
-                GardenUtil gardenUtil = new GardenUtil();
-                int version = gardenUtil.getDBversion(context);
                 SQLPlantHelper sqlPlantHelper = new SQLPlantHelper(getApplicationContext());
-                sqlPlantHelper.createNewTable(result[0]);
-
-                gardenUtil.setDBversion(context, version + 1);
-
-                //Plant_DB plant_db = new Plant_DB();
-                //sqlPlantHelper.addPlant(plant_db, result[0]);
-                //Plant_DB plant_db2 = sqlPlantHelper.getPlant(plant_db.get_id(), result[0]);
-                //Plant_DB plant_db3 = sqlPlantHelper.getPlant(plant_db2.get_id(), result[0]);
-
-                //Log.i(TAG, plant_db.get_swe_name() + " " +  plant_db2.get_swe_name() + " " + plant_db3.get_swe_name());
+                sqlPlantHelper.createNewTable(tableName);
 
                 gardenUtil.saveGarden(garden, context);
                 buildListView();
@@ -196,7 +193,8 @@ public class MyGardenListActivity extends BaseActivity {
                 TextView textView = (TextView) view;
                 String gardenName = textView.getText().toString();
 
-                getApplicationContext().deleteFile(gardenName + ".grdn");
+                GardenUtil gardenUtil = new GardenUtil();
+                gardenUtil.deleteGarden(gardenName, getApplicationContext());
 
                 buildListView();
             }

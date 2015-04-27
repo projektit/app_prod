@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * Created by Daniel on 2015-04-23.
  */
-public class SQLPlantHelper extends SQLiteOpenHelper {
+class SQLPlantHelper extends SQLiteOpenHelper {
     String TAG = "com.grupp3.projekt_it";
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "plants.db";
@@ -66,6 +66,10 @@ public class SQLPlantHelper extends SQLiteOpenHelper {
 
         Log.i(TAG, "onCreate: " + newTableName + " " + Integer.toString(db.getVersion()));
         db.execSQL(query);
+    }
+    public void deleteTable(String tableName){
+        SQLiteDatabase db = getWritableDatabase();
+        db.execSQL("DROP TABLE IF EXISTS " + tableName);
     }
 
     @Override

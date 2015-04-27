@@ -19,19 +19,22 @@ import java.util.Map;
 // POJO to garden object (which is in json format) to json string, for storage
 
 public class Garden {
+    String tableName;
     String location;
     String name;
-    String dbTableName;
     List<Plant> plants;
     Forecast forecast;
     public Garden(){
 
     }
-    public Garden(String name, String location){
+    public Garden(String name, String location, String tableName){
         this.location = location;
         this.name = name;
+        this.tableName = tableName;
     }
-
+    public String getTableName() {
+        return tableName;
+    }
     public String getLocation() {
         return location;
     }

@@ -53,14 +53,21 @@ public class GardenUtil {
         Garden garden = gson.fromJson(json, Garden.class);
         return garden;
     }
-    public int getDBversion(Context context){
+    public void deleteGarden(String gardenName, Context context){
+        context.deleteFile(gardenName + ".grdn");
+        SQLPlantHelper sqlPlantHelper = new SQLPlantHelper(context);
+        Garden garden = loadGarden(gardenName, context);
+        String tableName = garden.getTableName();
+        sqlPlantHelper.deleteTable(tableName);
+    }
+    public int getTableNumber(Context context){
         String [] files = context.fileList();
         List <String> files2 = Arrays.asList(files);
-        if(files2.contains("version.dbv")){
+        if(files2.contains("number.tbl")){
             String file = "";
             FileInputStream fileInputStream;
             try{
-                fileInputStream = context.openFileInput("version.dbv");
+                fileInputStream = context.openFileInput("number.tbl");
                 byte[] input = new byte[fileInputStream.available()];
                 while(fileInputStream.read(input) != -1){
                     file += new String(input);
@@ -72,16 +79,17 @@ public class GardenUtil {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            setTableNumber(context, Integer.parseInt(file));
             return Integer.parseInt(file);
         }else{
-            setDBversion(context, 1);
+            setTableNumber(context, 1);
             return 1;
         }
     }
-    public void setDBversion(Context context, int version){
+    public void setTableNumber(Context context, int version){
         String version2 = Integer.toString(version);
         try {
-            FileOutputStream fileOutputStream = context.openFileOutput("version.dbv", Context.MODE_PRIVATE);
+            FileOutputStream fileOutputStream = context.openFileOutput("number.tbl", Context.MODE_PRIVATE);
             fileOutputStream.write(version2.getBytes());
             fileOutputStream.close();
         } catch (FileNotFoundException e) {
