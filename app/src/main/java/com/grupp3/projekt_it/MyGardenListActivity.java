@@ -7,16 +7,19 @@ import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.os.Environment;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.internal.widget.AdapterViewCompat;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,6 +38,9 @@ import java.util.Arrays;
 public class MyGardenListActivity extends BaseActivity {
    String TAG = "com.grupp3.projekt_it";
 
+    public Boolean onDel;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +56,10 @@ public class MyGardenListActivity extends BaseActivity {
         mDrawerList.setItemChecked(position, true);
         //setTitle(listArray[position]);
         //((ImageView)findViewById(R.id.image_view)).setBackgroundResource(R.drawable.image1);
+
+        onDel = false;
+        frameLayout.setBackgroundColor(Color.WHITE);
+
         buildListView();
     }
 
@@ -75,8 +85,15 @@ public class MyGardenListActivity extends BaseActivity {
         }
         //Delete garden in overflow menu is pressed
         if(id == R.id.remove_garden){
+            onDel = true;
+            frameLayout.setBackgroundColor(Color.RED);
+            Log.i(TAG, "HEJ0");
             Toast.makeText(MyGardenListActivity.this, "Tryck för att välja trädgård", Toast.LENGTH_LONG).show();
+
+
             deleteGardenView();
+
+            Log.i(TAG, "HEJ1");
             return true;
         }
         //Add a new garden option in action menu is pressed
@@ -88,6 +105,11 @@ public class MyGardenListActivity extends BaseActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+
+
+
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -173,6 +195,7 @@ public class MyGardenListActivity extends BaseActivity {
     // When the delete garden settings option is chosen this view is shown and clicking on items
     // in the list will remove them
     public void deleteGardenView() {
+
         String[] files = getApplicationContext().fileList();
         ArrayList<String> desiredFiles = new ArrayList<>();
         for (int i = 0; i < files.length; i++) {
@@ -192,13 +215,18 @@ public class MyGardenListActivity extends BaseActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 TextView textView = (TextView) view;
                 String gardenName = textView.getText().toString();
-
+                
                 GardenUtil gardenUtil = new GardenUtil();
                 gardenUtil.deleteGarden(gardenName, getApplicationContext());
+
+                getApplicationContext().deleteFile(gardenName + ".grdn");
+                onDel = false;
+                frameLayout.setBackgroundColor(Color.WHITE);
 
                 buildListView();
             }
         });
+
     }
     // When the change name settings option is chosen this view is shown and clicking on an item in
     // the list will allow the user to change the name of the garden
@@ -233,6 +261,22 @@ public class MyGardenListActivity extends BaseActivity {
                 buildListView();
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        Log.i(TAG, "HEJ2");
+        if(onDel == true){
+            Log.i(TAG, "HEJ3");
+            onDel = false;
+            frameLayout.setBackgroundColor(Color.WHITE);
+            buildListView();
+            return;
+        }else {
+            Log.i(TAG, "HEJ4");
+            super.onBackPressed();
+        }
     }
 
     @Override

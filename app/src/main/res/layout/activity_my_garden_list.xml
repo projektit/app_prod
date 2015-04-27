@@ -6,10 +6,20 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="com.grupp3.projekt_it.MyGardenListActivity">
 
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_alignTop="@+id/listView1"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:background="#0000000e"
+        android:id="@+id/frameLayout"></FrameLayout>
+
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/listView1"
         android:layout_centerHorizontal="true"
         android:layout_alignParentTop="true" />
+
 </RelativeLayout>
