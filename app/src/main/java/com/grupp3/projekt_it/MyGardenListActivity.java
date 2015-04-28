@@ -252,14 +252,11 @@ public class MyGardenListActivity extends BaseActivity {
     // settings views, if not go back to previous activity
     @Override
     public void onBackPressed() {
-        Log.i(TAG, "HEJ2");
         if(onDel == true){
-            Log.i(TAG, "HEJ3");
             onDel = false;
             buildListView();
             return;
         }else {
-            Log.i(TAG, "HEJ4");
             super.onBackPressed();
         }
     }

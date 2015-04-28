@@ -128,11 +128,22 @@ public class MyGardenActivity extends ActionBarActivity {
             return true;
         }
         if (id == R.id.action_new) {
+            /*
+            Intent intent = new Intent(getApplicationContext(), PlantSearchActivity.class);
+            startActivity(intent);
+            */
+
             Intent intent = new Intent(getApplicationContext(), PlantSearchActivity.class);
             intent.putExtra("gardenName", gardenName);
-            startActivity(intent);
+            startActivityForResult(intent, 1);
+
         }
 
         return super.onOptionsItemSelected(item);
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        buildListView();
     }
 }

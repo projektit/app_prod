@@ -5,6 +5,7 @@ import android.app.FragmentManager;
 import android.app.Notification;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -148,6 +149,14 @@ public class PlantSearchActivity extends BaseActivity {
         return true;
         //return super.onPrepareOptionsMenu(menu);
     }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = getIntent(); //get intent that started this activity
+        setResult(RESULT_OK, intent); // set result
+        finish();
+    }
+
 
 
     @Override
