@@ -112,7 +112,6 @@ public class PlantSearchActivity extends BaseActivity {
     // method for searching stuff
     public void search(){
         // get user search input
-        String plant = SearchEditText.getText().toString();
         Context context = getApplicationContext();
         // check network status, needs permissions see manifest
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(context.CONNECTIVITY_SERVICE);
@@ -123,7 +122,11 @@ public class PlantSearchActivity extends BaseActivity {
                 //create new async task to download plants from database
                 //from name query in sqlite database
                 Activity activity = this;
-                new DownloadPlant(context, listView, fragmentManager, activity).execute("http://46.101.8.10/api" + "?name=" + plant);
+                String urlPlant = SearchEditText.getText().toString();
+                urlPlant = urlPlant.replaceAll("å", "a");
+                urlPlant = urlPlant.replaceAll("ä", "a");
+                urlPlant = urlPlant.replaceAll("ö", "o");
+                new DownloadPlant(context, listView, fragmentManager, activity).execute("http://46.101.8.10/api" + "?name=" + urlPlant);
             } catch (Exception e) {
                 e.printStackTrace();
                 Log.i(TAG, "Connected but failed anyway");

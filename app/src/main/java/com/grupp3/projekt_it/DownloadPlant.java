@@ -81,7 +81,7 @@ public class DownloadPlant extends AsyncTask<String, Void, String> {
 
         final ArrayList<String> plantNames = new ArrayList<>();
         for (int i = 0; i < plants.length; i++) {
-            plantNames.add(plants[i].getName());
+            plantNames.add(plants[i].getSwe_name());
         }
         String[] items = plantNames.toArray(new String[plantNames.size()]);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, R.layout.list_item, items);
