@@ -15,6 +15,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 
@@ -27,6 +28,7 @@ import java.util.ArrayList;
 public class MyGardenActivity extends ActionBarActivity {
     String TAG = "com.grupp3.projekt_it";
     String gardenName;
+    public Boolean onDel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +36,6 @@ public class MyGardenActivity extends ActionBarActivity {
         setContentView(R.layout.activity_my_garden);
         Intent intent = getIntent();
         gardenName = intent.getStringExtra("gardenName");
-        getSupportActionBar().setTitle(gardenName);
         GardenUtil gardenUtil = new GardenUtil();
         Garden garden = gardenUtil.loadGarden(gardenName, getApplicationContext());
         buildListView();
@@ -43,6 +44,7 @@ public class MyGardenActivity extends ActionBarActivity {
     }
     // method to populate listview from garden database
     public void buildListView() {
+        getSupportActionBar().setTitle(gardenName);
         GardenUtil gardenUtil = new GardenUtil();
         Garden garden = gardenUtil.loadGarden(gardenName, getApplicationContext());
 
@@ -109,6 +111,51 @@ public class MyGardenActivity extends ActionBarActivity {
 
         });
     }
+    // method to populate listview from garden database
+    public void deletePlantView() {
+        getSupportActionBar().setTitle("Redigeringsläge");
+        GardenUtil gardenUtil = new GardenUtil();
+        Garden garden = gardenUtil.loadGarden(gardenName, getApplicationContext());
+
+        SQLPlantHelper sqlPlantHelper = new SQLPlantHelper(getApplicationContext());
+
+        final ArrayList <Plant_DB> allPlants = sqlPlantHelper.getAllPlants(garden.getTableName());
+        ArrayList <String> plantNames = new ArrayList<>();
+        // extract swe name from arraylist
+        for(Plant_DB plant : allPlants){
+            plantNames.add(plant.get_swe_name());
+        }
+
+        String [] items = plantNames.toArray(new String[plantNames.size()]);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.list_item, items);
+
+        ListView list = (ListView) findViewById(R.id.listView1);
+        list.setAdapter(adapter);
+
+
+        //Methods for starting MyFlowerActivity after click on list items
+        //started from flowers in users MyGarden
+
+        //Listen for normal click on items in list
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Plant_DB plant_db = allPlants.get(position);
+                Gson gson = new Gson();
+                String jsonPlant = gson.toJson(plant_db);
+
+                GardenUtil gardenUtil = new GardenUtil();
+                Garden garden = gardenUtil.loadGarden(gardenName, getApplicationContext());
+
+                SQLPlantHelper sqlPlantHelper = new SQLPlantHelper(getApplicationContext());
+                Log.i(TAG, "frag " + Integer.toString(plant_db.get_id()));
+                sqlPlantHelper.deletePlant_ID(plant_db.get_id(), garden.getTableName());
+                onDel = false;
+                buildListView();
+            }
+        });
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -138,6 +185,15 @@ public class MyGardenActivity extends ActionBarActivity {
             startActivityForResult(intent, 1);
 
         }
+        if(id == R.id.remove_plant){
+            onDel = true;
+            Log.i(TAG, "HEJ0");
+            Toast.makeText(MyGardenActivity.this, "Tryck för att välja växt", Toast.LENGTH_LONG).show();
+            // Change view to be able to delete a garden
+            deletePlantView();
+            Log.i(TAG, "HEJ1");
+            return true;
+        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -145,5 +201,18 @@ public class MyGardenActivity extends ActionBarActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         buildListView();
+    }
+
+    // Override the back button to change the view back to the previous if it is set as one of the two
+    // settings views, if not go back to previous activity
+    @Override
+    public void onBackPressed() {
+        if(onDel == true){
+            onDel = false;
+            buildListView();
+            return;
+        }else {
+            super.onBackPressed();
+        }
     }
 }

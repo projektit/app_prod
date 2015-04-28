@@ -21,7 +21,7 @@ public class GardenFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         final Context context = getActivity().getApplicationContext();
-        String[] options = {"Visa blomma", "Ta bort"};
+        String[] options = {"Visa växtinfo", "Ta bort"};
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle(R.string.garden_list_menu_box_message)

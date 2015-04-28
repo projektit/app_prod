@@ -134,7 +134,7 @@ public class MyGardenListActivity extends BaseActivity {
         }
     }
     public void buildListView() {
-
+        getSupportActionBar().setTitle("Min Trädgård");
         String [] files = getApplicationContext().fileList();
         ArrayList <String> desiredFiles = new ArrayList<>();
         for(int i = 0; i < files.length; i ++){
@@ -183,7 +183,7 @@ public class MyGardenListActivity extends BaseActivity {
     // When the delete garden settings option is chosen this view is shown and clicking on items
     // in the list will remove them
     public void deleteGardenView() {
-
+        getSupportActionBar().setTitle("Redigeringsläge");
         String[] files = getApplicationContext().fileList();
         ArrayList<String> desiredFiles = new ArrayList<>();
         for (int i = 0; i < files.length; i++) {
@@ -217,6 +217,7 @@ public class MyGardenListActivity extends BaseActivity {
     // When the change name settings option is chosen this view is shown and clicking on an item in
     // the list will allow the user to change the name of the garden
     public void changeNameView() {
+        getSupportActionBar().setTitle("Redigeringsläge");
         String[] files = getApplicationContext().fileList();
         ArrayList<String> desiredFiles = new ArrayList<>();
         for (int i = 0; i < files.length; i++) {
