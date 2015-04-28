@@ -30,4 +30,8 @@
         <item name="android:textColorPrimary">@android:color/white</item>
     </style>
 
+    <style name="BlankActionBar" parent="Theme.AppCompat.Light.DarkActionBar">
+
+    </style>
+
 </resources>

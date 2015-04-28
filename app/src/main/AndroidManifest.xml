@@ -81,7 +81,12 @@
         </activity>
         <activity
             android:name=".MyFlowerActivity"
-            android:label="@string/title_activity_my_flower" >
+            android:label=""
+            android:theme="@style/BlankActionBar"
+            android:parentActivityName=".MyFlowerActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.grupp3.projekt_it.MyFlowerActivity" />
         </activity>
         <activity
             android:name=".MyFlowerWebActivity"

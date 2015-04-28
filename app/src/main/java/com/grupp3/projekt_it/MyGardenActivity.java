@@ -24,7 +24,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
-
 public class MyGardenActivity extends ActionBarActivity {
     String TAG = "com.grupp3.projekt_it";
     String gardenName;
@@ -34,13 +33,12 @@ public class MyGardenActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_garden);
+        getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
         Intent intent = getIntent();
         gardenName = intent.getStringExtra("gardenName");
         GardenUtil gardenUtil = new GardenUtil();
         Garden garden = gardenUtil.loadGarden(gardenName, getApplicationContext());
         buildListView();
-
-
     }
     // method to populate listview from garden database
     public void buildListView() {

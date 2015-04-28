@@ -52,7 +52,7 @@ public class MainActivity extends BaseActivity {
 
     }
     @Override
-    public boolean onPrepareOptionsMenu(Menu menu){
+     public boolean onPrepareOptionsMenu(Menu menu){
         MenuItem item = menu.findItem(R.id.action_settings);
         item.setVisible(false);
         return true;

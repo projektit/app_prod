@@ -31,20 +31,26 @@
         String jsonPlant;
         String TAG = "com.grupp3.projekt_it";
 
-
         @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_my_flower);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             //create new Intent to handle putExtra input
             Intent intent = getIntent();
-            //recives jsonPlant object
+            //receives jsonPlant object
             //that we send from MyGardenActivity
             jsonPlant = intent.getStringExtra("jsonPlant");
             //call show flower method
             showFlowerInfo();
         }
 
+        @Override
+        public boolean onPrepareOptionsMenu(Menu menu){
+            MenuItem item = menu.findItem(R.id.action_settings);
+            item.setVisible(false);
+            return true;
+        }
 
         @Override
         public boolean onCreateOptionsMenu(Menu menu) {
@@ -119,11 +125,7 @@
 
             TextView textView0 =(TextView) findViewById(R.id.textView0);
             textView0.setText("Id : " +plant_db.get_id());
-
-
-
-            }
-
-
-
         }
+
+    }
+
