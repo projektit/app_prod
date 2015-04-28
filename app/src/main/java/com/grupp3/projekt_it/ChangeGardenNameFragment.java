@@ -60,7 +60,8 @@ public class ChangeGardenNameFragment extends DialogFragment {
                 garden.setName(newGardenName);
                 //convert back
                 gardenUtil.saveGarden(garden, context);
-                gardenUtil.deleteGarden(gardenName, context);
+                //dont delete database table
+                context.deleteFile(gardenName + ".grdn");
                 // call method to rebuild list view, it has to be if to avoid exceptions, will always go through though
                 Activity activity = getActivity();
                 if (activity instanceof MyGardenListActivity) {
