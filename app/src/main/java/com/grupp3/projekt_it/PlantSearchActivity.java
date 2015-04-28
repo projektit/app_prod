@@ -123,7 +123,7 @@ public class PlantSearchActivity extends BaseActivity {
                 //create new async task to download plants from database
                 //from name query in sqlite database
                 Activity activity = this;
-                new DownloadPlant(context, listView, fragmentManager, activity).execute("http://46.101.8.10/" + "?name=" + plant);
+                new DownloadPlant(context, listView, fragmentManager, activity).execute("http://46.101.8.10/api" + "?name=" + plant);
             } catch (Exception e) {
                 e.printStackTrace();
                 Log.i(TAG, "Connected but failed anyway");
