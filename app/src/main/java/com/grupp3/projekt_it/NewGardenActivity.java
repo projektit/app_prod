@@ -16,6 +16,7 @@ import android.widget.TextView;
 public class NewGardenActivity extends ActionBarActivity {
     EditText editText1;
     Spinner spinner1;
+    Spinner spinner2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,7 +25,9 @@ public class NewGardenActivity extends ActionBarActivity {
 
         editText1 = (EditText) findViewById(R.id.editText1);
         spinner1 = (Spinner) findViewById((R.id.spinner1));
-        buildSpinnerView();
+        spinner2 = (Spinner) findViewById((R.id.spinner2));
+        buildSpinnerView1();
+        buildSpinnerView2();
     }
 
 
@@ -37,7 +40,8 @@ public class NewGardenActivity extends ActionBarActivity {
     public void save(View view){
         String name = editText1.getText().toString();
         String location = spinner1.getSelectedItem().toString();
-        String[] result = {name, location +", SE"};
+        String zone = spinner2.getSelectedItem().toString();
+        String[] result = {name, location +", SE", zone};
         Intent intent = getIntent(); //get intent that started this activity
         intent.putExtra("Result", result); // data to be sent back to calling activity
         setResult(RESULT_OK, intent); // set result
@@ -58,7 +62,7 @@ public class NewGardenActivity extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
-    private void buildSpinnerView() {
+    private void buildSpinnerView1() {
         String [] items = {"Alingsås","Arboga","Arvika","Askersund","Avaskär","Avesta","Boden","Bollnäs","Borgholm","Borlänge",
                 "Borås","Broo","Brätte","Båstad","Djursholm","Eksjö","Elleholm","Enköping","Eskilstuna","Eslöv","Fagersta","Falkenberg",
                 "Falköping","Falsterbo","Falun","Filipstad","Flen","Gränna","Gävle","Göteborg","Hagfors","Halmstad","Haparanda","Hedemora",
@@ -75,5 +79,10 @@ public class NewGardenActivity extends ActionBarActivity {
                 "Örebro","Öregrund","Örnsköldsvik","Östersund","Östhammar"};
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, items);
         spinner1.setAdapter(adapter);
+    }
+    private void buildSpinnerView2() {
+        String [] items = {"1", "2", "3", "4", "5", "6", "7", "8", "9"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, items);
+        spinner2.setAdapter(adapter);
     }
 }

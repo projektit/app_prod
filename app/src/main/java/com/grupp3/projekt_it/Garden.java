@@ -28,10 +28,11 @@ public class Garden {
     public Garden(){
 
     }
-    public Garden(String name, String location, String tableName){
+    public Garden(String name, String location, String tableName, int zone){
         this.location = location;
         this.name = name;
         this.tableName = tableName;
+        this.zone = zone;
     }
     public String getTableName() {
         return tableName;

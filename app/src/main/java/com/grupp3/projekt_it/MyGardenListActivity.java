@@ -114,7 +114,7 @@ public class MyGardenListActivity extends BaseActivity {
                 String tableName = "t" + Integer.toString(tableNumber);
                 Log.i(TAG, tableName);
 
-                Garden garden = new Garden(result[0], result[1], tableName);
+                Garden garden = new Garden(result[0], result[1], tableName, Integer.parseInt(result[2]));
                 String [] files = getApplicationContext().fileList();
 
                 ArrayList<String> files2 = new ArrayList<String>(Arrays.asList(files));
@@ -129,7 +129,6 @@ public class MyGardenListActivity extends BaseActivity {
 
                 gardenUtil.saveGarden(garden, context);
                 buildListView();
-                OnBootReceiver.setAlarms(getApplicationContext());
             }
         }
     }

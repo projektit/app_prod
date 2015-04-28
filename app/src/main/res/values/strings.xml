@@ -19,6 +19,7 @@
 
     <string name="EnterGardenName">Ange trädgårdens namn</string>
     <string name="EnterGardenLocation">Ange stad</string>
+    <string name="EnterGardenZone">Ange zon</string>
     <string name="SaveNewGarden">Spara</string>
     <string name="title_activity_main_activity2">MainActivity2Activity</string>
     <string name="open_drawer">\"open_drawer\"</string>

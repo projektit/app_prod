@@ -32,7 +32,9 @@ public class MainActivity extends BaseActivity {
          * Adding our layout to parent class frame layout.
          */
         getLayoutInflater().inflate(R.layout.activity_main, frameLayout);
-
+        //set alarms
+        OnBootReceiver.setForecastAlarms(getApplicationContext());
+        OnBootReceiver.setMonthlyAlarms(getApplicationContext());
         /**
          * Setting title and itemChecked
          */

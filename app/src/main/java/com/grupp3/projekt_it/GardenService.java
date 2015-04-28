@@ -24,7 +24,6 @@ import java.util.ArrayList;
 
 //service which will run in background according to alarm setup in OnBootReceiver class
 
-@TargetApi(Build.VERSION_CODES.CUPCAKE)
 public class GardenService extends IntentService {
     String TAG = "com.grupp3.projekt_it";
     public GardenService() {
