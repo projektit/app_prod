@@ -38,6 +38,7 @@ public class MyGardenActivity extends ActionBarActivity {
         gardenName = intent.getStringExtra("gardenName");
         GardenUtil gardenUtil = new GardenUtil();
         Garden garden = gardenUtil.loadGarden(gardenName, getApplicationContext());
+        onDel = false;
         buildListView();
     }
     // method to populate listview from garden database
