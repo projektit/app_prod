@@ -59,6 +59,7 @@ public class DownloadPlant extends AsyncTask<String, Void, String> {
             StringBuffer json = new StringBuffer(1024);
             String result = reader.readLine();
             reader.close();
+            
             return result;
         }catch(Exception e){
             Log.i(TAG, "Exception in  plant client");
@@ -67,11 +68,11 @@ public class DownloadPlant extends AsyncTask<String, Void, String> {
     }
     protected void onPostExecute(String result) {
         final Context context1 = context;
-        if(result.equals("")){
-            Log.i(TAG, "No search match");
+        if(result == null){
             return;
         }
-        if(result == null){
+        if(result.equals("")){
+            Log.i(TAG, "No search match");
             return;
         }
         Gson gson = new Gson();
