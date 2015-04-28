@@ -276,7 +276,7 @@ class MyAdapter extends BaseAdapter{
        View row = null;
         if(convertView == null){
           LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-          row = inflater.inflate(R.layout.custom_row, parent, false);
+          row = inflater.inflate(R.layout.navigation_drawer_list_item, parent, false);
        }
         else{
            row = convertView;

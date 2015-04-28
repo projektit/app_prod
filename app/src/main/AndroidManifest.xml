@@ -13,7 +13,8 @@
         android:theme="@style/Hamburger" >
         <activity
             android:name=".Init"
-            android:label="@string/title_activity_init" >
+            android:label="@string/title_activity_init"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

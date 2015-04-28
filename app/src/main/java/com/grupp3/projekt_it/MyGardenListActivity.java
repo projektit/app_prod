@@ -23,9 +23,7 @@ import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.google.gson.Gson;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -34,12 +32,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Arrays;
 
-
 public class MyGardenListActivity extends BaseActivity {
    String TAG = "com.grupp3.projekt_it";
 
     public Boolean onDel;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,8 +54,7 @@ public class MyGardenListActivity extends BaseActivity {
         //((ImageView)findViewById(R.id.image_view)).setBackgroundResource(R.drawable.image1);
 
         onDel = false;
-        frameLayout.setBackgroundColor(Color.WHITE);
-
+        // Build the list of created gardens (if none created, empty)
         buildListView();
     }
 
@@ -86,13 +81,10 @@ public class MyGardenListActivity extends BaseActivity {
         //Delete garden in overflow menu is pressed
         if(id == R.id.remove_garden){
             onDel = true;
-            frameLayout.setBackgroundColor(Color.RED);
             Log.i(TAG, "HEJ0");
             Toast.makeText(MyGardenListActivity.this, "Tryck för att välja trädgård", Toast.LENGTH_LONG).show();
-
-
+            // Change view to be able to delete a garden
             deleteGardenView();
-
             Log.i(TAG, "HEJ1");
             return true;
         }
@@ -105,10 +97,6 @@ public class MyGardenListActivity extends BaseActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
-
-
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -215,14 +203,12 @@ public class MyGardenListActivity extends BaseActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 TextView textView = (TextView) view;
                 String gardenName = textView.getText().toString();
-                
+                // Delete the chosen garden
                 GardenUtil gardenUtil = new GardenUtil();
                 gardenUtil.deleteGarden(gardenName, getApplicationContext());
-
                 getApplicationContext().deleteFile(gardenName + ".grdn");
                 onDel = false;
-                frameLayout.setBackgroundColor(Color.WHITE);
-
+                // Change back to the default list view
                 buildListView();
             }
         });
@@ -250,27 +236,26 @@ public class MyGardenListActivity extends BaseActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 TextView textView = (TextView) view;
                 String gardenName = textView.getText().toString();
+                // Change the name of the chosen garden
                 FragmentManager fragmentManager = getFragmentManager();
                 ChangeGardenNameFragment changName = new ChangeGardenNameFragment();
-
                 Bundle bundle = new Bundle();
                 bundle.putString("gardenName", gardenName);
                 changName.setArguments(bundle);
                 changName.show(fragmentManager, "disIsTag2");
-
+                // Change back to the default view
                 buildListView();
             }
         });
     }
-
+    // Override the back button to change the view back to the previous if it is set as one of the two
+    // settings views, if not go back to previous activity
     @Override
     public void onBackPressed() {
-
         Log.i(TAG, "HEJ2");
         if(onDel == true){
             Log.i(TAG, "HEJ3");
             onDel = false;
-            frameLayout.setBackgroundColor(Color.WHITE);
             buildListView();
             return;
         }else {
@@ -281,7 +266,6 @@ public class MyGardenListActivity extends BaseActivity {
 
     @Override
     protected void openActivity(int position) {
-
         /**
          * All activities with navigation drawer must contain this override function in order
          * to not be able to launch another instance of itself from navigation bar.
