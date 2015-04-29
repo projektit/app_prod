@@ -1,6 +1,7 @@
 package com.grupp3.projekt_it;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.Html;
@@ -10,11 +11,23 @@ import android.text.util.Linkify;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.webkit.WebView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.Calendar;
 import java.util.List;
 
 
@@ -22,6 +35,7 @@ public class MainActivity extends BaseActivity {
 
     private static final int TIME_INTERVAL = 2000; // # milliseconds, desired time passed between two back presses.
     private long mBackPressed;
+    private TextView tv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,19 +54,37 @@ public class MainActivity extends BaseActivity {
          * Setting title and itemChecked
          */
         mDrawerList.setItemChecked(position, true);
-
-        /**
-         * Textview settings
-         */
-        // Define the specific textview
-        TextView tv=(TextView)findViewById(R.id.mon_tips_text);
-        // Set the text in the textview
-        tv.setText(Html.fromHtml(getString(R.string.mon_tips)));
-        // Allow scrolling
-        tv.setMovementMethod(new ScrollingMovementMethod());
-        // Allow links to be clicked
-        tv.setMovementMethod(LinkMovementMethod.getInstance());
-
+        // Array for storing the names of the files containing the tips for different months
+        String[] tipsArray = {"mon_tips_january.html","mon_tips_february.html","mon_tips_march.html",
+                "mon_tips_april.html","mon_tips_may.html","mon_tips_june.html",
+                "mon_tips_july.html","mon_tips_august.html","mon_tips_september.html",
+                "mon_tips_october.html","mon_tips_november.html","mon_tips_december.html"};
+        // Get the current month
+        Calendar calendar = Calendar.getInstance();
+        int currentMonth = calendar.get(Calendar.MONTH);
+        // Read data from html file and display it depending on month
+        try{
+            InputStream stream = this.getAssets().open(tipsArray[currentMonth]);
+            int streamSize = stream.available();
+            byte[] buffer = new byte[streamSize];
+            stream.read(buffer);
+            stream.close();
+            String html = new String(buffer);
+            /**
+             * Textview settings
+             */
+            // Define the specific textview
+            tv = (TextView)findViewById(R.id.mon_tips_text);
+            // Set the text in the textview
+            tv.setText(Html.fromHtml(html));
+            // Allow scrolling
+            tv.setMovementMethod(new ScrollingMovementMethod());
+            // Allow links to be clicked
+            tv.setMovementMethod(LinkMovementMethod.getInstance());
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
     }
     @Override
      public boolean onPrepareOptionsMenu(Menu menu){
