@@ -1,17 +1,26 @@
 package com.grupp3.projekt_it;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
 
+import org.apache.http.util.ByteArrayBuffer;
+
+import java.io.BufferedInputStream;
+import java.io.InputStream;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 
 /*************************************************************************************************
@@ -80,6 +89,11 @@ public class MyFlowerWebActivity extends ActionBarActivity {
         //handle this type
         Plant plant = gson.fromJson(jsonPlant, Plant.class);
         //create textView for print outs
+
+        //Image URL
+        //convert to bitArray
+        /*byte[] flowerImage = new getFlowerImage.execute("http://www.alltomtradgard.se/ImageGallery/Thumbnails/63/135763/107909_191262.jpg");*/
+        new getFlowerImage().execute("http://www.alltomtradgard.se/ImageGallery/Thumbnails/63/135763/107909_191262.jpg");
         //Printouts for name column
         TextView textView =(TextView) findViewById(R.id.textView1);
         textView.setText("Namn : " +plant.getName());
@@ -124,8 +138,67 @@ public class MyFlowerWebActivity extends ActionBarActivity {
         TextView textView0 =(TextView) findViewById(R.id.textView0);
         textView0.setText("Id : " +plant.getId());
 
+        TextView textView12 =(TextView) findViewById(R.id.textView12);
+        textView12.setText(plant.getName());
 
+    }
 
+    //Create AsyncTask by doing a private nested class to handle
+    //That extends AsyncTask
+    //network operations on other thread then main
+    //Using 2 methods from AsyncTask doInBackground & onPostExecute
+    //doInBackground is on another thread & onPostExecute on the main thread
+    private class getFlowerImage extends AsyncTask<String, Void, byte[]> {
+
+        @Override
+        //method to to in background on other thread
+        protected byte[] doInBackground(String... urls) {
+            // do above Server call here
+            try{
+                //convert URL to URL object
+                URL imageUrl = new URL(urls[0]);
+                //open connection
+                Log.i(TAG, "Get URL" + urls[0]);
+                URLConnection ucon = imageUrl.openConnection();
+                //get input stream from URL
+                //Log.i(TAG, "Open connection" + ucon.getContent());
+                InputStream is = ucon.getInputStream();
+                //Log.i(TAG, "is" + is.toString());
+                //create buffer input stream
+                BufferedInputStream bis = new BufferedInputStream(is);
+                //Log.i(TAG, "bis" + bis.toString());
+                //create buffer array
+                ByteArrayBuffer baf = new ByteArrayBuffer(500);
+                //Log.i(TAG, "baf" + baf.toString());
+                //initiate current
+                int current = 0;
+                //set current to current input stream
+                while((current = bis.read()) != -1){
+                    //build the array with those values
+                    //type cast to byte
+                    baf.append((byte)current);
+
+                }
+
+                //return the image as a byteArray
+                return baf.toByteArray();
+
+            }catch(Exception e){
+                Log.d("ImageManager", "Error: " + e.toString());
+            }
+            return null;
+        }
+
+        @Override
+        //to do on main thread again
+        protected void onPostExecute(byte[] result) {
+            //process message
+            //convert back to Image
+            Bitmap image = ImageUtilities.getImage(result);
+            //print out on ImageView
+            ImageView view = (ImageView)findViewById(R.id.imageView1);
+            view.setImageBitmap(image);
+        }
     }
 
 
