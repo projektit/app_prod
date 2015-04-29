@@ -14,9 +14,9 @@ public class Plant {
     String soil;
     String zone_min;
     String zone_max;
-    int water;
+    String water;
     String misc;
-    int sun;
+    String sun;
 
     public int getId() {
         return id;
@@ -58,7 +58,7 @@ public class Plant {
         this.zone_max = zone_max;
     }
 
-    public void setWater(int water) {
+    public void setWater(String water) {
         this.water = water;
     }
 
@@ -66,7 +66,7 @@ public class Plant {
         this.misc = misc;
     }
 
-    public void setSun(int sun) {
+    public void setSun(String sun) {
         this.sun = sun;
     }
 
@@ -94,15 +94,13 @@ public class Plant {
         return zone_max;
     }
 
-    public int getWater() {
-        return water;
-    }
+    public String getWater() { return water; }
 
     public String getMisc() {
         return misc;
     }
 
-    public int getSun() {
+    public String getSun() {
         return sun;
     }
 }

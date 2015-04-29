@@ -122,9 +122,9 @@ class SQLPlantHelper extends SQLiteOpenHelper {
                 cursor.getString(5),
                 cursor.getString(6),
                 cursor.getString(7),
-                Integer.parseInt(cursor.getString(8)),
+                cursor.getString(8),
                 cursor.getString(9),
-                Integer.parseInt(cursor.getString(10)),
+                cursor.getString(10),
                 cursor.getString(11),
                 cursor.getString(12),
                 cursor.getString(13)
@@ -164,9 +164,9 @@ class SQLPlantHelper extends SQLiteOpenHelper {
                 plant.set_soil((cursor.getString(5)));
                 plant.set_zone_min((cursor.getString(6)));
                 plant.set_zone_max((cursor.getString(7)));
-                plant.set_water(Integer.parseInt(cursor.getString(8)));
+                plant.set_water(cursor.getString(8));
                 plant.set_misc((cursor.getString(9)));
-                plant.set_sun(Integer.parseInt(cursor.getString(10)));
+                plant.set_sun(cursor.getString(10));
                 plant.set_user_info((cursor.getString(11)));
                 plant.set_user_soil((cursor.getString(12)));
                 plant.set_user_zone((cursor.getString(13)));
@@ -190,9 +190,9 @@ class Plant_DB{
     String _soil;
     String _zone_min;
     String _zone_max;
-    int _water;
+    String _water;
     String _misc;
-    int _sun;
+    String _sun;
     String _user_info;
     String _user_soil;
     String _user_zone;
@@ -215,7 +215,7 @@ class Plant_DB{
     }
 
     Plant_DB(int _id, String _name, String _swe_name, String _latin_name, String _type, String _soil,
-             String _zone_min, String _zone_max, int _water, String _misc, int _sun, String _user_info, String _user_soil,
+             String _zone_min, String _zone_max, String _water, String _misc, String _sun, String _user_info, String _user_soil,
              String _user_zone) {
         this._id = _id;
         this._name = _name;
@@ -234,20 +234,6 @@ class Plant_DB{
     }
 
     Plant_DB() {
-        this._sun = 1;
-        this._id = 1;
-        this._name = "hej";
-        this._swe_name = "hej";
-        this._latin_name = "hej";
-        this._type = "hej";
-        this._soil = "hej";
-        this._zone_min = "hej";
-        this._zone_max = "hej";
-        this._water = 1;
-        this._misc = "hej";
-        this._user_info = "hej";
-        this._user_soil = "hej";
-        this._user_zone = "hej";
     }
 
     public void set_id(int _id) {
@@ -282,7 +268,7 @@ class Plant_DB{
         this._zone_max = _zone_max;
     }
 
-    public void set_water(int _water) {
+    public void set_water(String _water) {
         this._water = _water;
     }
 
@@ -290,7 +276,7 @@ class Plant_DB{
         this._misc = _misc;
     }
 
-    public void set_sun(int _sun) {
+    public void set_sun(String _sun) {
         this._sun = _sun;
     }
 
@@ -338,7 +324,7 @@ class Plant_DB{
         return _zone_max;
     }
 
-    public int get_water() {
+    public String get_water() {
         return _water;
     }
 
@@ -346,7 +332,7 @@ class Plant_DB{
         return _misc;
     }
 
-    public int get_sun() {
+    public String get_sun() {
         return _sun;
     }
 

@@ -76,6 +76,7 @@ public class DownloadPlant extends AsyncTask<String, Void, String> {
             return;
         }
         Gson gson = new Gson();
+        Log.i(TAG, result);
         final Plant [] plants = gson.fromJson(result, Plant[].class);
         final ArrayList <Plant> allPlants = new ArrayList<Plant>(Arrays.asList(plants));
 
