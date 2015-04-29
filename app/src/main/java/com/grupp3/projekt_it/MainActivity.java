@@ -1,6 +1,8 @@
 package com.grupp3.projekt_it;
 
 import android.content.Intent;
+import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -13,6 +15,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebView;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -85,6 +89,21 @@ public class MainActivity extends BaseActivity {
         catch (IOException e) {
             e.printStackTrace();
         }
+
+        // Get correct drawable for the month
+        TypedArray images = getResources().obtainTypedArray(R.array.monthArray);
+        int resourceId = images.getResourceId(currentMonth, -1);
+        // Define the ImageView
+        ImageView im = (ImageView) findViewById(R.id.imageView);
+        // Set correct drawable as background in the ImageView
+        im.setImageResource(resourceId);
+
+        // Array to store background colors to be shown in the activity
+        String [] colors = {"#7c4c8a", "#790b14", "#608f31", "#f6c61a", "#71945c", "#b52c3e", "#89144b", "#a2882d", "#918f80", "#354a12", "#d3d069", "#7f4a18"};
+        // Define the layout and set the color to the correct one
+        RelativeLayout rl = (RelativeLayout) findViewById(R.id.backgroundColor);
+        rl.setBackgroundColor(Color.parseColor(colors[currentMonth]));
+
     }
     @Override
      public boolean onPrepareOptionsMenu(Menu menu){

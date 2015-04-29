@@ -61,4 +61,20 @@
         <item>Logga ut</item>
         <item>Inställningar</item>
     </string-array>
+
+    <array name="monthArray">
+        <item>@drawable/january</item>
+        <item>@drawable/february</item>
+        <item>@drawable/march</item>
+        <item>@drawable/april</item>
+        <item>@drawable/may</item>
+        <item>@drawable/june</item>
+        <item>@drawable/juli</item>
+        <item>@drawable/august</item>
+        <item>@drawable/september</item>
+        <item>@drawable/october</item>
+        <item>@drawable/november</item>
+        <item>@drawable/december</item>
+    </array>
+
 </resources>
