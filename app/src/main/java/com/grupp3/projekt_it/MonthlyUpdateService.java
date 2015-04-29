@@ -6,6 +6,8 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 
 /**
@@ -35,6 +37,11 @@ public class MonthlyUpdateService extends IntentService {
         builder.setContentIntent(pendingIntent);
 
         Notification notification = builder.build();
+        SharedPreferences getPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        boolean vibrate = getPrefs.getBoolean("notification_vibration", true);
+        if(vibrate == true) {
+            notification.defaults |= Notification.DEFAULT_VIBRATE;
+        }
         NotificationManager manager = (NotificationManager) this.getSystemService(NOTIFICATION_SERVICE);
         manager.notify(1, notification);
 
