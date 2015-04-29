@@ -6,9 +6,11 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.preference.PreferenceManager;
 import android.provider.CalendarContract;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
@@ -118,7 +120,15 @@ public class CheckZoneService extends IntentService {
             builder.setSmallIcon(R.drawable.app_icon);
 
             builder.setLights(Color.WHITE, 1000, 5000);
-            builder.setDefaults(Notification.DEFAULT_VIBRATE |Notification.DEFAULT_SOUND | Notification.DEFAULT_LIGHTS);
+
+            Notification notification = builder.build();
+            SharedPreferences getPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+            boolean vibrate = getPrefs.getBoolean("notification_vibration", true);
+            if(vibrate == true) {
+                notification.defaults |= Notification.DEFAULT_VIBRATE;
+            }
+            notification.defaults |= Notification.DEFAULT_LIGHTS;
+
             builder.setContentIntent(pendingIntent);
 
             NotificationCompat.InboxStyle inboxStyle = new NotificationCompat.InboxStyle();
@@ -128,8 +138,6 @@ public class CheckZoneService extends IntentService {
             }
             builder.setStyle(inboxStyle);
 
-
-            Notification notification = builder.build();
             NotificationManager manager = (NotificationManager) this.getSystemService(NOTIFICATION_SERVICE);
             manager.notify(2, notification);
         }

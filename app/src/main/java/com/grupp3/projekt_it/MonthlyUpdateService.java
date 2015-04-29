@@ -42,6 +42,7 @@ public class MonthlyUpdateService extends IntentService {
         if(vibrate == true) {
             notification.defaults |= Notification.DEFAULT_VIBRATE;
         }
+        notification.defaults |= Notification.DEFAULT_LIGHTS;
         NotificationManager manager = (NotificationManager) this.getSystemService(NOTIFICATION_SERVICE);
         manager.notify(1, notification);
 
