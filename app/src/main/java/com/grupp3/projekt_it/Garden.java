@@ -22,7 +22,6 @@ public class Garden {
     String tableName;
     String location;
     String name;
-    List<Plant> plants;
     int zone;
     Forecast forecast;
     public Garden(){
@@ -34,6 +33,11 @@ public class Garden {
         this.tableName = tableName;
         this.zone = zone;
     }
+
+    public int getZone() {
+        return zone;
+    }
+
     public String getTableName() {
         return tableName;
     }
@@ -55,12 +59,5 @@ public class Garden {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public void addPlant(Plant plant){
-        plants.add(plant);
-    }
-    public List<Plant> getPlants() {
-        return plants;
     }
 }

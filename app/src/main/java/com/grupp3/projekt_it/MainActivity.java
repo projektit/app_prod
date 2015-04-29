@@ -35,6 +35,7 @@ public class MainActivity extends BaseActivity {
         //set alarms
         OnBootReceiver.setForecastAlarms(getApplicationContext());
         OnBootReceiver.setMonthlyAlarms(getApplicationContext());
+        OnBootReceiver.setZoneAlarms(getApplicationContext());
         /**
          * Setting title and itemChecked
          */

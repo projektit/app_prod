@@ -28,6 +28,7 @@ public class OnBootReceiver extends BroadcastReceiver{
         Log.i(TAG, "Alarm reset on boot");
         setForecastAlarms(context);
         setMonthlyAlarms(context);
+        setZoneAlarms(context);
     }
 
     //set alarms, so GardenService runs in background periodically
@@ -48,6 +49,18 @@ public class OnBootReceiver extends BroadcastReceiver{
 
         AlarmManager alarmManager= (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(context, MonthlyUpdateService.class);
+        PendingIntent pendingIntent = PendingIntent.getService(context, 0, intent, 0);
+        alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+    }
+    static void setZoneAlarms(Context context){
+        Log.i(TAG, "Zone alarm set");
+        Calendar calendar = Calendar.getInstance();
+        //calendar.set(Calendar.HOUR_OF_DAY, 16);
+        //calendar.set(Calendar.MINUTE, 30);
+        calendar.set(Calendar.SECOND, 60);
+
+        AlarmManager alarmManager= (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(context, CheckZoneService.class);
         PendingIntent pendingIntent = PendingIntent.getService(context, 0, intent, 0);
         alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
     }

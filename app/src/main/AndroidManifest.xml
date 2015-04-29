@@ -82,8 +82,8 @@
         <activity
             android:name=".MyFlowerActivity"
             android:label=""
-            android:theme="@style/BlankActionBar"
-            android:parentActivityName=".MyFlowerActivity">
+            android:parentActivityName=".MyFlowerActivity"
+            android:theme="@style/BlankActionBar" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.grupp3.projekt_it.MyFlowerActivity" />
@@ -95,6 +95,10 @@
 
         <service
             android:name=".MonthlyUpdateService"
+            android:exported="false" >
+        </service>
+        <service
+            android:name=".CheckZoneService"
             android:exported="false" >
         </service>
     </application>

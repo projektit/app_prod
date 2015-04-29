@@ -32,7 +32,7 @@ public class GardenService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        Log.i(TAG, "service started");
+        Log.i(TAG, "GardenService started");
         Context context = getApplicationContext();
         //get network info
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(context.CONNECTIVITY_SERVICE);
