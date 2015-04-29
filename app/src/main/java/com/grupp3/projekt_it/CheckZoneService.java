@@ -53,8 +53,10 @@ public class CheckZoneService extends IntentService {
         for(int i = 0; i < items.length; i++) {
             GardenUtil gardenUtil = new GardenUtil();
             Garden garden = gardenUtil.loadGarden(items[i], context);
+            if(garden.getForecast() == null){
+                return;
+            }
             double gardenMinTemp = garden.getForecast().getMain().getTemp_min();
-
             String tableName = garden.getTableName();
             SQLPlantHelper sqlPlantHelper = new SQLPlantHelper(getApplicationContext());
             ArrayList <Plant_DB> allPlants = sqlPlantHelper.getAllPlants(garden.getTableName());

@@ -53,6 +53,20 @@ public class GardenUtil {
         Garden garden = gson.fromJson(json, Garden.class);
         return garden;
     }
+    public ArrayList<Garden> loadAllGardens(Context context){
+        String [] files = context.fileList();
+        ArrayList <String> desiredFiles = new ArrayList<>();
+        for(int i = 0; i < files.length; i ++){
+            if (files[i].endsWith(".grdn")){
+                desiredFiles.add(files[i].substring(0, files[i].length()-5));
+            }
+        }
+        ArrayList <Garden> allGardens = new ArrayList<>();
+        for(String desiredFile: desiredFiles){
+            allGardens.add(loadGarden(desiredFile, context));
+        }
+        return allGardens;
+    }
     public void deleteGarden(String gardenName, Context context){
         Garden garden = loadGarden(gardenName, context);
         String tableName = garden.getTableName();
