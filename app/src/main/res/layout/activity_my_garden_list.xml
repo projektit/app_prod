@@ -19,6 +19,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/listView1"
+        android:listSelector="@drawable/garden_list_selector"
         android:layout_centerHorizontal="true"
         android:layout_alignParentTop="true" />
 

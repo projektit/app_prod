@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Environment;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -354,9 +355,6 @@ public class MyGardenListActivity extends BaseActivity {
 
             TextView textView2 = (TextView) gardenItemView.findViewById(R.id.textView2);
             textView2.setText(garden.getLocation());
-
-            TextView textView3 = (TextView) gardenItemView.findViewById(R.id.textView3);
-            textView3.setText("test");
 
             return gardenItemView;
         }
