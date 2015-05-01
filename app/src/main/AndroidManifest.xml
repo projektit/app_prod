@@ -42,7 +42,7 @@
             android:name=".NewGardenActivity"
             android:label="@string/title_activity_new_garden"
             android:parentActivityName=".MyGardenListActivity"
-            android:theme="@style/AppTheme" >
+            android:theme="@style/BlankActionBar" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.grupp3.projekt_it.MyGardenListActivity" />
@@ -91,7 +91,9 @@
         </activity>
         <activity
             android:name=".MyFlowerWebActivity"
-            android:label="@string/title_activity_my_flower_web" >
+            android:label="@string/title_activity_my_flower_web"
+            android:parentActivityName=".PlantSearchActivity"
+            android:theme="@style/AppTheme">
         </activity>
 
         <service

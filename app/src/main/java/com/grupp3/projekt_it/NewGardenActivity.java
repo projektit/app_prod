@@ -85,4 +85,9 @@ public class NewGardenActivity extends ActionBarActivity {
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, items);
         spinner2.setAdapter(adapter);
     }
+
+    @Override
+    public boolean onPrepareOptionsMenu (Menu menu) {
+        return false;
+    }
 }
