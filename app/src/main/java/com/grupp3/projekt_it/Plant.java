@@ -17,6 +17,7 @@ public class Plant {
     String water;
     String misc;
     String sun;
+    String img_url;
 
     public int getId() {
         return id;
@@ -70,6 +71,8 @@ public class Plant {
         this.sun = sun;
     }
 
+    public void setImg_url(String img_url) { this.img_url = img_url; }
+
     public String getSwe_name() {
         return swe_name;
     }
@@ -103,5 +106,7 @@ public class Plant {
     public String getSun() {
         return sun;
     }
+
+    public String getImg_url() { return img_url; }
 }
 

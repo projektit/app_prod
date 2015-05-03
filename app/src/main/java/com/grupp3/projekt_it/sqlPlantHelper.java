@@ -30,6 +30,7 @@ class SQLPlantHelper extends SQLiteOpenHelper {
     private static final String COLUMN_WATER = "_water";
     private static final String COLUMN_MISC = "_misc";
     private static final String COLUMN_SUN = "_sun";
+    private static final String COLUMN_IMG_URL = "_img_url";
 
     private static final String COLUMN_USER_INFO = "_user_info";
     private static final String COLUMN_USER_SOIL = "_user_soil";
@@ -62,7 +63,8 @@ class SQLPlantHelper extends SQLiteOpenHelper {
                 COLUMN_SUN + " INTEGER, " +
                 COLUMN_USER_INFO + " TEXT, " +
                 COLUMN_USER_SOIL + " TEXT, " +
-                COLUMN_USER_ZONE + " TEXT " +
+                COLUMN_USER_ZONE + " TEXT, " +
+                COLUMN_IMG_URL + " TEXT " +
                 ");";
         db.execSQL(query);
     }
@@ -94,6 +96,8 @@ class SQLPlantHelper extends SQLiteOpenHelper {
         values.put(COLUMN_WATER, plant.get_water());
         values.put(COLUMN_MISC, plant.get_misc());
         values.put(COLUMN_SUN, plant.get_sun());
+        values.put(COLUMN_IMG_URL, plant.get_img_url());
+
         values.put(COLUMN_USER_INFO, plant.get_user_info());
         values.put(COLUMN_USER_SOIL, plant.get_user_soil());
         values.put(COLUMN_USER_ZONE, plant.get_user_zone());
@@ -107,7 +111,7 @@ class SQLPlantHelper extends SQLiteOpenHelper {
 
         Cursor cursor = db.query(tableName, new String[] { COLUMN_ID,
                         COLUMN_NAME, COLUMN_SWENAME, COLUMN_LATIN_NAME, COLUMN_TYPE, COLUMN_SOIL, COLUMN_ZONE_MIN,
-                        COLUMN_ZONE_MAX, COLUMN_WATER, COLUMN_MISC, COLUMN_SUN, COLUMN_USER_INFO, COLUMN_USER_SOIL,
+                        COLUMN_ZONE_MAX, COLUMN_WATER, COLUMN_MISC, COLUMN_SUN, COLUMN_IMG_URL, COLUMN_USER_INFO, COLUMN_USER_SOIL,
                         COLUMN_USER_ZONE}, COLUMN_ID + "=?",
                 new String[] { String.valueOf(id) }, null, null, null, null);
         if (cursor != null)
@@ -127,7 +131,8 @@ class SQLPlantHelper extends SQLiteOpenHelper {
                 cursor.getString(10),
                 cursor.getString(11),
                 cursor.getString(12),
-                cursor.getString(13)
+                cursor.getString(13),
+                cursor.getString(14)
         );
         // return plant
         db.close();
@@ -167,10 +172,25 @@ class SQLPlantHelper extends SQLiteOpenHelper {
                 plant.set_water(cursor.getString(8));
                 plant.set_misc((cursor.getString(9)));
                 plant.set_sun(cursor.getString(10));
-                plant.set_user_info((cursor.getString(11)));
-                plant.set_user_soil((cursor.getString(12)));
-                plant.set_user_zone((cursor.getString(13)));
-                Log.i(TAG, "hallåå " + plant.get_swe_name());
+                plant.set_img_url(cursor.getString(11));
+                plant.set_user_info((cursor.getString(12)));
+                plant.set_user_soil((cursor.getString(13)));
+                plant.set_user_zone((cursor.getString(14)));
+                Log.i(TAG, "name: " + plant.get_name());
+                Log.i(TAG, "swe_name: " + plant.get_swe_name());
+                Log.i(TAG, "latin_name: " + plant.get_latin_name());
+                Log.i(TAG, "get_type: " + plant.get_type());
+                Log.i(TAG, "get_soil: " + plant.get_soil());
+                Log.i(TAG, "get_zone_min: " + plant.get_zone_min());
+                Log.i(TAG, "get_zone_max: " + plant.get_zone_max());
+                Log.i(TAG, "get_water: " + plant.get_water());
+                Log.i(TAG, "get_misc: " + plant.get_misc());
+                Log.i(TAG, "get_sun: " + plant.get_sun());
+                Log.i(TAG, "get_img_url: " + plant.get_img_url());
+                Log.i(TAG, "get_user_info: " + plant.get_user_info());
+                Log.i(TAG, "get_user_soil: " + plant.get_user_soil());
+                Log.i(TAG, "get_user_zone: " + plant.get_user_zone());
+
                 // Adding plant to list
                 plantList.add(plant);
             } while (cursor.moveToNext());
@@ -193,12 +213,12 @@ class Plant_DB{
     String _water;
     String _misc;
     String _sun;
+    String _img_url;
     String _user_info;
     String _user_soil;
     String _user_zone;
 
     Plant_DB(Plant plant, String _user_info, String _user_soil, String _user_zone) {
-        this._sun = plant.getSun();
         this._id = plant.getId();
         this._name = plant.getName();
         this._swe_name = plant.getSwe_name();
@@ -209,13 +229,15 @@ class Plant_DB{
         this._zone_max = plant.getZone_max();
         this._water = plant.getWater();
         this._misc = plant.getMisc();
+        this._sun = plant.getSun();
+        this._img_url = plant.getImg_url();
         this._user_info = _user_info;
         this._user_soil = _user_soil;
         this._user_zone = _user_zone;
     }
 
     Plant_DB(int _id, String _name, String _swe_name, String _latin_name, String _type, String _soil,
-             String _zone_min, String _zone_max, String _water, String _misc, String _sun, String _user_info, String _user_soil,
+             String _zone_min, String _zone_max, String _water, String _misc, String _sun, String _img_url, String _user_info, String _user_soil,
              String _user_zone) {
         this._id = _id;
         this._name = _name;
@@ -228,6 +250,7 @@ class Plant_DB{
         this._water = _water;
         this._misc = _misc;
         this._sun = _sun;
+        this._img_url = _img_url;
         this._user_info = _user_info;
         this._user_soil = _user_soil;
         this._user_zone = _user_zone;
@@ -279,6 +302,8 @@ class Plant_DB{
     public void set_sun(String _sun) {
         this._sun = _sun;
     }
+
+    public void set_img_url(String _img_url) { this._img_url = _img_url; }
 
     public void set_user_info(String _user_info) {
         this._user_info = _user_info;
@@ -332,9 +357,9 @@ class Plant_DB{
         return _misc;
     }
 
-    public String get_sun() {
-        return _sun;
-    }
+    public String get_sun() { return _sun; }
+
+    public String get_img_url() { return _img_url; }
 
     public String get_user_info() {
         return _user_info;
