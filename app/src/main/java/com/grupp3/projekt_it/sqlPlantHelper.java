@@ -61,10 +61,10 @@ class SQLPlantHelper extends SQLiteOpenHelper {
                 COLUMN_WATER + " INTEGER, " +
                 COLUMN_MISC + " TEXT, " +
                 COLUMN_SUN + " INTEGER, " +
+                COLUMN_IMG_URL + " TEXT, " +
                 COLUMN_USER_INFO + " TEXT, " +
                 COLUMN_USER_SOIL + " TEXT, " +
-                COLUMN_USER_ZONE + " TEXT, " +
-                COLUMN_IMG_URL + " TEXT " +
+                COLUMN_USER_ZONE + " TEXT " +
                 ");";
         db.execSQL(query);
     }
