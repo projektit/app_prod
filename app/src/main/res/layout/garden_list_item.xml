@@ -39,6 +39,5 @@
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:padding="5dp"
-        android:src="@drawable/garden_lits_item_picture"
         android:layout_alignParentRight="true" />
 </RelativeLayout >
