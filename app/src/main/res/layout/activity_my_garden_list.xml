@@ -21,6 +21,8 @@
         android:id="@+id/listView1"
         android:listSelector="@drawable/garden_list_selector"
         android:layout_centerHorizontal="true"
-        android:layout_alignParentTop="true" />
+        android:layout_alignParentTop="true"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="5dp"/>
 
 </RelativeLayout>
