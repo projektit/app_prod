@@ -62,6 +62,9 @@ public class CheckZoneService extends IntentService {
             ArrayList <Plant_DB> allPlants = sqlPlantHelper.getAllPlants(garden.getTableName());
 
             for(Plant_DB plant_db: allPlants){
+                if("None".equals(plant_db.get_zone_min())){
+                    break;
+                }
                 int plantZone = Integer.parseInt(plant_db.get_zone_min());
                 double plantMinTemp = 0;
                 if(plantZone == 1){
