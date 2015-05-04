@@ -1,6 +1,8 @@
 package com.grupp3.projekt_it;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -24,10 +26,11 @@ public class NewGardenActivity extends ActionBarActivity {
         setContentView(R.layout.activity_new_garden);
 
         editText1 = (EditText) findViewById(R.id.editText1);
+        editText1.setBackgroundDrawable(null);
         spinner1 = (Spinner) findViewById((R.id.spinner1));
-        spinner2 = (Spinner) findViewById((R.id.spinner2));
+        //spinner2 = (Spinner) findViewById((R.id.spinner2));
         buildSpinnerView1();
-        buildSpinnerView2();
+        //buildSpinnerView2();
     }
 
 
