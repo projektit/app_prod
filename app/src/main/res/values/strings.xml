@@ -76,5 +76,6 @@
         <item>@drawable/november</item>
         <item>@drawable/december</item>
     </array>
+    <string name="title_activity_activity_help">activity_help</string>
 
 </resources>

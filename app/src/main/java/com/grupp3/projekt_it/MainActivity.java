@@ -157,6 +157,7 @@ public class MainActivity extends BaseActivity {
                 startActivity(new Intent(this, PlantSearchActivity.class));
                 break;
             case 3:
+                startActivity(new Intent(this, HelpActivity.class));
                 break;
             case 4:
                 startActivity(new Intent(this, Login.class));

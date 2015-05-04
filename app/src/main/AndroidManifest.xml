@@ -93,7 +93,7 @@
             android:name=".MyFlowerWebActivity"
             android:label="@string/title_activity_my_flower_web"
             android:parentActivityName=".PlantSearchActivity"
-            android:theme="@style/AppTheme">
+            android:theme="@style/AppTheme" >
         </activity>
 
         <service
@@ -104,6 +104,11 @@
             android:name=".CheckZoneService"
             android:exported="false" >
         </service>
+
+        <activity
+            android:name=".HelpActivity"
+            android:label="@string/title_activity_activity_help" >
+        </activity>
     </application>
 
 </manifest>
