@@ -93,7 +93,8 @@ public class MyFlowerWebActivity extends ActionBarActivity {
         //Image URL
         //convert to bitArray
         /*byte[] flowerImage = new getFlowerImage.execute("http://www.alltomtradgard.se/ImageGallery/Thumbnails/63/135763/107909_191262.jpg");*/
-        new getFlowerImage().execute("http://www.alltomtradgard.se/ImageGallery/Thumbnails/63/135763/107909_191262.jpg");
+        //new getFlowerImage().execute("http://www.alltomtradgard.se/ImageGallery/Thumbnails/63/135763/107909_191262.jpg");
+        new getFlowerImage().execute(plant.getImg_url());
         //Printouts for name column
         TextView textView =(TextView) findViewById(R.id.textView1);
         textView.setText("Namn : " +plant.getName());
