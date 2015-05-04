@@ -43,7 +43,8 @@ public class NewGardenActivity extends ActionBarActivity {
     public void save(View view){
         String name = editText1.getText().toString();
         String location = spinner1.getSelectedItem().toString();
-        String zone = spinner2.getSelectedItem().toString();
+        //String zone = spinner2.getSelectedItem().toString();
+        String zone = "1";
         String[] result = {name, location +", SE", zone};
         Intent intent = getIntent(); //get intent that started this activity
         intent.putExtra("Result", result); // data to be sent back to calling activity

@@ -121,8 +121,8 @@ public class MyGardenListActivity extends BaseActivity {
                 Log.i(TAG, Integer.toString(tableNumber));
                 String tableName = "t" + Integer.toString(tableNumber);
                 Log.i(TAG, tableName);
-
-                Garden garden = new Garden(result[0], result[1], tableName, Integer.parseInt(result[2]));
+                //set zone = 1, quickfix
+                Garden garden = new Garden(result[0], result[1], tableName, 1);
                 String[] files = getApplicationContext().fileList();
 
                 ArrayList<String> files2 = new ArrayList<String>(Arrays.asList(files));
@@ -297,7 +297,6 @@ public class MyGardenListActivity extends BaseActivity {
             int weatherCode = -1;
             if(garden.getForecast() != null){
                 Weather[] weathers = garden.getForecast().getWeather();
-
                     if (weathers[0].getIcon().equals("01d")) {
                         weatherCode = R.drawable.d01d;
                     } else if (weathers[0].getIcon().equals("02d")) {
@@ -348,8 +347,15 @@ public class MyGardenListActivity extends BaseActivity {
             TextView textView1 = (TextView) gardenItemView.findViewById(R.id.textView1);
             textView1.setText(garden.getName());
 
+            String gardenCity = garden.getLocation().substring(0, garden.getLocation().length()-4);
             TextView textView2 = (TextView) gardenItemView.findViewById(R.id.textView2);
-            textView2.setText(garden.getLocation());
+            textView2.setText(gardenCity);
+
+            if(weatherCode != -1) {
+                int temp = (int) Math.round(garden.getForecast().getMain().getTemp());
+                TextView textView3 = (TextView) gardenItemView.findViewById(R.id.textView3);
+                textView3.setText(Double.toString(temp).substring(0, Double.toString(temp).length()-2) + "\u00b0");
+            }
 
             return gardenItemView;
         }
