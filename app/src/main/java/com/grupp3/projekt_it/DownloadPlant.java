@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -149,6 +150,8 @@ public class DownloadPlant extends AsyncTask<String, Void, String> {
 
             TextView textView1 = (TextView) gardenItemView.findViewById(R.id.textView1);
             textView1.setText(plant.getSwe_name());
+
+            Button addButton = (Button) gardenItemView.findViewById(R.id.add_btn);
 
             ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(context.CONNECTIVITY_SERVICE);
             NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
