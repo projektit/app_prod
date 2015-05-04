@@ -11,8 +11,10 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,6 +30,9 @@ public class MyGardenActivity extends ActionBarActivity {
     String TAG = "com.grupp3.projekt_it";
     String gardenName;
     public Boolean onDel;
+    ListView listView1;
+    Context context;
+    ArrayList<Plant_DB> allPlants;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +44,8 @@ public class MyGardenActivity extends ActionBarActivity {
         GardenUtil gardenUtil = new GardenUtil();
         Garden garden = gardenUtil.loadGarden(gardenName, getApplicationContext());
         onDel = false;
+        context = getApplicationContext();
+        listView1 = (ListView)findViewById(R.id.listView1);
         buildListView();
     }
     // method to populate listview from garden database
@@ -49,28 +56,19 @@ public class MyGardenActivity extends ActionBarActivity {
 
         SQLPlantHelper sqlPlantHelper = new SQLPlantHelper(getApplicationContext());
 
-        final ArrayList <Plant_DB> allPlants = sqlPlantHelper.getAllPlants(garden.getTableName());
-        ArrayList <String> plantNames = new ArrayList<>();
-        // extract swe name from arraylist
-        for(Plant_DB plant : allPlants){
-            plantNames.add(plant.get_swe_name());
-        }
+        allPlants = sqlPlantHelper.getAllPlants(garden.getTableName());
 
-        String [] items = plantNames.toArray(new String[plantNames.size()]);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.list_item, items);
-
-        ListView list = (ListView) findViewById(R.id.listView1);
-        list.setAdapter(adapter);
+        ArrayAdapter<Plant_DB> adapter = new PlantListAdapter();
+        listView1.setAdapter(adapter);
 
 
         //Methods for starting MyFlowerActivity after click on list items
         //started from flowers in users MyGarden
 
         //Listen for normal click on items in list
-        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        listView1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                TextView textView = (TextView) view;
                 //create new PLANT_DB locally
                 //get all plants by position, depends on which flower user push on
                 Plant_DB plant_db = allPlants.get(position);
@@ -81,6 +79,7 @@ public class MyGardenActivity extends ActionBarActivity {
                 //create new intent for starting MyFlowerActivity.class
                 Intent intent = new Intent(getApplicationContext(), MyFlowerActivity.class);
                 //send flower info to MyFlowerActivity
+                Log.i(TAG, "nuuuu");
                 intent.putExtra("jsonPlant", jsonPlant);
                 //start Activity
                 startActivity(intent);
@@ -89,7 +88,7 @@ public class MyGardenActivity extends ActionBarActivity {
         //Listener for long click on items in list
 
        //Listener for long click on items in list
-        list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+        listView1.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 Plant_DB plant_db = allPlants.get(position);
@@ -112,31 +111,7 @@ public class MyGardenActivity extends ActionBarActivity {
     }
     // method to populate listview from garden database
     public void deletePlantView() {
-        getSupportActionBar().setTitle("Redigeringsläge");
-        GardenUtil gardenUtil = new GardenUtil();
-        Garden garden = gardenUtil.loadGarden(gardenName, getApplicationContext());
-
-        SQLPlantHelper sqlPlantHelper = new SQLPlantHelper(getApplicationContext());
-
-        final ArrayList <Plant_DB> allPlants = sqlPlantHelper.getAllPlants(garden.getTableName());
-        ArrayList <String> plantNames = new ArrayList<>();
-        // extract swe name from arraylist
-        for(Plant_DB plant : allPlants){
-            plantNames.add(plant.get_swe_name());
-        }
-
-        String [] items = plantNames.toArray(new String[plantNames.size()]);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.list_item, items);
-
-        ListView list = (ListView) findViewById(R.id.listView1);
-        list.setAdapter(adapter);
-
-
-        //Methods for starting MyFlowerActivity after click on list items
-        //started from flowers in users MyGarden
-
-        //Listen for normal click on items in list
-        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        listView1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Plant_DB plant_db = allPlants.get(position);
@@ -153,6 +128,7 @@ public class MyGardenActivity extends ActionBarActivity {
                 buildListView();
             }
         });
+        listView1.setOnItemLongClickListener(null);
     }
 
     @Override
@@ -212,6 +188,40 @@ public class MyGardenActivity extends ActionBarActivity {
             return;
         }else {
             super.onBackPressed();
+        }
+    }
+    private class PlantListAdapter extends ArrayAdapter <Plant_DB> {
+        public PlantListAdapter() {
+            super(context, R.layout.plant_list_item, allPlants);
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            View gardenItemView = convertView;
+            //check if given view is null, if so inflate a new one
+            if (gardenItemView == null) {
+                gardenItemView = getLayoutInflater().inflate(R.layout.plant_list_item, parent, false);
+            }
+            //find garden to work with
+            Plant_DB plant = allPlants.get(position);
+
+            //fill view
+            ImageView imageView1 = (ImageView) gardenItemView.findViewById(R.id.imageView1);
+
+            TextView textView1 = (TextView) gardenItemView.findViewById(R.id.textView1);
+            textView1.setText(plant.get_swe_name());
+
+            ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(context.CONNECTIVITY_SERVICE);
+            NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+            if (networkInfo != null && networkInfo.isConnected()) {
+                try {
+                    new DownloadImage(imageView1).execute(plant.get_img_url());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Log.i(TAG, "Connected but failed anyway");
+                }
+            }
+            return gardenItemView;
         }
     }
 }

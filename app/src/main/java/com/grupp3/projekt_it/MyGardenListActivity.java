@@ -39,7 +39,8 @@ import java.util.List;
 import java.util.Arrays;
 
 public class MyGardenListActivity extends BaseActivity {
-   String TAG = "com.grupp3.projekt_it";
+    String TAG = "com.grupp3.projekt_it";
+    ListView listView1;
 
     public Boolean onModify;
     ArrayList<Garden> allGardens;
@@ -62,6 +63,7 @@ public class MyGardenListActivity extends BaseActivity {
 
         onModify = false;
         // Build the list of created gardens (if none created, empty)
+        listView1 = (ListView) findViewById(R.id.listView1);
         buildListView();
     }
 
@@ -134,6 +136,9 @@ public class MyGardenListActivity extends BaseActivity {
                 sqlPlantHelper.createNewTable(tableName);
 
                 gardenUtil.saveGarden(garden, context);
+                OnBootReceiver.setForecastAlarms(getApplicationContext());
+                OnBootReceiver.setMonthlyAlarms(getApplicationContext());
+                OnBootReceiver.setZoneAlarms(getApplicationContext());
                 buildListView();
             }
         }
@@ -145,11 +150,10 @@ public class MyGardenListActivity extends BaseActivity {
         GardenUtil gardenUtil = new GardenUtil();
         allGardens = gardenUtil.loadAllGardens(getApplicationContext());
         ArrayAdapter <Garden> adapter = new GardenListAdapter();
-        ListView list = (ListView) findViewById(R.id.listView1);
-        list.setAdapter(adapter);
+        listView1.setAdapter(adapter);
 
         //Listen for normal click on items in list
-        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        listView1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Log.i(TAG, "click");
@@ -162,7 +166,7 @@ public class MyGardenListActivity extends BaseActivity {
         });
 
         //Listener for long click on items in list
-        list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+        listView1.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 Garden garden = allGardens.get(position);
@@ -185,14 +189,9 @@ public class MyGardenListActivity extends BaseActivity {
     // in the list will remove them
     public void deleteGardenView() {
         getSupportActionBar().setTitle("Redigeringsläge");
-        GardenUtil gardenUtil = new GardenUtil();
-        allGardens = gardenUtil.loadAllGardens(getApplicationContext());
-        ArrayAdapter <Garden> adapter = new GardenListAdapter();
-        ListView list = (ListView) findViewById(R.id.listView1);
-        list.setAdapter(adapter);
 
         //Listen for normal click on items in list
-        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        listView1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Garden garden = allGardens.get(position);
@@ -206,20 +205,15 @@ public class MyGardenListActivity extends BaseActivity {
                 buildListView();
             }
         });
-
+        listView1.setOnLongClickListener(null);
     }
     // When the change name settings option is chosen this view is shown and clicking on an item in
     // the list will allow the user to change the name of the garden
     public void changeNameView() {
         getSupportActionBar().setTitle("Redigeringsläge");
-        GardenUtil gardenUtil = new GardenUtil();
-        allGardens = gardenUtil.loadAllGardens(getApplicationContext());
-        ArrayAdapter <Garden> adapter = new GardenListAdapter();
-        ListView list = (ListView) findViewById(R.id.listView1);
-        list.setAdapter(adapter);
 
         //Listen for normal click on items in list
-        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        listView1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Garden garden = allGardens.get(position);
@@ -236,6 +230,7 @@ public class MyGardenListActivity extends BaseActivity {
                 buildListView();
             }
         });
+        listView1.setOnLongClickListener(null);
     }
     // Override the back button to change the view back to the previous if it is set as one of the two
     // settings views, if not go back to previous activity

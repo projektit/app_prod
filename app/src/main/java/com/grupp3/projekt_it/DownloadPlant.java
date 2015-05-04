@@ -116,8 +116,7 @@ public class DownloadPlant extends AsyncTask<String, Void, String> {
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                TextView textView = (TextView) view;
-                Plant plant = plants[position];
+                Plant plant = allPlants.get(position);
                 Gson gson = new Gson();
                 String json = gson.toJson(plant);
                 Bundle bundle = new Bundle();

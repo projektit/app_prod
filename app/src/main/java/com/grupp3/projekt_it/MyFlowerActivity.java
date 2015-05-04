@@ -50,7 +50,6 @@
                 jsonPlant = intent.getStringExtra("jsonPlant");
                 //call show flower method
                 showFlowerInfo();
-
             }
 
 
