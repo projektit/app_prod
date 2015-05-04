@@ -82,7 +82,7 @@ public class MainActivity extends BaseActivity {
             // Set the text in the textview
             tv.setText(Html.fromHtml(html));
             // Allow scrolling
-            tv.setMovementMethod(new ScrollingMovementMethod());
+            //tv.setMovementMethod(new ScrollingMovementMethod());
             // Allow links to be clicked
             tv.setMovementMethod(LinkMovementMethod.getInstance());
         }
