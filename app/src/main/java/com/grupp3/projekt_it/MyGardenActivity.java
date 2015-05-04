@@ -25,6 +25,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class MyGardenActivity extends ActionBarActivity {
     String TAG = "com.grupp3.projekt_it";
@@ -57,6 +59,11 @@ public class MyGardenActivity extends ActionBarActivity {
         SQLPlantHelper sqlPlantHelper = new SQLPlantHelper(getApplicationContext());
 
         allPlants = sqlPlantHelper.getAllPlants(garden.getTableName());
+        Collections.sort(allPlants, new Comparator<Plant_DB>() {
+            public int compare(Plant_DB p1, Plant_DB p2) {
+                return p1.get_swe_name().compareToIgnoreCase(p2.get_swe_name());
+            }
+        });
 
         ArrayAdapter<Plant_DB> adapter = new PlantListAdapter();
         listView1.setAdapter(adapter);

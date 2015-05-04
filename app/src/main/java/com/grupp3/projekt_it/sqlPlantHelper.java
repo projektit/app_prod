@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -201,7 +202,7 @@ class SQLPlantHelper extends SQLiteOpenHelper {
     }
 
 }
-class Plant_DB{
+class Plant_DB {
     int _id;
     String _name;
     String _swe_name;
