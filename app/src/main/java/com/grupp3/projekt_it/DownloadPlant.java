@@ -143,7 +143,7 @@ public class DownloadPlant extends AsyncTask<String, Void, String> {
                 gardenItemView = layoutInflater.inflate(R.layout.search_list_item, parent, false);
             }
             //find garden to work with
-            Plant plant = allPlants.get(position);
+            final Plant plant = allPlants.get(position);
 
             //fill view
             ImageView imageView1 = (ImageView) gardenItemView.findViewById(R.id.imageView1);
@@ -151,7 +151,19 @@ public class DownloadPlant extends AsyncTask<String, Void, String> {
             TextView textView1 = (TextView) gardenItemView.findViewById(R.id.textView1);
             textView1.setText(plant.getSwe_name());
 
+            // If the add to garden button is pressed, display options to add plant to a garden
             Button addButton = (Button) gardenItemView.findViewById(R.id.add_btn);
+            addButton.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    Gson gson = new Gson();
+                    String json = gson.toJson(plant);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("jsonPlant", json);
+                    ChooseGardenFragment chooseGardenFragment = new ChooseGardenFragment();
+                    chooseGardenFragment.setArguments(bundle);
+                    chooseGardenFragment.show(fragmentManager, "disIsTag4");
+                }
+                });
 
             ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(context.CONNECTIVITY_SERVICE);
             NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();

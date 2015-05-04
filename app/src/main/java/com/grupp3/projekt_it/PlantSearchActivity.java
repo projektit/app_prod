@@ -20,6 +20,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -135,8 +136,6 @@ public class PlantSearchActivity extends BaseActivity {
         }
     }
 
-
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         //inflate menu
@@ -160,8 +159,6 @@ public class PlantSearchActivity extends BaseActivity {
         setResult(RESULT_OK, intent); // set result
         finish();
     }
-
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

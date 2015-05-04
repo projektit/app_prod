@@ -9,56 +9,40 @@
     tools:context="com.grupp3.projekt_it.mon_tips"
     android:id="@+id/backgroundColor">
 
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="95dp"
+        android:id="@+id/textView14"
+        android:background="#CCFFFFFF"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"/>
+
     <ScrollView android:id="@+id/textAreaScroller"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:scrollbars="vertical">
-
-
-    <RelativeLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
-
-
-
+        android:scrollbars="vertical"
+        android:layout_marginTop="95dp">
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:textColor="#000000"
             android:id="@+id/mon_tips_text"
             android:background="#CCFFFFFF"
-            android:paddingTop="95dp"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
             android:paddingBottom="5dp"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
-            android:scrollbars = "vertical"
-            android:layout_alignParentTop="@+id/imageView"
-
+            android:layout_alignParentTop="@+id/textView14"
             />
-
-
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/imageView"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="2dp"/>
-
-
-        </RelativeLayout>
-
-
-
     </ScrollView>
 
-
-
-
-
-
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="2dp"/>
 
 
 </RelativeLayout>

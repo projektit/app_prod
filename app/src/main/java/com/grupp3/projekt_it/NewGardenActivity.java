@@ -28,6 +28,7 @@ public class NewGardenActivity extends ActionBarActivity {
         editText1 = (EditText) findViewById(R.id.editText1);
         editText1.setBackgroundDrawable(null);
         spinner1 = (Spinner) findViewById((R.id.spinner1));
+        editText1.setBackgroundResource(R.drawable.garden_name_textbox);
         //spinner2 = (Spinner) findViewById((R.id.spinner2));
         buildSpinnerView1();
         //buildSpinnerView2();
