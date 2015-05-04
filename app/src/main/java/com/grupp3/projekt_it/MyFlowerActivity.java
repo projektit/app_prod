@@ -21,7 +21,7 @@
         import java.net.URLConnection;
 
         /*************************************************************************************************
-         * Authors: Marcus Elwin, Oscar Melin
+         * Author: Marcus Elwin
          * Projekt IT, 2015-04-27
          * Version: 1.0
          * This Activity is to be used together with MyGardenActivity
@@ -136,11 +136,6 @@
                 //Printouts for sun column
                 TextView textView10 =(TextView) findViewById(R.id.textView10);
                 textView10.setText("Sol : " +plant_db.get_sun());
-
-                //Printouts for img_url column
-                TextView textView11 =(TextView) findViewById(R.id.textView11);
-                textView11.setText("img_url : " +plant_db.get_img_url());
-                Log.i(TAG, "img_url: " + plant_db.get_img_url());
 
                 TextView textView0 =(TextView) findViewById(R.id.textView0);
                 textView0.setText("Id : " +plant_db.get_id());
