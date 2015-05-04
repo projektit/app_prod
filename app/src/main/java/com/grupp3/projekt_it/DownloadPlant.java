@@ -4,17 +4,23 @@ import android.app.Activity;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.google.gson.stream.JsonReader;
 
 import org.json.JSONObject;
 
@@ -24,6 +30,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.StringReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
@@ -38,12 +45,16 @@ public class DownloadPlant extends AsyncTask<String, Void, String> {
     ListView listView;
     FragmentManager fragmentManager;
     Activity activity;
+    ArrayList <Plant> allPlants;
+    LayoutInflater layoutInflater;
 
-    public DownloadPlant(Context context, ListView listView, FragmentManager fragmentManager, Activity activity){
+    public DownloadPlant(Context context, ListView listView, FragmentManager fragmentManager, Activity activity,
+                         LayoutInflater layoutInflater){
         this.context = context;
         this.listView = listView;
         this.fragmentManager = fragmentManager;
         this.activity = activity;
+        this.layoutInflater = layoutInflater;
     }
     @Override
     protected String doInBackground(String... urls){
@@ -67,7 +78,6 @@ public class DownloadPlant extends AsyncTask<String, Void, String> {
         }
     }
     protected void onPostExecute(String result) {
-        final Context context1 = context;
         if(result == null){
             return;
         }
@@ -75,32 +85,26 @@ public class DownloadPlant extends AsyncTask<String, Void, String> {
             Log.i(TAG, "No search match");
             return;
         }
+        JsonReader reader = new JsonReader(new StringReader(result));
+        reader.setLenient(true);
         Gson gson = new Gson();
         Log.i(TAG, result);
-        final Plant [] plants = gson.fromJson(result, Plant[].class);
-        final ArrayList <Plant> allPlants = new ArrayList<Plant>(Arrays.asList(plants));
-
-        final ArrayList<String> plantNames = new ArrayList<>();
-        for (int i = 0; i < plants.length; i++) {
-            plantNames.add(plants[i].getSwe_name());
-        }
-        String[] items = plantNames.toArray(new String[plantNames.size()]);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, R.layout.list_item, items);
+        final Plant [] plants = gson.fromJson(reader, Plant[].class);
+        allPlants = new ArrayList<Plant>(Arrays.asList(plants));
+        ArrayAdapter <Plant> adapter = new SearchListAdapter();
         listView.setAdapter(adapter);
 
         //Listen for normal click on items in list
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                TextView textView = (TextView) view;
-                String plantName = plantNames.get(position);
                 Plant plant = allPlants.get(position);
                 //create new Gson object
                 Gson gson = new Gson();
                 //create jsonPlant string of DB
                 String jsonPlant = gson.toJson(plant);
                 //create new intent for starting MyFlowerActivity.class
-                Intent intent = new Intent(context1, MyFlowerWebActivity.class);
+                Intent intent = new Intent(context, MyFlowerWebActivity.class);
                 //send flower info to MyFlowerActivity
                 intent.putExtra("jsonPlant", jsonPlant);
                 //start Activity
@@ -125,5 +129,39 @@ public class DownloadPlant extends AsyncTask<String, Void, String> {
                 return true;
             }
         });
+    }
+    private class SearchListAdapter extends ArrayAdapter <Plant> {
+        public SearchListAdapter() {
+            super(context, R.layout.search_list_item, allPlants);
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            View gardenItemView = convertView;
+            //check if given view is null, if so inflate a new one
+            if (gardenItemView == null) {
+                gardenItemView = layoutInflater.inflate(R.layout.search_list_item, parent, false);
+            }
+            //find garden to work with
+            Plant plant = allPlants.get(position);
+
+            //fill view
+            ImageView imageView1 = (ImageView) gardenItemView.findViewById(R.id.imageView1);
+
+            TextView textView1 = (TextView) gardenItemView.findViewById(R.id.textView1);
+            textView1.setText(plant.getSwe_name());
+
+            ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(context.CONNECTIVITY_SERVICE);
+            NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+            if (networkInfo != null && networkInfo.isConnected()) {
+                try {
+                    new DownloadImage(imageView1).execute(plant.getImg_url());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Log.i(TAG, "Connected but failed anyway");
+                }
+            }
+            return gardenItemView;
+        }
     }
 }

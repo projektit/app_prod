@@ -94,7 +94,8 @@ public class MyFlowerWebActivity extends ActionBarActivity {
         //convert to bitArray
         /*byte[] flowerImage = new getFlowerImage.execute("http://www.alltomtradgard.se/ImageGallery/Thumbnails/63/135763/107909_191262.jpg");*/
         //new getFlowerImage().execute("http://www.alltomtradgard.se/ImageGallery/Thumbnails/63/135763/107909_191262.jpg");
-        new getFlowerImage().execute(plant.getImg_url());
+        ImageView imageView1 = (ImageView) findViewById(R.id.imageView1);
+        new DownloadImage(imageView1).execute(plant.getImg_url());
         //Printouts for name column
         TextView textView =(TextView) findViewById(R.id.textView1);
         textView.setText("Namn : " +plant.getName());
@@ -143,65 +144,4 @@ public class MyFlowerWebActivity extends ActionBarActivity {
         textView12.setText(plant.getName());
 
     }
-
-    //Create AsyncTask by doing a private nested class to handle
-    //That extends AsyncTask
-    //network operations on other thread then main
-    //Using 2 methods from AsyncTask doInBackground & onPostExecute
-    //doInBackground is on another thread & onPostExecute on the main thread
-    private class getFlowerImage extends AsyncTask<String, Void, byte[]> {
-
-        @Override
-        //method to to in background on other thread
-        protected byte[] doInBackground(String... urls) {
-            // do above Server call here
-            try{
-                //convert URL to URL object
-                URL imageUrl = new URL(urls[0]);
-                //open connection
-                Log.i(TAG, "Get URL" + urls[0]);
-                URLConnection ucon = imageUrl.openConnection();
-                //get input stream from URL
-                //Log.i(TAG, "Open connection" + ucon.getContent());
-                InputStream is = ucon.getInputStream();
-                //Log.i(TAG, "is" + is.toString());
-                //create buffer input stream
-                BufferedInputStream bis = new BufferedInputStream(is);
-                //Log.i(TAG, "bis" + bis.toString());
-                //create buffer array
-                ByteArrayBuffer baf = new ByteArrayBuffer(500);
-                //Log.i(TAG, "baf" + baf.toString());
-                //initiate current
-                int current = 0;
-                //set current to current input stream
-                while((current = bis.read()) != -1){
-                    //build the array with those values
-                    //type cast to byte
-                    baf.append((byte)current);
-
-                }
-
-                //return the image as a byteArray
-                return baf.toByteArray();
-
-            }catch(Exception e){
-                Log.d("ImageManager", "Error: " + e.toString());
-            }
-            return null;
-        }
-
-        @Override
-        //to do on main thread again
-        protected void onPostExecute(byte[] result) {
-            //process message
-            //convert back to Image
-            Bitmap image = ImageUtilities.getImage(result);
-            //print out on ImageView
-            ImageView view = (ImageView)findViewById(R.id.imageView1);
-            view.setImageBitmap(image);
-        }
-    }
-
-
-
 }
