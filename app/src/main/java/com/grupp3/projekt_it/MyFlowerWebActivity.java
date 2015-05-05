@@ -58,6 +58,10 @@ public class MyFlowerWebActivity extends ActionBarActivity {
     }
 
 
+
+
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -76,6 +80,13 @@ public class MyFlowerWebActivity extends ActionBarActivity {
         if (id == R.id.action_settings) {
             return true;
         }
+
+
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+            return true;
+        }
+
 
         return super.onOptionsItemSelected(item);
     }

@@ -56,6 +56,7 @@ public class PlantSearchActivity extends BaseActivity {
         setContentView(R.layout.activity_plant_search);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        /*
         // saved instance not supported yet
         if (savedInstanceState == null) {
             //code if no previous search exists
@@ -63,9 +64,13 @@ public class PlantSearchActivity extends BaseActivity {
             SearchOpened = false;
             searchQuery = "";
         } else {
-            //searchQuery = savedInstance.searchQuery
+            searchQuery = savedInstanceState.getString("searchQuery");
+            Log.i(TAG, searchQuery);
             //restore previous results
         }
+        */
+
+
         // fetch resources
         searchIcon = getResources().getDrawable(R.drawable.ic_action_search);
         closeSearchIcon = getResources().getDrawable(R.drawable.ic_action_remove);
@@ -165,6 +170,17 @@ public class PlantSearchActivity extends BaseActivity {
         return true;
         //return super.onPrepareOptionsMenu(menu);
     }
+
+    /*
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        // Save the user's current game state
+        savedInstanceState.putString("searchQuery",searchQuery);
+
+        // Always call the superclass so it can save the view hierarchy state
+        super.onSaveInstanceState(savedInstanceState);
+    }
+    */
 
     @Override
     public void onBackPressed() {
