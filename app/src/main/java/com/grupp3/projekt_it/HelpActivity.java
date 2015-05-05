@@ -96,3 +96,4 @@ public class HelpActivity extends BaseActivity {
                 break;
         }
 }}
+

@@ -99,6 +99,7 @@ public class PlantSearchActivity extends BaseActivity {
             case 2:
                 break;
             case 3:
+                startActivity(new Intent(this, HelpActivity.class));
                 break;
             case 4:
                 startActivity(new Intent(this, Login.class));
