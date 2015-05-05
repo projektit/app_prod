@@ -35,6 +35,7 @@ public class MyGardenActivity extends ActionBarActivity {
     ListView listView1;
     Context context;
     ArrayList<Plant_DB> allPlants;
+    Menu menu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -142,6 +143,7 @@ public class MyGardenActivity extends ActionBarActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_my_garden, menu);
+        this.menu = menu;
         return true;
     }
 

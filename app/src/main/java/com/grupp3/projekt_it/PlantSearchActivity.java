@@ -129,7 +129,7 @@ public class PlantSearchActivity extends BaseActivity {
                 urlPlant = urlPlant.replaceAll("ä", "a");
                 urlPlant = urlPlant.replaceAll("ö", "o");
                 new DownloadPlant(context, listView, fragmentManager, activity, getLayoutInflater())
-                        .execute("http://46.101.8.10/api" + "?name=" + urlPlant);
+                        .execute("xn--trdgrdsappen-hcbq.nu" + "?name=" + urlPlant);
             } catch (Exception e) {
                 e.printStackTrace();
                 Log.i(TAG, "Connected but failed anyway");

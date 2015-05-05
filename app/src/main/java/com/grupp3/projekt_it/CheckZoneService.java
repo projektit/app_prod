@@ -64,40 +64,41 @@ public class CheckZoneService extends IntentService {
             for(Plant_DB plant_db: allPlants){
                 if("None".equals(plant_db.get_zone_min())){
                     break;
-                }
-                int plantZone = Integer.parseInt(plant_db.get_zone_min());
-                double plantMinTemp = 0;
-                if(plantZone == 1){
-                    plantMinTemp = 9;
-                }
-                if(plantZone == 2){
-                    plantMinTemp = 8;
-                }
-                if(plantZone == 3){
-                    plantMinTemp = 7;
-                }
-                if(plantZone == 4){
-                    plantMinTemp = 6;
-                }
-                if(plantZone == 5){
-                    plantMinTemp = 5;
-                }
-                if(plantZone == 6){
-                    plantMinTemp = 4;
-                }
-                if(plantZone == 7){
-                    plantMinTemp = 3;
-                }
-                if(plantZone == 8){
-                    plantMinTemp = 2;
-                }
-                if(plantZone == 9){
-                    plantMinTemp = 1;
-                }
+                }else {
+                    int plantZone = Integer.parseInt(plant_db.get_zone_min());
+                    double plantMinTemp = 0;
+                    if (plantZone == 1) {
+                        plantMinTemp = 9;
+                    }
+                    if (plantZone == 2) {
+                        plantMinTemp = 8;
+                    }
+                    if (plantZone == 3) {
+                        plantMinTemp = 7;
+                    }
+                    if (plantZone == 4) {
+                        plantMinTemp = 6;
+                    }
+                    if (plantZone == 5) {
+                        plantMinTemp = 5;
+                    }
+                    if (plantZone == 6) {
+                        plantMinTemp = 4;
+                    }
+                    if (plantZone == 7) {
+                        plantMinTemp = 3;
+                    }
+                    if (plantZone == 8) {
+                        plantMinTemp = 2;
+                    }
+                    if (plantZone == 9) {
+                        plantMinTemp = 1;
+                    }
 
-                if(plantMinTemp < gardenMinTemp){
-                    messages.add("Din " + plant_db.get_swe_name() + " i " + garden.getName()  + " fryser");
-                    counter += 1;
+                    if (plantMinTemp < gardenMinTemp) {
+                        messages.add("Din " + plant_db.get_swe_name() + " i " + garden.getName() + " fryser");
+                        counter += 1;
+                    }
                 }
             }
         }

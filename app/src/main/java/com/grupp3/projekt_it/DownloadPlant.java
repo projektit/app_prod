@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -36,6 +38,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 
 /**
  * Created by Daniel on 2015-04-21.
@@ -163,18 +166,18 @@ public class DownloadPlant extends AsyncTask<String, Void, String> {
                     chooseGardenFragment.setArguments(bundle);
                     chooseGardenFragment.show(fragmentManager, "disIsTag4");
                 }
-                });
-
-            ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(context.CONNECTIVITY_SERVICE);
-            NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-            if (networkInfo != null && networkInfo.isConnected()) {
-                try {
-                    new DownloadImage(imageView1).execute(plant.getImg_url());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    Log.i(TAG, "Connected but failed anyway");
+            });
+                ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(context.CONNECTIVITY_SERVICE);
+                NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+                if (networkInfo != null && networkInfo.isConnected()) {
+                    try {
+                        Log.i(TAG, "HEEEEEEEEERREEEEEEEEEEEE!" + plant.getSwe_name());
+                        new DownloadImage(imageView1).execute(plant.getImg_url());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        Log.i(TAG, "Connected but failed anyway");
+                    }
                 }
-            }
             return gardenItemView;
         }
     }
