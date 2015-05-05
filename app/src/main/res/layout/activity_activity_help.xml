@@ -11,40 +11,30 @@
 
     <View
         android:layout_width="fill_parent"
-        android:layout_height="95dp"
+        android:layout_height="match_parent"
         android:id="@+id/textView14"
         android:background="#CCFFFFFF"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"/>
 
-    <!--<TextView
+    <ScrollView android:id="@+id/textAreaScroller"
+android:layout_width="fill_parent"
+android:layout_height="match_parent"
+android:scrollbars="vertical">
+
+    </ScrollView>
+
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Vanliga Frågor"
         android:id="@+id/textView15"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />-->
-
-<ScrollView android:id="@+id/textAreaScroller"
-android:layout_width="fill_parent"
-android:layout_height="wrap_content"
-android:scrollbars="vertical"
-android:layout_marginTop="95dp">
-<TextView
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:textColor="#000000"
-    android:id="@+id/mon_tips_text"
-    android:background="#CCFFFFFF"
-    android:paddingLeft="20dp"
-    android:paddingRight="20dp"
-    android:paddingBottom="5dp"
-    android:layout_marginLeft="5dp"
-    android:layout_marginRight="5dp"
-    android:layout_alignParentTop="@+id/textView14"
-    />
-</ScrollView>
+        android:layout_gravity="center"
+        android:layout_below="@+id/imageView"
+        android:layout_centerHorizontal="true"
+        android:textSize="30dp"
+        android:textStyle="normal"
+        android:layout_marginTop="15dp" />
 
     <ImageView
         android:layout_width="wrap_content"
@@ -52,6 +42,15 @@ android:layout_marginTop="95dp">
         android:id="@+id/imageView"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="2dp"/>
+
+    <ExpandableListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/expandableListView"
+        android:layout_below="@+id/textView15"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="24dp" />
 
 
 </RelativeLayout>
