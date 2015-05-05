@@ -121,11 +121,6 @@ public class MyFlowerWebActivity extends ActionBarActivity {
                    load is where you specify the URL/file that the picture should be read from
                    into method specifies which imageView that should be used*/
         Picasso.with(this).load(plant.getImg_url()).into(imageView1);
-        //Printouts for name column
-        TextView textView =(TextView) findViewById(R.id.textView1);
-        textView.setText("Namn : " +plant.getName());
-
-        new DownloadImage(imageView1).execute(plant.getImg_url());
 
         // Print name of the flower
         TextView textView12 =(TextView) findViewById(R.id.flower_name);
