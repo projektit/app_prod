@@ -179,6 +179,11 @@ public class MyGardenActivity extends ActionBarActivity {
             return true;
         }
 
+        if(id == R.id.add_notification){
+            Intent intent = new Intent(this, NewNotificationActivity.class);
+            startActivityForResult(intent, 1);
+        }
+
         return super.onOptionsItemSelected(item);
     }
     @Override

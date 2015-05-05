@@ -77,6 +77,7 @@
         <item>@drawable/december</item>
     </array>
     <string name="title_activity_activity_help">activity_help</string>
+
     <string name="plant_latin_name">
     <![CDATA[<b>Latinskt Namn: </b>]]>
     </string>
@@ -102,6 +103,7 @@
     <![CDATA[<b>Sol: </b>]]>
     </string>
 
-
+    <string name="title_activity_new_notification">NewNotificationActivity</string>
+    <string name="new_notification_title">Ny Händelse</string>
 
 </resources>
