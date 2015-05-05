@@ -145,6 +145,9 @@ public class PlantSearchActivity extends BaseActivity {
                 urlPlant = urlPlant.replaceAll("å", "a");
                 urlPlant = urlPlant.replaceAll("ä", "a");
                 urlPlant = urlPlant.replaceAll("ö", "o");
+                //remove all chars execpt A to Z
+                urlPlant = urlPlant.replaceAll("[^a-zA-Z ]", "");
+                Log.i(TAG, urlPlant);
                 new DownloadPlant(context, listView, fragmentManager, activity, getLayoutInflater())
                         .execute("http://xn--trdgrdsappen-hcbq.nu/api" + "?name=" + urlPlant);
             } catch (Exception e) {
