@@ -415,11 +415,30 @@ public class MyGardenListActivity extends BaseActivity {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     if(isChecked){
-                        selectedGardens.add(garden.getName());
+                        boolean inList = false;
+                        for(String gardenName: selectedGardens){
+                            if(gardenName.equals(garden.getName())) {
+                                inList = true;
+                                break;
+                            }
+                        }
+                        if(!inList){
+                            selectedGardens.add(garden.getName());
+                        }
+                    }else if(!isChecked){
+                        boolean inList = false;
+                        for(String gardenName: selectedGardens){
+                            if(gardenName.equals(garden.getName())) {
+                                inList = true;
+                                break;
+                            }
+                        }
+                        if(inList){
+                            selectedGardens.remove(garden.getName());
+                        }
                     }
                 }
             });
-
             return gardenItemView;
         }
     }
