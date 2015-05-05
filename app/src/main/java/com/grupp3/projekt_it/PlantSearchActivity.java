@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.hardware.input.InputManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.v7.app.ActionBar;
@@ -113,9 +114,20 @@ public class PlantSearchActivity extends BaseActivity {
     }
     // method for searching stuff
     public void search(){
+
+        Log.i(TAG, "Try to close soft keyboard at search");
+        View view = this.getCurrentFocus();
+        InputMethodManager inputManager = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputManager.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+
+
+
+
         // get user search input
         Context context = getApplicationContext();
         // check network status, needs permissions see manifest
+
+
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
         if (networkInfo != null && networkInfo.isConnected()) {
@@ -129,7 +141,7 @@ public class PlantSearchActivity extends BaseActivity {
                 urlPlant = urlPlant.replaceAll("ä", "a");
                 urlPlant = urlPlant.replaceAll("ö", "o");
                 new DownloadPlant(context, listView, fragmentManager, activity, getLayoutInflater())
-                        .execute("xn--trdgrdsappen-hcbq.nu" + "?name=" + urlPlant);
+                        .execute("http://xn--trdgrdsappen-hcbq.nu/api" + "?name=" + urlPlant);
             } catch (Exception e) {
                 e.printStackTrace();
                 Log.i(TAG, "Connected but failed anyway");
@@ -194,8 +206,15 @@ public class PlantSearchActivity extends BaseActivity {
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setCustomView(R.layout.search);
 
+
+
         // Search edit text field setup.
         SearchEditText = (EditText) actionBar.getCustomView().findViewById(R.id.editTextSearch);
+
+
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT,0);
+
 
         SearchEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
