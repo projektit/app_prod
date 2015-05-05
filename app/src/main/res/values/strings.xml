@@ -77,5 +77,31 @@
         <item>@drawable/december</item>
     </array>
     <string name="title_activity_activity_help">activity_help</string>
+    <string name="plant_latin_name">
+    <![CDATA[<b>Latinskt Namn: </b>]]>
+    </string>
+    <string name="plant_category">
+    <![CDATA[<b>Kategori: </b>]]>
+    </string>
+    <string name="plant_soil">
+    <![CDATA[<b>Jord: </b>]]>
+    </string>
+    <string name="plant_min">
+    <![CDATA[<b>Min. zon: </b>]]>
+    </string>
+    <string name="plant_max">
+    <![CDATA[<b>Max zon: </b>]]>
+    </string>
+    <string name="plant_water">
+    <![CDATA[<b>Bevattning: </b>]]>
+    </string>
+    <string name="plant_misc">
+    <![CDATA[<b>Allmänt: </b>]]>
+    </string>
+    <string name="plant_sun">
+    <![CDATA[<b>Sol: </b>]]>
+    </string>
+
+
 
 </resources>

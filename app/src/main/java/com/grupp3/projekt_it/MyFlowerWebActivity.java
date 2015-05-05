@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -49,20 +50,20 @@ public class MyFlowerWebActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_flower);
+        setContentView(R.layout.activity_my_flower_web);
         //create new Intent to handle putExtra input
         Intent intent = getIntent();
-        //recives jsonPlant object
+        //receives jsonPlant object
         //that we send from MyGardenActivity
         jsonPlant = intent.getStringExtra("jsonPlant");
         //call show flower method
         showFlowerInfo();
     }
 
-
-
-
-
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu){
+        return false;
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -95,6 +96,7 @@ public class MyFlowerWebActivity extends ActionBarActivity {
 
     //method to display flower info
     public void showFlowerInfo(){
+
         //get info from jsonPLant
         Gson gson = new Gson();
         //convert PLANT again
@@ -108,6 +110,7 @@ public class MyFlowerWebActivity extends ActionBarActivity {
         /*byte[] flowerImage = new getFlowerImage.execute("http://www.alltomtradgard.se/ImageGallery/Thumbnails/63/135763/107909_191262.jpg");*/
         //new getFlowerImage().execute("http://www.alltomtradgard.se/ImageGallery/Thumbnails/63/135763/107909_191262.jpg");
         ImageView imageView1 = (ImageView) findViewById(R.id.imageView1);
+
         //new DownloadImage(imageView1).execute(plant.getImg_url());
         /* Picasso is a 3rd party library that takes care of image loading in android applications
                  * With the library re-use of adapters is automatically detected and previous downloads are
@@ -122,48 +125,42 @@ public class MyFlowerWebActivity extends ActionBarActivity {
         TextView textView =(TextView) findViewById(R.id.textView1);
         textView.setText("Namn : " +plant.getName());
 
-        //Printouts for swe_name column
-        TextView textView2 =(TextView) findViewById(R.id.textView2);
-        textView2.setText("Svenskt Namn: " +plant.getSwe_name());
+        new DownloadImage(imageView1).execute(plant.getImg_url());
+
+        // Print name of the flower
+        TextView textView12 =(TextView) findViewById(R.id.flower_name);
+        textView12.setText(plant.getSwe_name());
 
         //Printouts for latin name column
-        TextView textView3 =(TextView) findViewById(R.id.textView3);
-        textView3.setText("Latinskt Namn: " +plant.getLatin_name());
+        TextView textView3 =(TextView) findViewById(R.id.latin_name);
+        textView3.setText(Html.fromHtml(getString(R.string.plant_latin_name)) + plant.getLatin_name());
 
         //Printouts for type column
-        TextView textView4 =(TextView) findViewById(R.id.textView4);
-        textView4.setText("Kategori: " +plant.getType());
+        TextView textView4 =(TextView) findViewById(R.id.category);
+        textView4.setText(Html.fromHtml(getString(R.string.plant_category)) + plant.getType());
 
         //Printouts for soil column
-        TextView textView5 =(TextView) findViewById(R.id.textView5);
-        textView5.setText("Jord: " +plant.getSoil());
+        TextView textView5 =(TextView) findViewById(R.id.soil);
+        textView5.setText(Html.fromHtml(getString(R.string.plant_soil)) + plant.getSoil());
 
         //Printouts for zone_min column
-        TextView textView6 =(TextView) findViewById(R.id.textView6);
-        textView6.setText("Minsta Zonen: " +plant.getZone_min());
+        TextView textView6 =(TextView) findViewById(R.id.min_zone);
+        textView6.setText(Html.fromHtml(getString(R.string.plant_min)) + plant.getZone_min());
 
         //Printouts for zone max column
-        TextView textView7 =(TextView) findViewById(R.id.textView7);
-        textView7.setText("Största Zonen: " +plant.getZone_max());
+        TextView textView7 =(TextView) findViewById(R.id.max_zone);
+        textView7.setText(Html.fromHtml(getString(R.string.plant_max)) + plant.getZone_max());
 
         //Printouts for water column
-        TextView textView8 =(TextView) findViewById(R.id.textView8);
-        textView8.setText("Bevattning: " +plant.getWater());
-
-        //Printouts for misc column
-        TextView textView9 =(TextView) findViewById(R.id.textView9);
-        textView9.setText("Allmänt : " +plant.getMisc());
+        TextView textView8 =(TextView) findViewById(R.id.watering);
+        textView8.setText(Html.fromHtml(getString(R.string.plant_water)) + plant.getWater());
 
         //Printouts for sun column
-        TextView textView10 =(TextView) findViewById(R.id.textView10);
-        textView10.setText("Sol : " +plant.getSun());
+        TextView textView10 =(TextView) findViewById(R.id.sun);
+        textView10.setText(Html.fromHtml(getString(R.string.plant_sun)) + plant.getSun());
 
-        //Printouts for _id column
-        TextView textView0 =(TextView) findViewById(R.id.textView0);
-        textView0.setText("Id : " +plant.getId());
-
-        TextView textView12 =(TextView) findViewById(R.id.textView12);
-        textView12.setText(plant.getName());
-
+        //Printouts for misc column
+        TextView textView9 =(TextView) findViewById(R.id.misc);
+        textView9.setText(Html.fromHtml(plant.getMisc()));
     }
 }

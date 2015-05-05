@@ -1,3 +1,7 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="fill_parent"
+    android:layout_width="fill_parent">
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:padding="5dp"
@@ -7,131 +11,116 @@
     tools:context="com.grupp3.projekt_it.MyFlowerWebActivity">
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
         android:adjustViewBounds="true"
-        android:maxWidth="190dp"
-        android:maxHeight="190dp"
         android:id="@+id/imageView1"
+        android:layout_below="@+id/flower_name"
         android:layout_marginTop="10dp"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentTop="true"
+        android:layout_marginLeft="195dp"/>
 
-        />
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:id="@+id/flower_name"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:gravity="center"/>
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/linearLayout1">
+        android:id="@+id/linearLayout1"
+        android:layout_below="@id/flower_name">
 
         <TextView
+            android:textColor="#000000"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Flower"
-            android:id="@+id/textView12"
-            android:layout_alignParentTop="true"
+            android:id="@+id/latin_name"
+            android:layout_above="@+id/textView4"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:layout_alignParentStart="true"
+            android:maxWidth="170dp"/>
 
         <TextView
+            android:textColor="#000000"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="New Text"
-            android:id="@+id/textView0"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/textView10"
-            android:layout_alignParentLeft="true" />
-
-        <TextView android:text="@string/hello_world" android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/textView1"
-            android:layout_below="@+id/textView12"
+            android:id="@+id/category"
+            android:layout_below="@+id/linearLayout1"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:layout_alignParentStart="true"
+            android:maxWidth="170dp"/>
 
         <TextView
+            android:textColor="#000000"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="New Text"
-            android:id="@+id/textView2"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/textView1"
-            android:layout_alignParentLeft="true" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="New Text"
-            android:id="@+id/textView3"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/textView2"
-            android:layout_alignParentLeft="true" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="New Text"
-            android:id="@+id/textView4"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/textView3"
-            android:layout_alignParentLeft="true" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="New Text"
-            android:id="@+id/textView5"
-            android:layout_alignParentStart="true"
+            android:id="@+id/soil"
             android:layout_below="@+id/textView4"
-            android:layout_alignParentLeft="true" />
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:maxWidth="170dp"/>
 
         <TextView
+            android:textColor="#000000"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="New Text"
-            android:id="@+id/textView6"
+            android:id="@+id/min_zone"
+            android:layout_alignBottom="@+id/button"
+            android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_below="@+id/textView5"
-            android:layout_alignParentLeft="true" />
+            android:maxWidth="170dp"/>
 
         <TextView
+            android:textColor="#000000"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="New Text"
-            android:id="@+id/textView7"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/textView6"
-            android:layout_alignParentLeft="true" />
+            android:id="@+id/max_zone"
+            android:layout_above="@+id/textView8"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
 
         <TextView
+            android:textColor="#000000"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="New Text"
-            android:id="@+id/textView8"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/textView9"
-            android:layout_alignParentLeft="true" />
+            android:id="@+id/watering"
+            android:layout_above="@+id/textView9"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
 
         <TextView
+            android:textColor="#000000"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="New Text"
-            android:id="@+id/textView9"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/textView7"
-            android:layout_alignParentLeft="true" />
+            android:id="@+id/sun"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
 
         <TextView
+            android:textColor="#000000"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="New Text"
-            android:id="@+id/textView10"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/textView8"
-            android:layout_alignParentLeft="true" />
+            android:id="@+id/misc"
+            android:layout_above="@+id/textView10"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
 
     </LinearLayout>
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Button"
+        android:id="@+id/button"
+        android:layout_below="@+id/linearLayout1"
+        android:layout_alignRight="@+id/imageView1"
+        android:layout_alignEnd="@+id/imageView1" />
+
 </RelativeLayout>
+</ScrollView>

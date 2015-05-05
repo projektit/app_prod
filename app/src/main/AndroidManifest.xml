@@ -91,7 +91,7 @@
         </activity>
         <activity
             android:name=".MyFlowerWebActivity"
-            android:label="@string/title_activity_my_flower_web"
+            android:label=""
             android:parentActivityName=".PlantSearchActivity"
             android:theme="@style/AppTheme" >
         </activity>
