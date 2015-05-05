@@ -26,26 +26,39 @@ public class MonthlyUpdateService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
-        builder.setAutoCancel(true);
-        builder.setContentTitle("Månadens tips är här");
-        builder.setContentText("Klicka för mer att få veta mer");
-        builder.setSmallIcon(R.drawable.app_icon);
 
-        Intent intent1 = new Intent(this, MainActivity.class);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent1, PendingIntent.FLAG_UPDATE_CURRENT);
-        builder.setContentIntent(pendingIntent);
-
-        Notification notification = builder.build();
         SharedPreferences getPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-        boolean vibrate = getPrefs.getBoolean("notification_vibration", true);
-        if(vibrate == true) {
-            notification.defaults |= Notification.DEFAULT_VIBRATE;
-        }
-        notification.defaults |= Notification.DEFAULT_LIGHTS;
-        NotificationManager manager = (NotificationManager) this.getSystemService(NOTIFICATION_SERVICE);
-        manager.notify(1, notification);
+        boolean notifi = getPrefs.getBoolean("notification_on", true);
 
-        OnBootReceiver.setMonthlyAlarms(getApplicationContext());
+        if (notifi == true ) {
+
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
+            builder.setAutoCancel(true);
+            builder.setContentTitle("Månadens tips är här");
+            builder.setContentText("Klicka för mer att få veta mer");
+            builder.setSmallIcon(R.drawable.app_icon);
+
+            Intent intent1 = new Intent(this, MainActivity.class);
+            PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent1, PendingIntent.FLAG_UPDATE_CURRENT);
+            builder.setContentIntent(pendingIntent);
+
+            Notification notification = builder.build();
+
+            boolean vibrate = getPrefs.getBoolean("notification_vibration", true);
+            if (vibrate == true) {
+                notification.defaults |= Notification.DEFAULT_VIBRATE;
+            }
+
+            boolean sound = getPrefs.getBoolean("notification_sound", true);
+            if (sound == true) {
+                notification.defaults |= Notification.DEFAULT_SOUND;
+            }
+
+            notification.defaults |= Notification.DEFAULT_LIGHTS;
+            NotificationManager manager = (NotificationManager) this.getSystemService(NOTIFICATION_SERVICE);
+            manager.notify(1, notification);
+
+            OnBootReceiver.setMonthlyAlarms(getApplicationContext());
+        }
     }
 }
