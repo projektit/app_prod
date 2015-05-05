@@ -31,7 +31,7 @@ public class DownloadImage extends AsyncTask <String, Void, byte[]>{
             //convert URL to URL object
             URL imageUrl = new URL(urls[0]);
             //open connection
-            Log.i(TAG, "Get URL" + urls[0]);
+            //Log.i(TAG, "Get URL" + urls[0]);
             URLConnection ucon = imageUrl.openConnection();
             //get input stream from URL
             //Log.i(TAG, "Open connection" + ucon.getContent());
