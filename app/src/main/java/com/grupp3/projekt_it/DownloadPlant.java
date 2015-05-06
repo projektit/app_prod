@@ -84,12 +84,20 @@
         }
         protected void onPostExecute(String result) {
             if(result == null){
-                return;
+              //display toast with info if input string
+              //doesn't match any entry in the database
+              Toast.makeText(this.context, "Inget resultat hittades, försök med något annat!",Toast.LENGTH_LONG).show();
+              //if previous search have been made and displayed entries
+              //hide these when user write a name that doesn't exisit
+              listView.setVisibility(View.GONE);
+              return;
             }
             if(result.equals("")){
                 Log.i(TAG, "No search match");
                 return;
             }
+            //Show listview again
+            listView.setVisibility(View.VISIBLE);
             JsonReader reader = new JsonReader(new StringReader(result));
             reader.setLenient(true);
             Gson gson = new Gson();
@@ -155,6 +163,7 @@
                 TextView textView1 = (TextView) gardenItemView.findViewById(R.id.textView1);
                 textView1.setText(plant.getSwe_name());
 
+
                 // If the add to garden button is pressed, display options to add plant to a garden
                 Button addButton = (Button) gardenItemView.findViewById(R.id.add_btn);
                 addButton.setOnClickListener(new View.OnClickListener() {
@@ -191,5 +200,8 @@
                     }
                 return gardenItemView;
             }
+
         }
+
+
     }
