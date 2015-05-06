@@ -21,6 +21,7 @@ public class DatePickerFragment extends DialogFragment {
     }
 
     private int year,month,day;
+
     @Override
     public void setArguments (Bundle args){
         super.setArguments(args);
@@ -32,6 +33,5 @@ public class DatePickerFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog (Bundle savedInstanceState){
         return new DatePickerDialog(getActivity(), ondateSet, year, month, day);
-
     }
 }

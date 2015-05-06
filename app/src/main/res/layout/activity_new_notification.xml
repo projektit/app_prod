@@ -59,8 +59,47 @@
         android:layout_height="wrap_content"
         android:text="Ange datum"
         android:onClick="showDatePickerDialog"
-        android:layout_below="@id/edit_notification_text"/>
+        android:layout_alignBottom="@+id/text_date"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="20dp"/>
 
+    <TextView
+        android:layout_width="75dp"
+        android:layout_height="35dp"
+        android:background="#FFFFFF"
+        android:id="@+id/text_date"
+        android:layout_centerVertical="true"
+        android:layout_alignRight="@+id/edit_notification_text"
+        android:layout_alignEnd="@+id/edit_notification_text" />
+
+    <Button
+        android:id="@+id/timePicker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ange tid"
+        android:onClick="showTimePickerDialog"
+        android:layout_below="@+id/datePicker"
+        android:layout_alignRight="@+id/title_notification"
+        android:layout_alignEnd="@+id/title_notification"
+        android:layout_marginTop="44dp" />
+
+    <TextView
+        android:layout_width="65dp"
+        android:layout_height="35dp"
+        android:background="#FFFFFF"
+        android:id="@+id/text_time"
+        android:layout_alignBottom="@+id/timePicker"
+        android:layout_alignLeft="@+id/text_date"
+        android:layout_alignStart="@+id/text_date" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Spara"
+        android:id="@+id/save_notification"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
 
 
 </RelativeLayout>

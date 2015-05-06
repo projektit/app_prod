@@ -1,7 +1,9 @@
 package com.grupp3.projekt_it;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.app.TimePickerDialog;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -12,6 +14,8 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import java.util.Calendar;
 import android.view.View;
+import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 
@@ -20,6 +24,8 @@ public class NewNotificationActivity extends ActionBarActivity {
     EditText editText;
     EditText editText2;
     Button button;
+    TextView textDate;
+    TextView textTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +35,8 @@ public class NewNotificationActivity extends ActionBarActivity {
         editText.setBackgroundResource(R.drawable.garden_name_textbox);
         editText2 = (EditText) findViewById(R.id.edit_notification_text);
         editText2.setBackgroundResource(R.drawable.garden_name_textbox);
+        textDate = (TextView) findViewById(R.id.text_date);
+        textTime = (TextView) findViewById(R.id.text_time);
         button = (Button) findViewById(R.id.datePicker);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -36,6 +44,15 @@ public class NewNotificationActivity extends ActionBarActivity {
                 showDatePicker();
             }
         });
+
+        button = (Button) findViewById(R.id.timePicker);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showTimePicker();
+            }
+        });
+
     }
 
     private void showDatePicker(){
@@ -52,9 +69,36 @@ public class NewNotificationActivity extends ActionBarActivity {
     DatePickerDialog.OnDateSetListener ondate = new DatePickerDialog.OnDateSetListener() {
         @Override
         public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-            Toast.makeText(NewNotificationActivity.this, String.valueOf(year)+ "-" + String.valueOf(monthOfYear) + "-" + String.valueOf(dayOfMonth), Toast.LENGTH_LONG).show();
+            textDate.setText(new StringBuilder().append(padding_str(dayOfMonth))
+                            .append("-").append(padding_str(monthOfYear+1)).append("-").append(padding_str(year)).append(" "));
         }
     };
+
+    private void showTimePicker(){
+        TimePickerFragment time = new TimePickerFragment();
+        Calendar calendar = Calendar.getInstance();
+        Bundle args = new Bundle();
+        args.putInt("hour", calendar.get(Calendar.HOUR_OF_DAY));
+        args.putInt("minute", calendar.get(Calendar.MINUTE));
+        time.setArguments(args);
+        time.setCallBack(ontime);
+        time.show(getFragmentManager(), "Time Picker");
+    }
+
+    TimePickerDialog.OnTimeSetListener ontime = new TimePickerDialog.OnTimeSetListener() {
+        @Override
+        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+            textTime.setText(new StringBuilder().append(padding_str(hourOfDay)).append(":").append(padding_str(minute)));
+        }
+    };
+
+    private static String padding_str(int c) {
+        if (c >= 10)
+            return String.valueOf(c);
+        else
+            return "0" + String.valueOf(c);
+    }
+
 
 
     @Override
