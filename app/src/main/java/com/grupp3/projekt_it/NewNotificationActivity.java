@@ -23,7 +23,9 @@ public class NewNotificationActivity extends ActionBarActivity {
 
     EditText editText;
     EditText editText2;
-    Button button;
+    Button setTime;
+    Button setDate;
+    Button save;
     TextView textDate;
     TextView textTime;
 
@@ -33,23 +35,33 @@ public class NewNotificationActivity extends ActionBarActivity {
         setContentView(R.layout.activity_new_notification);
         editText = (EditText) findViewById(R.id.edit_notification_title);
         editText.setBackgroundResource(R.drawable.garden_name_textbox);
+        String notificationTitle = editText.getText().toString();
         editText2 = (EditText) findViewById(R.id.edit_notification_text);
         editText2.setBackgroundResource(R.drawable.garden_name_textbox);
+        String notificationText = editText2.getText().toString();
         textDate = (TextView) findViewById(R.id.text_date);
         textTime = (TextView) findViewById(R.id.text_time);
-        button = (Button) findViewById(R.id.datePicker);
-        button.setOnClickListener(new View.OnClickListener() {
+        setDate = (Button) findViewById(R.id.datePicker);
+        setDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showDatePicker();
             }
         });
 
-        button = (Button) findViewById(R.id.timePicker);
-        button.setOnClickListener(new View.OnClickListener() {
+        setTime = (Button) findViewById(R.id.timePicker);
+        setTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showTimePicker();
+            }
+        });
+
+        save = (Button) findViewById(R.id.save_notification);
+        save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
             }
         });
 
@@ -99,8 +111,6 @@ public class NewNotificationActivity extends ActionBarActivity {
             return "0" + String.valueOf(c);
     }
 
-
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -122,6 +132,8 @@ public class NewNotificationActivity extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+
 
     @Override
     public boolean onPrepareOptionsMenu (Menu menu) {
