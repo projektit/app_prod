@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.grupp3.projekt_it" >
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -11,7 +12,8 @@
         android:allowBackup="true"
         android:icon="@mipmap/app_icon_launch"
         android:label="@string/app_name"
-        android:theme="@style/Hamburger" >
+        android:theme="@style/Hamburger"
+        tools:replace="android:icon,android:theme">
         <activity
             android:name=".Init"
             android:label="@string/title_activity_init"

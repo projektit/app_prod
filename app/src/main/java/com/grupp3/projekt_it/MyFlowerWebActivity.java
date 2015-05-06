@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.Html;
+import android.text.Spanned;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,6 +26,8 @@ import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
+
+import uk.co.deanwild.flowtextview.FlowTextView;
 
 /*************************************************************************************************
  * Author: Marcus Elwin
@@ -109,7 +112,7 @@ public class MyFlowerWebActivity extends ActionBarActivity {
         //convert to bitArray
         /*byte[] flowerImage = new getFlowerImage.execute("http://www.alltomtradgard.se/ImageGallery/Thumbnails/63/135763/107909_191262.jpg");*/
         //new getFlowerImage().execute("http://www.alltomtradgard.se/ImageGallery/Thumbnails/63/135763/107909_191262.jpg");
-        ImageView imageView1 = (ImageView) findViewById(R.id.imageView1);
+        ImageView imageView1 = (ImageView) findViewById(R.id.flower_picture);
 
         //new DownloadImage(imageView1).execute(plant.getImg_url());
         /* Picasso is a 3rd party library that takes care of image loading in android applications
@@ -125,7 +128,7 @@ public class MyFlowerWebActivity extends ActionBarActivity {
         // Print name of the flower
         TextView textView12 =(TextView) findViewById(R.id.flower_name);
         textView12.setText(plant.getSwe_name());
-
+        /*
         //Printouts for latin name column
         TextView textView3 =(TextView) findViewById(R.id.latin_name);
         textView3.setText(Html.fromHtml(getString(R.string.plant_latin_name)) + plant.getLatin_name());
@@ -153,9 +156,13 @@ public class MyFlowerWebActivity extends ActionBarActivity {
         //Printouts for sun column
         TextView textView10 =(TextView) findViewById(R.id.sun);
         textView10.setText(Html.fromHtml(getString(R.string.plant_sun)) + plant.getSun());
-
+        */
         //Printouts for misc column
-        TextView textView9 =(TextView) findViewById(R.id.misc);
-        textView9.setText(Html.fromHtml(plant.getMisc()));
+        //TextView textView9 =(TextView) findViewById(R.id.misc);
+        //textView9.setText(Html.fromHtml(plant.getMisc()));
+        FlowTextView flowTextView = (FlowTextView) findViewById(R.id.ftv);
+        Spanned html = Html.fromHtml(plant.getMisc());
+        flowTextView.setTextSize(35);
+        flowTextView.setText(html);
     }
 }
