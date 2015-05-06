@@ -20,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.squareup.picasso.Picasso;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -229,7 +230,13 @@ public class MyGardenActivity extends ActionBarActivity {
             NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
             if (networkInfo != null && networkInfo.isConnected()) {
                 try {
-                    new DownloadImage(imageView1).execute(plant.get_img_url());
+                    /*Picasso.with(context)
+                            .load(plant.get_img_url())
+                            .resize(50, 50)
+                            .centerCrop()
+                            .into(imageView1);*/
+                    Picasso.with(context).load(plant.get_img_url()).into(imageView1);
+
                 } catch (Exception e) {
                     e.printStackTrace();
                     Log.i(TAG, "Connected but failed anyway");

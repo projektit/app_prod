@@ -192,6 +192,11 @@
                        load is where you specify the URL/file that the picture should be read from
                        into method specifies which imageView that should be used*/
                             Picasso.with(context).load(plant.getImg_url()).into(imageView1);
+                            /*Picasso.with(context)
+                            .load(plant.getImg_url())
+                            .resize(50, 50)
+                            .centerCrop()
+                            .into(imageView1);*/
 
                         } catch (Exception e) {
                             e.printStackTrace();
