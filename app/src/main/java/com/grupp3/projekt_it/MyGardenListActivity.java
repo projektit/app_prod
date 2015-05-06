@@ -161,8 +161,6 @@ public class MyGardenListActivity extends BaseActivity {
 
                 gardenUtil.saveGarden(garden, context);
                 OnBootReceiver.setForecastAlarms(getApplicationContext());
-                OnBootReceiver.setMonthlyAlarms(getApplicationContext());
-                OnBootReceiver.setZoneAlarms(getApplicationContext());
                 buildListView();
             }
         }

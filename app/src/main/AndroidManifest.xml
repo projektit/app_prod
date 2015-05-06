@@ -106,6 +106,10 @@
             android:name=".CheckZoneService"
             android:exported="false" >
         </service>
+        <service
+            android:name=".UserNotificationService"
+            android:exported="false" >
+        </service>
 
         <activity
             android:name=".HelpActivity"

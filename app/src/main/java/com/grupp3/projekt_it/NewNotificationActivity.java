@@ -82,13 +82,10 @@ public class NewNotificationActivity extends ActionBarActivity {
                         }
                         GardenUtil gardenUtil = new GardenUtil();
                         int id = gardenUtil.getNotificationNumber(context);
-                        Log.i(TAG, "ok2");
                         gardenUtil.setNotificationNumber(context, id+1);
-                        Log.i(TAG, "ok3");
                         UserNotification userNotification = new UserNotification(id, year, month, day, hour, minute, title, text);
-                        Log.i(TAG, "ok4");
                         gardenUtil.saveUserNotification(userNotification, context);
-                        Log.i(TAG, "ok5");
+                        OnBootReceiver.setUserAlarms(getApplicationContext());
                     }
                 }
             }

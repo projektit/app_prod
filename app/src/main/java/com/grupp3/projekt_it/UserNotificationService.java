@@ -5,37 +5,41 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
-import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 
 /**
- * An {@link IntentService} subclass for handling asynchronous task requests in
- * a service on a separate handler thread.
- * <p/>
- * TODO: Customize class - update intent actions, extra parameters and static
- * helper methods.
+ * Created by Daniel on 2015-05-06.
  */
-public class MonthlyUpdateService extends IntentService {
+public class UserNotificationService  extends IntentService {
     String TAG = "com.grupp3.projekt_it";
 
-    public MonthlyUpdateService() {
-        super("MonthlyUpdateService");
+    public UserNotificationService() {
+        super("UserNotificationService");
     }
 
     @Override
     protected void onHandleIntent(Intent intent) {
-
         SharedPreferences getPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         boolean notifi = getPrefs.getBoolean("notification_on", true);
 
         if (notifi == true ) {
 
+            Bundle bundle = intent.getExtras();
+            if(bundle == null) {
+                return;
+            }
+            int id =  bundle.getInt("Notification file id");
+            GardenUtil gardenUtil = new GardenUtil();
+            UserNotification userNotification = gardenUtil.loadUserNotification(id, getApplicationContext());
+
             NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
             builder.setAutoCancel(true);
-            builder.setContentTitle("Månadens tips är här");
-            builder.setContentText("Klicka för mer att få veta mer");
+            builder.setContentTitle(userNotification.getTitle());
+            builder.setContentText(userNotification.getText());
             builder.setSmallIcon(R.drawable.app_icon);
 
             Intent intent1 = new Intent(this, MainActivity.class);
@@ -56,9 +60,10 @@ public class MonthlyUpdateService extends IntentService {
 
             notification.defaults |= Notification.DEFAULT_LIGHTS;
             NotificationManager manager = (NotificationManager) this.getSystemService(NOTIFICATION_SERVICE);
-            manager.notify(1, notification);
+            manager.notify(5, notification);
 
-            OnBootReceiver.setMonthlyAlarms(getApplicationContext());
+            GardenUtil gardenUtil1 = new GardenUtil();
+            gardenUtil.deleteUserNotification(userNotification.getId(), getApplicationContext());
         }
     }
 }

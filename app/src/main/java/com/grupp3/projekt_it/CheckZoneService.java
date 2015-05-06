@@ -28,7 +28,7 @@ public class CheckZoneService extends IntentService {
     String TAG = "com.grupp3.projekt_it";
 
     public CheckZoneService() {
-        super("GardenService");
+        super("CheckZoneService");
     }
 
     @Override
@@ -61,10 +61,8 @@ public class CheckZoneService extends IntentService {
             SQLPlantHelper sqlPlantHelper = new SQLPlantHelper(getApplicationContext());
             ArrayList <Plant_DB> allPlants = sqlPlantHelper.getAllPlants(garden.getTableName());
 
-            for(Plant_DB plant_db: allPlants){
-                if("None".equals(plant_db.get_zone_min())){
-                    break;
-                }else {
+            for(Plant_DB plant_db: allPlants) {
+                if (!"None".equals(plant_db.get_zone_min())) {
                     int plantZone = Integer.parseInt(plant_db.get_zone_min());
                     double plantMinTemp = 0;
                     if (plantZone == 1) {
@@ -100,6 +98,7 @@ public class CheckZoneService extends IntentService {
                         counter += 1;
                     }
                 }
+
             }
         }
         if(counter > 0) {
