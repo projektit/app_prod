@@ -4,9 +4,11 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
@@ -18,9 +20,11 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+
 
 public class NewNotificationActivity extends ActionBarActivity {
-
+    String TAG = "com.grupp3.projekt_it";
     EditText editText;
     EditText editText2;
     Button setTime;
@@ -28,7 +32,14 @@ public class NewNotificationActivity extends ActionBarActivity {
     Button save;
     TextView textDate;
     TextView textTime;
-
+    Context context;
+    int year = -1;
+    int month = -1;
+    int day = -1;
+    int hour = -1;
+    int minute = -1;
+    String title = null;
+    String text = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +48,7 @@ public class NewNotificationActivity extends ActionBarActivity {
         editText.setBackgroundResource(R.drawable.garden_name_textbox);
         String notificationTitle = editText.getText().toString();
         editText2 = (EditText) findViewById(R.id.edit_notification_text);
+        context = getApplicationContext();
         editText2.setBackgroundResource(R.drawable.garden_name_textbox);
         String notificationText = editText2.getText().toString();
         textDate = (TextView) findViewById(R.id.text_date);
@@ -61,7 +73,24 @@ public class NewNotificationActivity extends ActionBarActivity {
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if(year != -1 && month != -1 && day != -1 && hour != -1 && minute != -1 ){
+                    title = editText.getText().toString();
+                    text = editText2.getText().toString();
+                    if(title != null && !"".equals(title)){
+                        if(text == null){
+                            text = "";
+                        }
+                        GardenUtil gardenUtil = new GardenUtil();
+                        int id = gardenUtil.getNotificationNumber(context);
+                        Log.i(TAG, "ok2");
+                        gardenUtil.setNotificationNumber(context, id+1);
+                        Log.i(TAG, "ok3");
+                        UserNotification userNotification = new UserNotification(id, year, month, day, hour, minute, title, text);
+                        Log.i(TAG, "ok4");
+                        gardenUtil.saveUserNotification(userNotification, context);
+                        Log.i(TAG, "ok5");
+                    }
+                }
             }
         });
 
@@ -80,9 +109,12 @@ public class NewNotificationActivity extends ActionBarActivity {
     }
     DatePickerDialog.OnDateSetListener ondate = new DatePickerDialog.OnDateSetListener() {
         @Override
-        public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+        public void onDateSet(DatePicker view, int yearOfCentury, int monthOfYear, int dayOfMonth) {
+            year = yearOfCentury;
+            month = monthOfYear;
+            day = monthOfYear;
             textDate.setText(new StringBuilder().append(padding_str(dayOfMonth))
-                            .append("-").append(padding_str(monthOfYear+1)).append("-").append(padding_str(year)).append(" "));
+                            .append("-").append(padding_str(monthOfYear+1)).append("-").append(padding_str(yearOfCentury)).append(" "));
         }
     };
 
@@ -99,7 +131,9 @@ public class NewNotificationActivity extends ActionBarActivity {
 
     TimePickerDialog.OnTimeSetListener ontime = new TimePickerDialog.OnTimeSetListener() {
         @Override
-        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+        public void onTimeSet(TimePicker view, int hourOfDay, int minuteOfDay) {
+            hour = hourOfDay;
+            minute = minuteOfDay;
             textTime.setText(new StringBuilder().append(padding_str(hourOfDay)).append(":").append(padding_str(minute)));
         }
     };

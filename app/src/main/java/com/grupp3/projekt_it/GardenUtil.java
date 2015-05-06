@@ -75,13 +75,51 @@ public class GardenUtil {
         context.deleteFile(gardenName + ".grdn");
     }
     public int getTableNumber(Context context){
+    String [] files = context.fileList();
+    List <String> files2 = Arrays.asList(files);
+    if(files2.contains("number.tbl")){
+        String file = "";
+        FileInputStream fileInputStream;
+        try{
+            fileInputStream = context.openFileInput("number.tbl");
+            byte[] input = new byte[fileInputStream.available()];
+            while(fileInputStream.read(input) != -1){
+                file += new String(input);
+            }
+            fileInputStream.close();
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        setTableNumber(context, Integer.parseInt(file));
+        return Integer.parseInt(file);
+    }else{
+        setTableNumber(context, 1);
+        return 1;
+    }
+}
+    public void setTableNumber(Context context, int version){
+        String version2 = Integer.toString(version);
+        try {
+            FileOutputStream fileOutputStream = context.openFileOutput("number.tbl", Context.MODE_PRIVATE);
+            fileOutputStream.write(version2.getBytes());
+            fileOutputStream.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    public int getNotificationNumber(Context context){
         String [] files = context.fileList();
         List <String> files2 = Arrays.asList(files);
-        if(files2.contains("number.tbl")){
+        if(files2.contains("number.notif")){
             String file = "";
             FileInputStream fileInputStream;
             try{
-                fileInputStream = context.openFileInput("number.tbl");
+                fileInputStream = context.openFileInput("number.notif");
                 byte[] input = new byte[fileInputStream.available()];
                 while(fileInputStream.read(input) != -1){
                     file += new String(input);
@@ -100,10 +138,10 @@ public class GardenUtil {
             return 1;
         }
     }
-    public void setTableNumber(Context context, int version){
+    public void setNotificationNumber(Context context, int version){
         String version2 = Integer.toString(version);
         try {
-            FileOutputStream fileOutputStream = context.openFileOutput("number.tbl", Context.MODE_PRIVATE);
+            FileOutputStream fileOutputStream = context.openFileOutput("number.notif", Context.MODE_PRIVATE);
             fileOutputStream.write(version2.getBytes());
             fileOutputStream.close();
         } catch (FileNotFoundException e) {
@@ -111,6 +149,60 @@ public class GardenUtil {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    public void saveUserNotification(UserNotification userNotification, Context context){
+        Gson gson = new Gson();
+
+        String json = gson.toJson(userNotification);
+        try {
+            FileOutputStream fileOutputStream = context.openFileOutput(userNotification.getId() + ".not", Context.MODE_PRIVATE);
+            fileOutputStream.write(json.getBytes());
+            fileOutputStream.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    public UserNotification loadUserNotification(int id, Context context){
+        String json = "";
+        FileInputStream fileInputStream;
+        try{
+            fileInputStream = context.openFileInput(Integer.toString(id) + ".not");
+            byte[] input = new byte[fileInputStream.available()];
+            while(fileInputStream.read(input) != -1){
+                json += new String(input);
+            }
+            fileInputStream.close();
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        //convert json to java object
+        Gson gson = new Gson();
+
+        UserNotification userNotification = gson.fromJson(json, UserNotification.class);
+        return userNotification;
+    }
+    public ArrayList<UserNotification> loadAllUserNotifications(Context context){
+        String [] files = context.fileList();
+        ArrayList <String> desiredFiles = new ArrayList<>();
+        for(int i = 0; i < files.length; i ++){
+            if (files[i].endsWith(".not")){
+                desiredFiles.add(files[i].substring(0, files[i].length()-4));
+            }
+        }
+        ArrayList <UserNotification> allUserNotifications = new ArrayList<>();
+        for(String desiredFile: desiredFiles){
+            allUserNotifications.add(loadUserNotification(Integer.parseInt(desiredFile), context));
+        }
+        return allUserNotifications;
+    }
+    public void deleteUserNotification(int id, Context context){
+        UserNotification userNotification = loadUserNotification(id, context);
+        context.deleteFile(id + ".not");
     }
 }
 
