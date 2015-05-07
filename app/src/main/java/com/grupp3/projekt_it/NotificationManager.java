@@ -133,7 +133,16 @@ public class NotificationManager extends BaseActivity{
             TextView textView2 = (TextView) notificationItemView.findViewById(R.id.text_text);
             textView2.setText(notification.getText());
 
+            TextView textView3 = (TextView) notificationItemView.findViewById(R.id.text_notification_date);
+            textView3.setText(padding_str(notification.getDay()) + "-" + padding_str(notification.getMonth()) + "-" + notification.getYear());
+
             return notificationItemView;
         }
+    }
+    private static String padding_str(int c) {
+        if (c >= 10)
+            return String.valueOf(c);
+        else
+            return "0" + String.valueOf(c);
     }
 }
