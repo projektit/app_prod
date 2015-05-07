@@ -73,6 +73,7 @@ public class NewNotificationActivity extends ActionBarActivity {
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Toast.makeText(NewNotificationActivity.this, "En ny händelse har skapats", Toast.LENGTH_LONG).show();
                 if(year != -1 && month != -1 && day != -1 && hour != -1 && minute != -1 ){
                     title = editText.getText().toString();
                     text = editText2.getText().toString();

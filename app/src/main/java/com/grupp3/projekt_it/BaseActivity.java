@@ -255,7 +255,7 @@ public class BaseActivity extends ActionBarActivity {
 class MyAdapter extends BaseAdapter{
     private Context context;
     String [] listItems;
-    int [] images = {R.drawable.ic_menu_home, R.drawable.ic_m_flower, R.drawable.ic_information_outline, R.drawable.ic_action_search, R.drawable.ic_information_outline, R.drawable.ic_logout, R.drawable.ic_menu_manage};
+    int [] images = {R.drawable.ic_menu_home, R.drawable.ic_m_flower, R.drawable.ic_comment_alert_outline, R.drawable.ic_action_search, R.drawable.ic_information_outline, R.drawable.ic_logout, R.drawable.ic_menu_manage};
     public MyAdapter(Context context){
         this.context = context;
         listItems = context.getResources().getStringArray(R.array.list_items);
