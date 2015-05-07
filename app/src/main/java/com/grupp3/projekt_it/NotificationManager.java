@@ -12,6 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -27,7 +29,8 @@ public class NotificationManager extends BaseActivity{
     Menu menu;
     ListView ls;
     //ArrayList<UserNotification> allUserNotifications;
-
+    ArrayList<Integer> selectedNotifications;
+    Boolean onModify = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +40,7 @@ public class NotificationManager extends BaseActivity{
 
         ls = (ListView) findViewById(R.id.notification_listView);
         // Build the list view
+        selectedNotifications = new ArrayList<>();
         buildListView();
     }
 
@@ -44,6 +48,7 @@ public class NotificationManager extends BaseActivity{
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_notification_manager, menu);
+        this.menu = menu;
         return true;
     }
 
@@ -61,6 +66,22 @@ public class NotificationManager extends BaseActivity{
         if (id == R.id.action_remove_notification) {
             deleteNotificationView();
         }
+        if (id == R.id.action_discard){
+            if(selectedNotifications == null){
+                return true;
+            }
+            GardenUtil gardenUtil = new GardenUtil();
+            for(int notId : selectedNotifications){
+                gardenUtil.deleteUserNotification(notId, getApplicationContext());
+            }
+
+            selectedNotifications.clear();
+            MenuItem discardItem = menu.findItem(R.id.action_discard);
+            discardItem.setVisible(false);
+            buildListView();
+            onModify = false;
+            return true;
+        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -74,10 +95,14 @@ public class NotificationManager extends BaseActivity{
         ls.setOnItemClickListener(null);
     }
     public void deleteNotificationView() {
+        MenuItem discardItem = menu.findItem(R.id.action_discard);
+        discardItem.setVisible(true);
 
         final Context context = getApplicationContext();
         final GardenUtil gardenUtil = new GardenUtil();
         final ArrayList<UserNotification> allUserNotifications = gardenUtil.loadAllUserNotifications(context);
+        ArrayAdapter<UserNotification> adapter = new DeleteNotificationListAdapter(allUserNotifications);
+        ls.setAdapter(adapter);
 
         ls.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -157,6 +182,65 @@ public class NotificationManager extends BaseActivity{
 
             TextView textView3 = (TextView) notificationItemView.findViewById(R.id.text_notification_date);
             textView3.setText(padding_str(notification.getDay()) + "-" + padding_str(notification.getMonth()) + "-" + notification.getYear());
+
+            return notificationItemView;
+        }
+    }
+
+    private class DeleteNotificationListAdapter extends ArrayAdapter <UserNotification>{
+        ArrayList<UserNotification> allUserNotifications;
+        public DeleteNotificationListAdapter(ArrayList<UserNotification> allUserNotifications){
+            super(NotificationManager.this, R.layout.notification_list_item_delete, allUserNotifications);
+            this.allUserNotifications = allUserNotifications;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            View notificationItemView = convertView;
+            //check if given view is null, if so inflate a new one
+            if(notificationItemView == null){
+                notificationItemView = getLayoutInflater().inflate(R.layout.notification_list_item_delete, parent, false);
+            }
+
+            UserNotification notification = allUserNotifications.get(position);
+
+            TextView textView1 = (TextView) notificationItemView.findViewById(R.id.text_title);
+            textView1.setText(notification.getTitle());
+
+            TextView textView2 = (TextView) notificationItemView.findViewById(R.id.text_text);
+            textView2.setText(notification.getText());
+
+            final int userNotificationId = allUserNotifications.get(position).getId();
+
+            CheckBox checkBox1 = (CheckBox) notificationItemView.findViewById(R.id.checkBox1);
+            checkBox1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if(isChecked){
+                        boolean inList = false;
+                        for(int id : selectedNotifications){
+                            if(id == userNotificationId) {
+                                inList = true;
+                                break;
+                            }
+                        }
+                        if(!inList){
+                            selectedNotifications.add(userNotificationId);
+                        }
+                    }else if(!isChecked){
+                        boolean inList = false;
+                        for(int id : selectedNotifications){
+                            if(id == userNotificationId) {
+                                inList = true;
+                                break;
+                            }
+                        }
+                        if(inList){
+                            selectedNotifications.remove(new Integer(userNotificationId));
+                        }
+                    }
+                }
+            });
 
             return notificationItemView;
         }
