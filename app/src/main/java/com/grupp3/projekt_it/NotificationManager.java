@@ -24,20 +24,21 @@ import java.util.Comparator;
 
 
 public class NotificationManager extends BaseActivity{
-
+    Menu menu;
     ListView ls;
-    ArrayList<UserNotification> allUserNotifications;
+    //ArrayList<UserNotification> allUserNotifications;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_notification_manager);
+        // Set up navigation drawer
         getLayoutInflater().inflate(R.layout.activity_notification_manager, frameLayout);
         mDrawerList.setItemChecked(position, true);
+
         ls = (ListView) findViewById(R.id.notification_listView);
+        // Build the list view
         buildListView();
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -55,18 +56,37 @@ public class NotificationManager extends BaseActivity{
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            return true;
+            startActivity(new Intent(this, NewNotificationActivity.class));
+        }
+        if (id == R.id.action_remove_notification) {
+            deleteNotificationView();
         }
 
         return super.onOptionsItemSelected(item);
     }
+    // Method for setting up the list view with the users own notifications
     public void buildListView() {
         Context context = getApplicationContext();
         GardenUtil gardenUtil = new GardenUtil();
-        allUserNotifications = gardenUtil.loadAllUserNotifications(context);
-        ArrayAdapter<UserNotification> adapter = new NotificationListAdapter();
+        final ArrayList <UserNotification> allUserNotifications = gardenUtil.loadAllUserNotifications(context);
+        ArrayAdapter<UserNotification> adapter = new NotificationListAdapter(allUserNotifications);
         ls.setAdapter(adapter);
+        ls.setOnItemClickListener(null);
+    }
+    public void deleteNotificationView() {
 
+        final Context context = getApplicationContext();
+        final GardenUtil gardenUtil = new GardenUtil();
+        final ArrayList<UserNotification> allUserNotifications = gardenUtil.loadAllUserNotifications(context);
+
+        ls.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                UserNotification userNotification = allUserNotifications.get(position);
+                gardenUtil.deleteUserNotification(userNotification.getId(), context);
+                buildListView();
+            }
+        });
     }
     protected void openActivity(int position) {
 
@@ -94,18 +114,18 @@ public class NotificationManager extends BaseActivity{
                 startActivity(new Intent(this, MyGardenListActivity.class));
                 break;
             case 2:
-                startActivity(new Intent(this, PlantSearchActivity.class));
                 break;
             case 3:
-                startActivity(new Intent(this, HelpActivity.class));
+                startActivity(new Intent(this, PlantSearchActivity.class));
                 break;
             case 4:
-                startActivity(new Intent(this, Login.class));
+                startActivity(new Intent(this, HelpActivity.class));
                 break;
             case 5:
-                startActivity(new Intent(this, Preferences.class));
+                startActivity(new Intent(this, Login.class));
                 break;
             case 6:
+                startActivity(new Intent(this, Preferences.class));
                 break;
             default:
                 break;
@@ -113,8 +133,10 @@ public class NotificationManager extends BaseActivity{
     }
 
     private class NotificationListAdapter extends ArrayAdapter <UserNotification>{
-        public NotificationListAdapter(){
+        ArrayList<UserNotification> allUserNotifications;
+        public NotificationListAdapter(ArrayList<UserNotification> allUserNotifications){
             super(NotificationManager.this, R.layout.notification_list_item, allUserNotifications);
+            this.allUserNotifications = allUserNotifications;
         }
 
         @Override

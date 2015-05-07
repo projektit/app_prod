@@ -2,6 +2,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.grupp3.projekt_it.NotificationManager">
-    <item android:id="@+id/action_settings" android:title="@string/action_settings"
+    <item android:id="@+id/action_settings" android:title="Lägg till händelse"
         android:orderInCategory="100" app:showAsAction="never" />
+    <item android:id="@+id/action_remove_notification" android:title="Ta bort händelse"
+        android:orderInCategory="100"/>
 </menu>

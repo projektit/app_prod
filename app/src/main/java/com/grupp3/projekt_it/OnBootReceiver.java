@@ -70,8 +70,12 @@ public class OnBootReceiver extends BroadcastReceiver{
         PendingIntent pendingIntent = PendingIntent.getService(context, 0, intent, 0);
         //alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
     }
-    static void setAllUserAlarms(Context context){
+
+    static void setAllUserAlarms(Context context) {
         Log.i(TAG, "User alarm set all");
+    }
+    static void setUserAlarms(Context context){
+        Log.i(TAG, "User alarm set");
         GardenUtil gardenUtil = new GardenUtil();
         ArrayList <UserNotification> allUserNotifications = gardenUtil.loadAllUserNotifications(context);
         for(UserNotification userNotification : allUserNotifications){

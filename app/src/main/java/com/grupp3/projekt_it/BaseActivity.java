@@ -188,19 +188,19 @@ public class BaseActivity extends ActionBarActivity {
                 startActivity(new Intent(this, MyGardenListActivity.class));
                 break;
             case 2:
-                startActivity(new Intent(this, PlantSearchActivity.class));
+                startActivity(new Intent(this, NotificationManager.class));
                 break;
             case 3:
-                startActivity(new Intent(this, HelpActivity.class));
+                startActivity(new Intent(this, PlantSearchActivity.class));
                 break;
             case 4:
-                startActivity(new Intent(this, Login.class));
+                startActivity(new Intent(this, HelpActivity.class));
                 break;
             case 5:
-                startActivity(new Intent(this, Preferences.class));
+                startActivity(new Intent(this, Login.class));
                 break;
             case 6:
-                startActivity(new Intent(this, NotificationManager.class));
+                startActivity(new Intent(this, Preferences.class));
                 break;
             default:
                 break;
@@ -255,7 +255,7 @@ public class BaseActivity extends ActionBarActivity {
 class MyAdapter extends BaseAdapter{
     private Context context;
     String [] listItems;
-    int [] images = {R.drawable.ic_menu_home, R.drawable.ic_m_flower, R.drawable.ic_action_search, R.drawable.ic_information_outline, R.drawable.ic_logout, R.drawable.ic_menu_manage, R.drawable.ic_information_outline};
+    int [] images = {R.drawable.ic_menu_home, R.drawable.ic_m_flower, R.drawable.ic_information_outline, R.drawable.ic_action_search, R.drawable.ic_information_outline, R.drawable.ic_logout, R.drawable.ic_menu_manage};
     public MyAdapter(Context context){
         this.context = context;
         listItems = context.getResources().getStringArray(R.array.list_items);

@@ -290,16 +290,20 @@ public class MyGardenListActivity extends BaseActivity {
             case 1:
                 break;
             case 2:
-                startActivity(new Intent(this, PlantSearchActivity.class));
+                startActivity(new Intent(this, NotificationManager.class));
                 break;
             case 3:
-                startActivity(new Intent(this, HelpActivity.class));
+                startActivity(new Intent(this, PlantSearchActivity.class));
                 break;
             case 4:
-                startActivity(new Intent(this, Login.class));
+                startActivity(new Intent(this, HelpActivity.class));
                 break;
             case 5:
+                startActivity(new Intent(this, Login.class));
+                break;
+            case 6:
                 startActivity(new Intent(this, Preferences.class));
+                break;
             default:
                 break;
         }
