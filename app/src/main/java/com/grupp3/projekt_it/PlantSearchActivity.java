@@ -124,7 +124,7 @@ public class PlantSearchActivity extends BaseActivity {
                 String urlPlant = SearchEditText.getText().toString();
                 urlPlant = inputFilter(urlPlant);
                 Log.i(TAG, urlPlant);
-                new DownloadPlantSearchSuggestions(context, listView, fragmentManager, activity, getLayoutInflater())
+                new DownloadPlant(context, listView, fragmentManager, activity, getLayoutInflater())
                         .execute("http://xn--trdgrdsappen-hcbq.nu/api" + "?name=" + urlPlant);
             } catch (Exception e) {
                 e.printStackTrace();
