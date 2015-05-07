@@ -3,8 +3,16 @@ package com.grupp3.projekt_it;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
+
+import org.w3c.dom.Text;
+
+import java.io.IOException;
+import java.io.InputStream;
 
 
 /**
@@ -13,6 +21,7 @@ import android.view.MenuItem;
 
 public class HelpActivity extends BaseActivity {
 
+    private TextView tv;
 
 
     @Override
@@ -23,6 +32,31 @@ public class HelpActivity extends BaseActivity {
         getLayoutInflater().inflate(R.layout.activity_activity_help, frameLayout);
 
         mDrawerList.setItemChecked(position, true);
+
+
+
+        try{
+            InputStream stream = this.getAssets().open("helpText.html");
+            int streamSize = stream.available();
+            byte[] buffer = new byte[streamSize];
+            stream.read(buffer);
+            stream.close();
+            String html = new String(buffer);
+            /**
+             * Textview settings
+             */
+            // Define the specific textview
+            tv = (TextView)findViewById(R.id.helpText);
+            // Set the text in the textview
+            tv.setText(Html.fromHtml(html));
+            // Allow scrolling
+            //tv.setMovementMethod(new ScrollingMovementMethod());
+            // Allow links to be clicked
+            tv.setMovementMethod(LinkMovementMethod.getInstance());
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 
