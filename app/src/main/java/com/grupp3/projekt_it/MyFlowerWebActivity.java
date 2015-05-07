@@ -44,11 +44,9 @@ import uk.co.deanwild.flowtextview.FlowTextView;
  * database, to display more info about the flowers from a search query
  *************************************************************************************************/
 
-
 public class MyFlowerWebActivity extends ActionBarActivity {
     String jsonPlant;
     String TAG = "com.grupp3.projekt_it";
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,12 +85,10 @@ public class MyFlowerWebActivity extends ActionBarActivity {
             return true;
         }
 
-
         if (item.getItemId() == android.R.id.home) {
             onBackPressed();
             return true;
         }
-
 
         return super.onOptionsItemSelected(item);
     }
@@ -128,38 +124,7 @@ public class MyFlowerWebActivity extends ActionBarActivity {
         // Print name of the flower
         TextView textView12 =(TextView) findViewById(R.id.flower_name);
         textView12.setText(plant.getSwe_name());
-        /*
-        //Printouts for latin name column
-        TextView textView3 =(TextView) findViewById(R.id.latin_name);
-        textView3.setText(Html.fromHtml(getString(R.string.plant_latin_name)) + plant.getLatin_name());
 
-        //Printouts for type column
-        TextView textView4 =(TextView) findViewById(R.id.category);
-        textView4.setText(Html.fromHtml(getString(R.string.plant_category)) + plant.getType());
-
-        //Printouts for soil column
-        TextView textView5 =(TextView) findViewById(R.id.soil);
-        textView5.setText(Html.fromHtml(getString(R.string.plant_soil)) + plant.getSoil());
-
-        //Printouts for zone_min column
-        TextView textView6 =(TextView) findViewById(R.id.min_zone);
-        textView6.setText(Html.fromHtml(getString(R.string.plant_min)) + plant.getZone_min());
-
-        //Printouts for zone max column
-        TextView textView7 =(TextView) findViewById(R.id.max_zone);
-        textView7.setText(Html.fromHtml(getString(R.string.plant_max)) + plant.getZone_max());
-
-        //Printouts for water column
-        TextView textView8 =(TextView) findViewById(R.id.watering);
-        textView8.setText(Html.fromHtml(getString(R.string.plant_water)) + plant.getWater());
-
-        //Printouts for sun column
-        TextView textView10 =(TextView) findViewById(R.id.sun);
-        textView10.setText(Html.fromHtml(getString(R.string.plant_sun)) + plant.getSun());
-        */
-        //Printouts for misc column
-        //TextView textView9 =(TextView) findViewById(R.id.misc);
-        //textView9.setText(Html.fromHtml(plant.getMisc()));
         FlowTextView flowTextView = (FlowTextView) findViewById(R.id.ftv);
         Spanned html = Html.fromHtml(plant.getMisc());
         flowTextView.setTextSize(35);

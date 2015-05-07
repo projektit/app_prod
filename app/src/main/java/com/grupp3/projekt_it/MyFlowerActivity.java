@@ -5,6 +5,8 @@
         import android.os.AsyncTask;
         import android.support.v7.app.ActionBarActivity;
         import android.os.Bundle;
+        import android.text.Html;
+        import android.text.Spanned;
         import android.util.Log;
         import android.view.Menu;
         import android.view.MenuItem;
@@ -20,6 +22,8 @@
         import java.io.InputStream;
         import java.net.URL;
         import java.net.URLConnection;
+
+        import uk.co.deanwild.flowtextview.FlowTextView;
 
         /*************************************************************************************************
          * Author: Marcus Elwin
@@ -41,7 +45,7 @@
             @Override
             protected void onCreate(Bundle savedInstanceState) {
                 super.onCreate(savedInstanceState);
-                setContentView(R.layout.activity_my_flower);
+                setContentView(R.layout.activity_my_flower_web);
                 getSupportActionBar().setDisplayHomeAsUpEnabled(true);
                 //StrictMode.enableDefaults();
                 //create new Intent to handle putExtra input
@@ -52,7 +56,6 @@
                 //call show flower method
                 showFlowerInfo();
             }
-
 
             @Override
             public boolean onPrepareOptionsMenu(Menu menu) {
@@ -109,52 +112,14 @@
                    into method specifies which imageView that should be used*/
                 Picasso.with(this).load(plant_db.get_img_url()).into(imageView1);
                 //Log.i(TAG, "byte array: " + flowerImage[0]);
-                //Printouts for name column
-                TextView textView = (TextView) findViewById(R.id.textView1);
-                textView.setText("Namn : " + plant_db.get_name());
+                // Print name of the flower
+                TextView textView12 =(TextView) findViewById(R.id.flower_name);
+                textView12.setText(plant_db.get_swe_name());
 
-                //Printouts for swe_name column
-                TextView textView2 = (TextView) findViewById(R.id.textView2);
-                textView2.setText("Svenskt Namn: " + plant_db.get_swe_name());
-
-                //Printouts for latin name column
-                TextView textView3 = (TextView) findViewById(R.id.textView3);
-                textView3.setText("Latinskt Namn: " + plant_db.get_latin_name());
-
-                //Printouts for type column
-                TextView textView4 = (TextView) findViewById(R.id.textView4);
-                textView4.setText("Kategori: " + plant_db.get_type());
-
-                //Printouts for soil column
-                TextView textView5 = (TextView) findViewById(R.id.textView5);
-                textView5.setText("Jord: " + plant_db.get_soil());
-
-                //Printouts for zone_min column
-                TextView textView6 = (TextView) findViewById(R.id.textView6);
-                textView6.setText("Minsta Zonen: " + plant_db.get_zone_min());
-
-                //Printouts for zone max column
-                TextView textView7 = (TextView) findViewById(R.id.textView7);
-                textView7.setText("Största Zonen: " + plant_db.get_zone_max());
-
-                //Printouts for water column
-                TextView textView8 = (TextView) findViewById(R.id.textView8);
-                textView8.setText("Bevattning: " + plant_db.get_water());
-
-                //Printouts for misc column
-                TextView textView9 = (TextView) findViewById(R.id.textView9);
-                textView9.setText("Allmänt : " + plant_db.get_water());
-
-                //Printouts for sun column
-                TextView textView10 = (TextView) findViewById(R.id.textView10);
-                textView10.setText("Sol : " + plant_db.get_sun());
-
-                TextView textView0 = (TextView) findViewById(R.id.textView0);
-                textView0.setText("Id : " + plant_db.get_id());
-
-                TextView textView12 = (TextView) findViewById(R.id.textView12);
-                textView12.setText(plant_db.get_name());
-
+                FlowTextView flowTextView = (FlowTextView) findViewById(R.id.ftv);
+                Spanned html = Html.fromHtml(plant_db.get_misc());
+                flowTextView.setTextSize(35);
+                flowTextView.setText(html);
 
             }
 
