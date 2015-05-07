@@ -52,6 +52,7 @@
         Activity activity;
         ArrayList <Plant> allPlants;
         LayoutInflater layoutInflater;
+        String urlSearch;
 
         public DownloadPlant(Context context, ListView listView, FragmentManager fragmentManager, Activity activity,
                              LayoutInflater layoutInflater){
@@ -67,6 +68,7 @@
             try {
                 // get url
                 URL url = new URL(urls[0]);
+                urlSearch = url.toString();
                 // setup http connection
                 HttpURLConnection connection = (HttpURLConnection)url.openConnection();
                 // get input
@@ -86,7 +88,10 @@
             if(result == null){
               //display toast with info if input string
               //doesn't match any entry in the database
-              Toast.makeText(this.context, "Inget resultat hittades, försök med något annat!",Toast.LENGTH_LONG).show();
+              //don't display if search field is empty
+              if (!urlSearch.endsWith("=")) {
+                  Toast.makeText(this.context, "Inget resultat hittades, försök med något annat!", Toast.LENGTH_LONG).show();
+              }
               //if previous search have been made and displayed entries
               //hide these when user write a name that doesn't exisit
               listView.setVisibility(View.GONE);

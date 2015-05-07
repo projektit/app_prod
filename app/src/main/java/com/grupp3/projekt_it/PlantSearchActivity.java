@@ -2,16 +2,12 @@ package com.grupp3.projekt_it;
 
 import android.app.Activity;
 import android.app.FragmentManager;
-import android.app.Notification;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
-import android.hardware.input.InputManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -22,17 +18,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
-
-import org.w3c.dom.Text;
-
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.ArrayList;
-
 
 public class PlantSearchActivity extends BaseActivity {
     //initialing variables
@@ -48,9 +36,6 @@ public class PlantSearchActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        //getLayoutInflater().inflate(R.layout.activity_main, frameLayout);
-        //mDrawerList.setItemChecked(position, true);
 
         // set layout
         setContentView(R.layout.activity_plant_search);
@@ -69,7 +54,6 @@ public class PlantSearchActivity extends BaseActivity {
             //restore previous results
         }
         */
-
 
         // fetch resources
         searchIcon = getResources().getDrawable(R.drawable.ic_action_search);
@@ -125,14 +109,10 @@ public class PlantSearchActivity extends BaseActivity {
         InputMethodManager inputManager = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
         inputManager.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
 
-
-
-
         // get user search input
         Context context = getApplicationContext();
+
         // check network status, needs permissions see manifest
-
-
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
         if (networkInfo != null && networkInfo.isConnected()) {
@@ -142,11 +122,32 @@ public class PlantSearchActivity extends BaseActivity {
                 //from name query in sqlite database
                 Activity activity = this;
                 String urlPlant = SearchEditText.getText().toString();
-                urlPlant = urlPlant.replaceAll("å", "a");
-                urlPlant = urlPlant.replaceAll("ä", "a");
-                urlPlant = urlPlant.replaceAll("ö", "o");
-                //remove all chars execpt A to Z
-                urlPlant = urlPlant.replaceAll("[^a-zA-Z ]", "");
+                urlPlant = inputFilter(urlPlant);
+                Log.i(TAG, urlPlant);
+                new DownloadPlantSearchSuggestions(context, listView, fragmentManager, activity, getLayoutInflater())
+                        .execute("http://xn--trdgrdsappen-hcbq.nu/api" + "?name=" + urlPlant);
+            } catch (Exception e) {
+                e.printStackTrace();
+                Log.i(TAG, "Connected but failed anyway");
+            }
+        }
+    }
+
+    public void getSearchSuggestions() {
+        // get user search input
+        Context context = getApplicationContext();
+
+        // check network status, needs permissions see manifest
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        if (networkInfo != null && networkInfo.isConnected()) {
+            try {
+                FragmentManager fragmentManager = getFragmentManager();
+                //create new async task to download plants from database
+                //from name query in sqlite database
+                Activity activity = this;
+                String urlPlant = SearchEditText.getText().toString();
+                urlPlant = inputFilter(urlPlant);
                 Log.i(TAG, urlPlant);
                 new DownloadPlant(context, listView, fragmentManager, activity, getLayoutInflater())
                         .execute("http://xn--trdgrdsappen-hcbq.nu/api" + "?name=" + urlPlant);
@@ -173,17 +174,6 @@ public class PlantSearchActivity extends BaseActivity {
         return true;
         //return super.onPrepareOptionsMenu(menu);
     }
-
-    /*
-    @Override
-    public void onSaveInstanceState(Bundle savedInstanceState) {
-        // Save the user's current game state
-        savedInstanceState.putString("searchQuery",searchQuery);
-
-        // Always call the superclass so it can save the view hierarchy state
-        super.onSaveInstanceState(savedInstanceState);
-    }
-    */
 
     @Override
     public void onBackPressed() {
@@ -225,15 +215,11 @@ public class PlantSearchActivity extends BaseActivity {
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setCustomView(R.layout.search);
 
-
-
         // Search edit text field setup.
         SearchEditText = (EditText) actionBar.getCustomView().findViewById(R.id.editTextSearch);
 
-
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT,0);
-
 
         SearchEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -246,6 +232,21 @@ public class PlantSearchActivity extends BaseActivity {
                 return false;
             }
         });
+        Log.i(TAG, "Search field text: " + SearchEditText.getText());
+        //Auto search
+
+        SearchEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                getSearchSuggestions();
+            }
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
+
         //SearchEditText.addTextChangedListener(new SearchWatcher());
         SearchEditText.setText(queryText);
         SearchEditText.requestFocus();
@@ -262,5 +263,12 @@ public class PlantSearchActivity extends BaseActivity {
         // Change search icon accordingly.
         searchItem.setIcon(searchIcon);
         SearchOpened = false;
+    }
+
+    private String inputFilter(String input) {
+        input = input.replaceAll("å", "a");
+        input = input.replaceAll("ä", "a");
+        input = input.replaceAll("ö", "o");
+        return input.replaceAll("[^a-zA-Z ]", "");
     }
 }
