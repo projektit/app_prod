@@ -11,6 +11,8 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
+import com.google.gson.Gson;
+
 /**
  * Created by Daniel on 2015-05-06.
  */
@@ -23,6 +25,7 @@ public class UserNotificationService  extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
+        Log.i(TAG, "UserNotificationService");
         SharedPreferences getPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         boolean notifi = getPrefs.getBoolean("notification_on", true);
 
@@ -32,10 +35,15 @@ public class UserNotificationService  extends IntentService {
             if(bundle == null) {
                 return;
             }
-            int id =  bundle.getInt("Notification file id");
+            //String id = bundle.getI
+            String json =  bundle.getString("jsonUserNotification");
             GardenUtil gardenUtil = new GardenUtil();
-            UserNotification userNotification = gardenUtil.loadUserNotification(id, getApplicationContext());
-
+            //UserNotification userNotification = gardenUtil.loadUserNotification(id, getBaseContext());
+            Gson gson = new Gson();
+            UserNotification userNotification = gson.fromJson(json, UserNotification.class);
+            if(userNotification == null){
+                Log.i(TAG, "fuck up located");
+            }
             NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
             builder.setAutoCancel(true);
             builder.setContentTitle(userNotification.getTitle());

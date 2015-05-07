@@ -9,6 +9,10 @@ import android.nfc.Tag;
 import android.os.SystemClock;
 import android.util.Log;
 
+import com.google.gson.Gson;
+
+import java.lang.*;
+import java.lang.System;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -30,7 +34,7 @@ public class OnBootReceiver extends BroadcastReceiver{
         setForecastAlarms(context);
         setMonthlyAlarms(context);
         setZoneAlarms(context);
-        setUserAlarms(context);
+        setAllUserAlarms(context);
     }
 
     //set alarms, so GardenService runs in background periodically
@@ -66,23 +70,53 @@ public class OnBootReceiver extends BroadcastReceiver{
         PendingIntent pendingIntent = PendingIntent.getService(context, 0, intent, 0);
         //alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
     }
-    static void setUserAlarms(Context context){
-        Log.i(TAG, "User alarm set");
+    static void setAllUserAlarms(Context context){
+        Log.i(TAG, "User alarm set all");
         GardenUtil gardenUtil = new GardenUtil();
         ArrayList <UserNotification> allUserNotifications = gardenUtil.loadAllUserNotifications(context);
-        Log.i(TAG, Integer.toString(allUserNotifications.size()));
         for(UserNotification userNotification : allUserNotifications){
             Calendar calendar = Calendar.getInstance();
+            calendar.setTimeInMillis(System.currentTimeMillis());
+
             calendar.set(Calendar.YEAR, userNotification.getYear());
             calendar.set(Calendar.MONTH, userNotification.getMonth());
-            calendar.set(Calendar.DAY_OF_MONTH, userNotification.day);
+            calendar.set(Calendar.DAY_OF_MONTH, userNotification.getDay());
             calendar.set(Calendar.HOUR_OF_DAY, userNotification.getHour());
             calendar.set(Calendar.MINUTE, userNotification.getMinute());
 
+            Gson gson = new Gson();
+            String json = gson.toJson(userNotification);
+
             AlarmManager alarmManager= (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
             Intent intent = new Intent(context, UserNotificationService.class);
-            intent.putExtra("Notification file id", userNotification.getId());
-            PendingIntent pendingIntent = PendingIntent.getService(context, 0, intent, 0);
+            intent.putExtra("jsonUserNotification", json);
+            //intent.putExtra("Notification file id", userNotification.getId());
+            PendingIntent pendingIntent = PendingIntent.getService(context, userNotification.getId(), intent, PendingIntent.FLAG_CANCEL_CURRENT);
+            if(pendingIntent != null) {
+                alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+            }
+        }
+    }
+    static void setUserAlarm(Context context, UserNotification userNotification){
+        Log.i(TAG, "User alarm set");
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+
+        calendar.set(Calendar.YEAR, userNotification.getYear());
+        calendar.set(Calendar.MONTH, userNotification.getMonth());
+        calendar.set(Calendar.DAY_OF_MONTH, userNotification.getDay());
+        calendar.set(Calendar.HOUR_OF_DAY, userNotification.getHour());
+        calendar.set(Calendar.MINUTE, userNotification.getMinute());
+
+        Gson gson = new Gson();
+        String json = gson.toJson(userNotification);
+
+        AlarmManager alarmManager= (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(context, UserNotificationService.class);
+        intent.putExtra("jsonUserNotification", json);
+        //intent.putExtra("Notification file id", userNotification.getId());
+        PendingIntent pendingIntent = PendingIntent.getService(context, userNotification.getId(), intent, PendingIntent.FLAG_CANCEL_CURRENT);
+        if(pendingIntent != null) {
             alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
         }
     }

@@ -85,7 +85,7 @@ public class NewNotificationActivity extends ActionBarActivity {
                         gardenUtil.setNotificationNumber(context, id+1);
                         UserNotification userNotification = new UserNotification(id, year, month, day, hour, minute, title, text);
                         gardenUtil.saveUserNotification(userNotification, context);
-                        OnBootReceiver.setUserAlarms(getApplicationContext());
+                        OnBootReceiver.setAllUserAlarms(context);
                     }
                 }
             }
@@ -109,7 +109,7 @@ public class NewNotificationActivity extends ActionBarActivity {
         public void onDateSet(DatePicker view, int yearOfCentury, int monthOfYear, int dayOfMonth) {
             year = yearOfCentury;
             month = monthOfYear;
-            day = monthOfYear;
+            day = dayOfMonth;
             textDate.setText(new StringBuilder().append(padding_str(dayOfMonth))
                             .append("-").append(padding_str(monthOfYear+1)).append("-").append(padding_str(yearOfCentury)).append(" "));
         }

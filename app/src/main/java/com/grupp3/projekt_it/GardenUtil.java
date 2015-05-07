@@ -1,6 +1,9 @@
 package com.grupp3.projekt_it;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -203,6 +206,15 @@ public class GardenUtil {
     public void deleteUserNotification(int id, Context context){
         UserNotification userNotification = loadUserNotification(id, context);
         context.deleteFile(id + ".not");
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+
+        Gson gson = new Gson();
+        String json = gson.toJson(userNotification);
+
+        Intent intent = new Intent(context, UserNotificationService.class);
+        intent.putExtra("jsonUserNotification", json);
+        PendingIntent pendingIntent = PendingIntent.getService(context, userNotification.getId(), intent, PendingIntent.FLAG_CANCEL_CURRENT);
+        alarmManager.cancel(pendingIntent);
     }
 }
 
