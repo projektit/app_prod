@@ -15,6 +15,7 @@ import java.lang.*;
 import java.lang.System;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 /**
  * Created by Daniel on 2015-04-17.
@@ -32,7 +33,8 @@ public class OnBootReceiver extends BroadcastReceiver{
     public void onReceive(Context context, Intent intent) {
         Log.i(TAG, "Alarm reset on boot");
         setForecastAlarms(context);
-        setMonthlyAlarms(context);
+        Calendar calendar = Calendar.getInstance();
+        setMonthlyAlarms(context, calendar.get(Calendar.MONTH));
         setZoneAlarms(context);
         setAllUserAlarms(context);
     }
@@ -43,39 +45,47 @@ public class OnBootReceiver extends BroadcastReceiver{
         AlarmManager alarmManager= (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(context, GardenService.class);
         PendingIntent pendingIntent = PendingIntent.getService(context, 0, intent, 0);
-        //alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime(), PERIOD, pendingIntent);
+        alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime(), PERIOD, pendingIntent);
     }
-    static void setMonthlyAlarms(Context context){
+
+    static void setMonthlyAlarms(Context context, int month){
+        Intent intent = new Intent(context, MonthlyUpdateService.class);
+        PendingIntent pendingIntent = PendingIntent.getService(context, month, intent, PendingIntent.FLAG_NO_CREATE);
+        if(pendingIntent == null){
+            pendingIntent = PendingIntent.getService(context, month, intent, 0);
+        }else{
+            return;
+        }
         Log.i(TAG, "Monthly alarm set");
         Calendar calendar = Calendar.getInstance();
-        //calendar.set(Calendar.DAY_OF_MONTH, 1);
-        //calendar.set(Calendar.HOUR_OF_DAY, 11);
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        calendar.set(Calendar.MONTH, month);
+        calendar.set(Calendar.DAY_OF_MONTH, 1);
+        calendar.set(Calendar.HOUR_OF_DAY, 11);
         calendar.set(Calendar.MINUTE, 30);
-        calendar.set(Calendar.SECOND, 60);
 
-        AlarmManager alarmManager= (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(context, MonthlyUpdateService.class);
-        PendingIntent pendingIntent = PendingIntent.getService(context, 0, intent, 0);
-        //alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+        AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+        alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+
     }
     static void setZoneAlarms(Context context){
         Log.i(TAG, "Zone alarm set");
         Calendar calendar = Calendar.getInstance();
-        //calendar.set(Calendar.HOUR_OF_DAY, 16);
-        //calendar.set(Calendar.MINUTE, 30);
-        calendar.set(Calendar.SECOND, 60);
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        calendar.set(Calendar.HOUR_OF_DAY, 16);
+        calendar.set(Calendar.MINUTE, 30);
 
         AlarmManager alarmManager= (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(context, CheckZoneService.class);
-        PendingIntent pendingIntent = PendingIntent.getService(context, 0, intent, 0);
-        //alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+        PendingIntent pendingIntent = PendingIntent.getService(context, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+        if(pendingIntent != null){
+            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+        }
+
     }
 
     static void setAllUserAlarms(Context context) {
         Log.i(TAG, "User alarm set all");
-    }
-    static void setUserAlarms(Context context){
-        Log.i(TAG, "User alarm set");
         GardenUtil gardenUtil = new GardenUtil();
         ArrayList <UserNotification> allUserNotifications = gardenUtil.loadAllUserNotifications(context);
         for(UserNotification userNotification : allUserNotifications){

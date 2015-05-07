@@ -146,7 +146,5 @@ public class CheckZoneService extends IntentService {
             NotificationManager manager = (NotificationManager) this.getSystemService(NOTIFICATION_SERVICE);
             manager.notify(2, notification);
         }
-
-        OnBootReceiver.setZoneAlarms(getApplicationContext());
     }
 }

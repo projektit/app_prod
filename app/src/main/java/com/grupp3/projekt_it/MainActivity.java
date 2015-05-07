@@ -52,7 +52,8 @@ public class MainActivity extends BaseActivity {
         getLayoutInflater().inflate(R.layout.activity_main, frameLayout);
         //set alarms
         OnBootReceiver.setForecastAlarms(getApplicationContext());
-        OnBootReceiver.setMonthlyAlarms(getApplicationContext());
+        Calendar c = Calendar.getInstance();
+        OnBootReceiver.setMonthlyAlarms(getApplicationContext(), c.get(Calendar.MONTH));
         OnBootReceiver.setZoneAlarms(getApplicationContext());
         /**
          * Setting title and itemChecked

@@ -4,11 +4,14 @@ import android.app.IntentService;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
 import android.content.Intent;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
+
+import java.util.Calendar;
 
 /**
  * An {@link IntentService} subclass for handling asynchronous task requests in
@@ -58,7 +61,14 @@ public class MonthlyUpdateService extends IntentService {
             NotificationManager manager = (NotificationManager) this.getSystemService(NOTIFICATION_SERVICE);
             manager.notify(1, notification);
 
-            OnBootReceiver.setMonthlyAlarms(getApplicationContext());
+            Calendar c = Calendar.getInstance();
+            int month = c.get(Calendar.MONTH);
+            if(month == 11){
+                month = 0;
+            }else{
+                month += 1;
+            }
+            OnBootReceiver.setMonthlyAlarms(getApplicationContext(), month);
         }
     }
 }
