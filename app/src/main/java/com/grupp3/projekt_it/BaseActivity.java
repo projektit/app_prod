@@ -49,7 +49,7 @@ public class BaseActivity extends ActionBarActivity {
     /**
      * List item array for navigation drawer items.
      * */
-    protected String[] listArray = { "Hem", "Min Trädgård", "Sök", "Hjälp", "Logga ut", "Inställningar"};
+    protected String[] listArray = { "Hem", "Min Trädgård", "Sök", "Hjälp", "Logga ut", "Inställningar", "Egna Händelser"};
 
     /**
      * Static variable for selected item position. Which can be used in child activity to know which item is selected from the list.
@@ -199,6 +199,9 @@ public class BaseActivity extends ActionBarActivity {
             case 5:
                 startActivity(new Intent(this, Preferences.class));
                 break;
+            case 6:
+                startActivity(new Intent(this, NotificationManager.class));
+                break;
             default:
                 break;
         }
@@ -252,7 +255,7 @@ public class BaseActivity extends ActionBarActivity {
 class MyAdapter extends BaseAdapter{
     private Context context;
     String [] listItems;
-    int [] images = {R.drawable.ic_menu_home, R.drawable.ic_m_flower, R.drawable.ic_action_search, R.drawable.ic_information_outline, R.drawable.ic_logout, R.drawable.ic_menu_manage};
+    int [] images = {R.drawable.ic_menu_home, R.drawable.ic_m_flower, R.drawable.ic_action_search, R.drawable.ic_information_outline, R.drawable.ic_logout, R.drawable.ic_menu_manage, R.drawable.ic_information_outline};
     public MyAdapter(Context context){
         this.context = context;
         listItems = context.getResources().getStringArray(R.array.list_items);

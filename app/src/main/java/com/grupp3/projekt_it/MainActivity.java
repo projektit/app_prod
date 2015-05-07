@@ -170,6 +170,8 @@ public class MainActivity extends BaseActivity {
                 //i.putExtra("userNumber", user);
                 startActivity(i);
                 break;
+            case 6:
+                startActivity(new Intent(this, NotificationManager.class));
             default:
                 break;
         }

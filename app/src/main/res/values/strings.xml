@@ -60,6 +60,7 @@
         <item>Hjälp</item>
         <item>Logga ut</item>
         <item>Inställningar</item>
+        <item>Egna Händelser</item>
     </string-array>
 
     <array name="monthArray">
@@ -105,5 +106,6 @@
 
     <string name="title_activity_new_notification">NewNotificationActivity</string>
     <string name="new_notification_title">Ny Händelse</string>
+    <string name="title_activity_notification_manager">NotificationManager</string>
 
 </resources>
