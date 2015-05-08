@@ -1,5 +1,6 @@
         package com.grupp3.projekt_it;
 
+        import android.app.FragmentManager;
         import android.content.Intent;
         import android.graphics.Bitmap;
         import android.os.AsyncTask;
@@ -10,6 +11,8 @@
         import android.util.Log;
         import android.view.Menu;
         import android.view.MenuItem;
+        import android.view.View;
+        import android.widget.ImageButton;
         import android.widget.ImageView;
         import android.widget.TextView;
 
@@ -45,7 +48,7 @@
             @Override
             protected void onCreate(Bundle savedInstanceState) {
                 super.onCreate(savedInstanceState);
-                setContentView(R.layout.activity_my_flower_web);
+                setContentView(R.layout.activity_my_flower);
                 getSupportActionBar().setDisplayHomeAsUpEnabled(true);
                 //StrictMode.enableDefaults();
                 //create new Intent to handle putExtra input
@@ -93,7 +96,7 @@
                 //convert PLANT_DB again
                 //by making instant of PLANT_DB and covert Gson object to
                 //handle this type
-                Plant_DB plant_db = gson.fromJson(jsonPlant, Plant_DB.class);
+                final Plant_DB plant_db = gson.fromJson(jsonPlant, Plant_DB.class);
                 //create textView for print outs
                 //Image URL
                 //convert to bitArray
@@ -113,14 +116,11 @@
                 Picasso.with(this).load(plant_db.get_img_url()).into(imageView1);
                 //Log.i(TAG, "byte array: " + flowerImage[0]);
                 // Print name of the flower
+
                 TextView textView12 =(TextView) findViewById(R.id.flower_name);
                 textView12.setText(plant_db.get_swe_name());
-
-                FlowTextView flowTextView = (FlowTextView) findViewById(R.id.ftv);
-                Spanned html = Html.fromHtml(plant_db.get_misc());
-                flowTextView.setTextSize(35);
-                flowTextView.setText(html);
-
+                TextView plantText = (TextView) findViewById(R.id.plantText);
+                plantText.setText(Html.fromHtml(plant_db.get_misc()));
 
             }
 

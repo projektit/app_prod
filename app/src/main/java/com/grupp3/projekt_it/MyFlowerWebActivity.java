@@ -1,5 +1,6 @@
 package com.grupp3.projekt_it;
 
+import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -11,7 +12,9 @@ import android.text.Spanned;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -47,6 +50,7 @@ import uk.co.deanwild.flowtextview.FlowTextView;
 public class MyFlowerWebActivity extends ActionBarActivity {
     String jsonPlant;
     String TAG = "com.grupp3.projekt_it";
+    FragmentManager fragmentManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,7 +105,7 @@ public class MyFlowerWebActivity extends ActionBarActivity {
         //convert PLANT again
         //by making instant of PLANT_DB and covert Gson object to
         //handle this type
-        Plant plant = gson.fromJson(jsonPlant, Plant.class);
+        final Plant plant = gson.fromJson(jsonPlant, Plant.class);
         //create textView for print outs
 
         //Image URL
@@ -124,10 +128,22 @@ public class MyFlowerWebActivity extends ActionBarActivity {
         // Print name of the flower
         TextView textView12 =(TextView) findViewById(R.id.flower_name);
         textView12.setText(plant.getSwe_name());
+        TextView plantText = (TextView) findViewById(R.id.plantText);
+        plantText.setText(Html.fromHtml(plant.getMisc()));
+        ImageButton button = (ImageButton) findViewById(R.id.addButton);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Gson gson = new Gson();
+                String json = gson.toJson(plant);
+                Bundle bundle = new Bundle();
+                bundle.putString("jsonPlant", json);
+                fragmentManager = getFragmentManager();
+                ChooseGardenFragment chooseGardenFragment = new ChooseGardenFragment();
+                chooseGardenFragment.setArguments(bundle);
+                chooseGardenFragment.show(fragmentManager, "disIsTag4");
+            }
+        });
 
-        FlowTextView flowTextView = (FlowTextView) findViewById(R.id.ftv);
-        Spanned html = Html.fromHtml(plant.getMisc());
-        flowTextView.setTextSize(35);
-        flowTextView.setText(html);
     }
 }
