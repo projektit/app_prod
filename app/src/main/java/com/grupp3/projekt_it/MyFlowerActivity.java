@@ -99,7 +99,7 @@
                 //convert to bitArray
                 /*byte[] flowerImage = new getFlowerImage.execute("http://www.alltomtradgard.se/ImageGallery/Thumbnails/63/135763/107909_191262.jpg");*/
                 //new getFlowerImage().execute("http://www.alltomtradgard.se/ImageGallery/Thumbnails/63/135763/107909_191262.jpg");
-                ImageView imageView1 = (ImageView) findViewById(R.id.imageView1);
+                ImageView imageView1 = (ImageView) findViewById(R.id.flower_picture);
                 //new DownloadImage(imageView1).execute(plant_db.get_img_url());
 
                 /* Picasso is a 3rd party library that takes care of image loading in android applications
@@ -120,6 +120,7 @@
                 Spanned html = Html.fromHtml(plant_db.get_misc());
                 flowTextView.setTextSize(35);
                 flowTextView.setText(html);
+
 
             }
 

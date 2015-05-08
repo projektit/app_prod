@@ -100,7 +100,6 @@ public class MyGardenListActivity extends BaseActivity {
             Toast.makeText(MyGardenListActivity.this, "Tryck för att välja trädgård", Toast.LENGTH_LONG).show();
             // Change view to be able to delete a garden
             deleteGardenView();
-            Log.i(TAG, "HEJ1");
             return true;
         }
         //Add a new garden option in action menu is pressed

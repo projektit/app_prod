@@ -17,6 +17,7 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 
@@ -61,10 +62,13 @@ public class NotificationManager extends BaseActivity{
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            startActivity(new Intent(this, NewNotificationActivity.class));
+            return true;
         }
         if (id == R.id.action_remove_notification) {
+            onModify = true;
+            Toast.makeText(NotificationManager.this, "Tryck för att välja notifikation", Toast.LENGTH_LONG).show();
             deleteNotificationView();
+            return true;
         }
         if (id == R.id.action_discard){
             if(selectedNotifications == null){
@@ -78,12 +82,31 @@ public class NotificationManager extends BaseActivity{
             selectedNotifications.clear();
             MenuItem discardItem = menu.findItem(R.id.action_discard);
             discardItem.setVisible(false);
+            MenuItem newItem = menu.findItem(R.id.action_new);
+            newItem.setVisible(true);
             buildListView();
             onModify = false;
             return true;
         }
+        if(id == R.id.action_new){
+            startActivityForResult(new Intent(this, NewNotificationActivity.class), 0);
+        }
 
         return super.onOptionsItemSelected(item);
+    }
+    @Override
+    public void onBackPressed() {
+        if(onModify == true){
+            onModify = false;
+            MenuItem discardItem = menu.findItem(R.id.action_discard);
+            discardItem.setVisible(false);
+            MenuItem newItem = menu.findItem(R.id.action_new);
+            newItem.setVisible(true);
+            buildListView();
+            return;
+        }else {
+            super.onBackPressed();
+        }
     }
     // Method for setting up the list view with the users own notifications
     public void buildListView() {
@@ -95,6 +118,8 @@ public class NotificationManager extends BaseActivity{
         ls.setOnItemClickListener(null);
     }
     public void deleteNotificationView() {
+        MenuItem newItem = menu.findItem(R.id.action_new);
+        newItem.setVisible(false);
         MenuItem discardItem = menu.findItem(R.id.action_discard);
         discardItem.setVisible(true);
 
@@ -113,6 +138,13 @@ public class NotificationManager extends BaseActivity{
             }
         });
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        buildListView();
+    }
+
     protected void openActivity(int position) {
 
         /**

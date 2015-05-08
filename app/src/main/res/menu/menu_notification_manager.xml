@@ -2,12 +2,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.grupp3.projekt_it.NotificationManager">
-    <item android:id="@+id/action_settings" android:title="Lägg till händelse"
-        android:orderInCategory="100" app:showAsAction="never" />
+    <item android:id="@+id/action_settings"
+        android:title="Alternativ"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
     <item android:id="@+id/action_remove_notification" android:title="Ta bort händelse"
         android:orderInCategory="100"/>
+    <item android:id="@+id/action_new"
+        android:title="Lägg till händelse"
+        android:icon="@drawable/ic_action_new"
+        android:orderInCategory="100"
+        app:showAsAction="ifRoom"
+        android:visible="true"/>
     <item android:id="@+id/action_discard"
-        android:title="New"
+        android:title="Ta bort"
         android:icon="@drawable/ic_action_discard"
         android:orderInCategory="100"
         app:showAsAction="ifRoom"

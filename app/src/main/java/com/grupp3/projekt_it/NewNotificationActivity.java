@@ -73,7 +73,6 @@ public class NewNotificationActivity extends ActionBarActivity {
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(NewNotificationActivity.this, "En ny händelse har skapats", Toast.LENGTH_LONG).show();
                 if(year != -1 && month != -1 && day != -1 && hour != -1 && minute != -1 ){
                     title = editText.getText().toString();
                     text = editText2.getText().toString();
@@ -87,8 +86,12 @@ public class NewNotificationActivity extends ActionBarActivity {
                         UserNotification userNotification = new UserNotification(id, year, month, day, hour, minute, title, text);
                         gardenUtil.saveUserNotification(userNotification, context);
                         OnBootReceiver.setAllUserAlarms(context);
+                        Toast.makeText(NewNotificationActivity.this, "En ny händelse har skapats", Toast.LENGTH_LONG).show();
+                        finish();
                     }
+                    Toast.makeText(NewNotificationActivity.this, "Din händelse saknar titel", Toast.LENGTH_LONG).show();
                 }
+                Toast.makeText(NewNotificationActivity.this, "Ange tid för händelse", Toast.LENGTH_LONG).show();
             }
         });
 

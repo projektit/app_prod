@@ -14,6 +14,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -32,11 +34,12 @@ import java.util.Comparator;
 public class MyGardenActivity extends ActionBarActivity {
     String TAG = "com.grupp3.projekt_it";
     String gardenName;
-    public Boolean onDel;
     ListView listView1;
     Context context;
     ArrayList<Plant_DB> allPlants;
+    ArrayList<Integer> selectedPlants;
     Menu menu;
+    Boolean onModify = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,9 +50,10 @@ public class MyGardenActivity extends ActionBarActivity {
         gardenName = intent.getStringExtra("gardenName");
         GardenUtil gardenUtil = new GardenUtil();
         Garden garden = gardenUtil.loadGarden(gardenName, getApplicationContext());
-        onDel = false;
         context = getApplicationContext();
         listView1 = (ListView)findViewById(R.id.listView1);
+        selectedPlants = new ArrayList<>();
+        onModify = false;
         buildListView();
     }
     // method to populate listview from garden database
@@ -59,7 +63,6 @@ public class MyGardenActivity extends ActionBarActivity {
         Garden garden = gardenUtil.loadGarden(gardenName, getApplicationContext());
 
         SQLPlantHelper sqlPlantHelper = new SQLPlantHelper(getApplicationContext());
-
         allPlants = sqlPlantHelper.getAllPlants(garden.getTableName());
         Collections.sort(allPlants, new Comparator<Plant_DB>() {
             public int compare(Plant_DB p1, Plant_DB p2) {
@@ -120,6 +123,26 @@ public class MyGardenActivity extends ActionBarActivity {
     }
     // method to populate listview from garden database
     public void deletePlantView() {
+        MenuItem newItem = menu.findItem(R.id.action_new);
+        newItem.setVisible(false);
+        MenuItem discardItem = menu.findItem(R.id.action_discard);
+        discardItem.setVisible(true);
+
+        GardenUtil gardenUtil = new GardenUtil();
+        Garden garden = gardenUtil.loadGarden(gardenName, getApplicationContext());
+
+        SQLPlantHelper sqlPlantHelper = new SQLPlantHelper(getApplicationContext());
+
+        allPlants = sqlPlantHelper.getAllPlants(garden.getTableName());
+        Collections.sort(allPlants, new Comparator<Plant_DB>() {
+            public int compare(Plant_DB p1, Plant_DB p2) {
+                return p1.get_swe_name().compareToIgnoreCase(p2.get_swe_name());
+            }
+        });
+
+        ArrayAdapter<Plant_DB> adapter = new DeletePlantListAdapter();
+        listView1.setAdapter(adapter);
+
         listView1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -133,7 +156,7 @@ public class MyGardenActivity extends ActionBarActivity {
                 SQLPlantHelper sqlPlantHelper = new SQLPlantHelper(getApplicationContext());
                 Log.i(TAG, "frag " + Integer.toString(plant_db.get_id()));
                 sqlPlantHelper.deletePlant_ID(plant_db.get_id(), garden.getTableName());
-                onDel = false;
+                onModify = false;
                 buildListView();
             }
         });
@@ -154,7 +177,9 @@ public class MyGardenActivity extends ActionBarActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
+        SQLPlantHelper sqlPlantHelper = new SQLPlantHelper(context);
+        GardenUtil gardenUtil = new GardenUtil();
+        Garden garden = gardenUtil.loadGarden(gardenName, context);
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
@@ -171,12 +196,26 @@ public class MyGardenActivity extends ActionBarActivity {
 
         }
         if(id == R.id.remove_plant){
-            onDel = true;
-            Log.i(TAG, "HEJ0");
+            onModify = true;
             Toast.makeText(MyGardenActivity.this, "Tryck för att välja växt", Toast.LENGTH_LONG).show();
             // Change view to be able to delete a garden
             deletePlantView();
-            Log.i(TAG, "HEJ1");
+            return true;
+        }
+        if(id == R.id.action_discard){
+            if(selectedPlants == null){
+                return true;
+            }
+            for(int plantId : selectedPlants){
+                sqlPlantHelper.deletePlant_ID(plantId, garden.getTableName());
+            }
+            selectedPlants.clear();
+            MenuItem discardItem = menu.findItem(R.id.action_discard);
+            discardItem.setVisible(false);
+            MenuItem newItem = menu.findItem(R.id.action_new);
+            newItem.setVisible(true);
+            buildListView();
+            onModify = false;
             return true;
         }
 
@@ -184,6 +223,7 @@ public class MyGardenActivity extends ActionBarActivity {
             Intent intent = new Intent(this, NewNotificationActivity.class);
             startActivityForResult(intent, 1);
         }
+
 
         return super.onOptionsItemSelected(item);
     }
@@ -197,8 +237,12 @@ public class MyGardenActivity extends ActionBarActivity {
     // settings views, if not go back to previous activity
     @Override
     public void onBackPressed() {
-        if(onDel == true){
-            onDel = false;
+        if(onModify == true){
+            onModify = false;
+            MenuItem discardItem = menu.findItem(R.id.action_discard);
+            discardItem.setVisible(false);
+            MenuItem newItem = menu.findItem(R.id.action_new);
+            newItem.setVisible(true);
             buildListView();
             return;
         }else {
@@ -212,18 +256,18 @@ public class MyGardenActivity extends ActionBarActivity {
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            View gardenItemView = convertView;
+            View plantItemView = convertView;
             //check if given view is null, if so inflate a new one
-            if (gardenItemView == null) {
-                gardenItemView = getLayoutInflater().inflate(R.layout.plant_list_item, parent, false);
+            if (plantItemView == null) {
+                plantItemView = getLayoutInflater().inflate(R.layout.plant_list_item, parent, false);
             }
             //find garden to work with
             Plant_DB plant = allPlants.get(position);
 
             //fill view
-            ImageView imageView1 = (ImageView) gardenItemView.findViewById(R.id.imageView1);
+            ImageView imageView1 = (ImageView) plantItemView.findViewById(R.id.imageView1);
 
-            TextView textView1 = (TextView) gardenItemView.findViewById(R.id.textView1);
+            TextView textView1 = (TextView) plantItemView.findViewById(R.id.textView1);
             textView1.setText(plant.get_swe_name());
 
             ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(context.CONNECTIVITY_SERVICE);
@@ -242,7 +286,78 @@ public class MyGardenActivity extends ActionBarActivity {
                     Log.i(TAG, "Connected but failed anyway");
                 }
             }
-            return gardenItemView;
+            return plantItemView;
+        }
+    }
+    private class DeletePlantListAdapter extends ArrayAdapter <Plant_DB> {
+        public DeletePlantListAdapter() {
+            super(context, R.layout.plant_list_item_delete, allPlants);
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            View plantItemView = convertView;
+            //check if given view is null, if so inflate a new one
+            if (plantItemView == null) {
+                plantItemView = getLayoutInflater().inflate(R.layout.plant_list_item_delete, parent, false);
+            }
+            //find garden to work with
+            Plant_DB plant = allPlants.get(position);
+
+            //fill view
+            ImageView imageView1 = (ImageView) plantItemView.findViewById(R.id.imageView1);
+
+            TextView textView1 = (TextView) plantItemView.findViewById(R.id.textView1);
+            textView1.setText(plant.get_swe_name());
+
+            final int plant_id = plant.get_id();
+            CheckBox checkBox1 = (CheckBox) plantItemView.findViewById(R.id.checkBox1);
+            checkBox1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if(isChecked){
+                        boolean inList = false;
+                        for(int id : selectedPlants){
+                            if(id == plant_id) {
+                                inList = true;
+                                break;
+                            }
+                        }
+                        if(!inList){
+                            selectedPlants.add(plant_id);
+                        }
+                    }else if(!isChecked){
+                        boolean inList = false;
+                        for(int id : selectedPlants){
+                            if(id == plant_id) {
+                                inList = true;
+                                break;
+                            }
+                        }
+                        if(inList){
+                            selectedPlants.remove(new Integer(plant_id));
+                        }
+                    }
+                }
+            });
+
+            ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(context.CONNECTIVITY_SERVICE);
+            NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+            if (networkInfo != null && networkInfo.isConnected()) {
+                try {
+                    /*Picasso.with(context)
+                            .load(plant.get_img_url())
+                            .resize(50, 50)
+                            .centerCrop()
+                            .into(imageView1);*/
+                    Picasso.with(context).load(plant.get_img_url()).into(imageView1);
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Log.i(TAG, "Connected but failed anyway");
+                }
+            }
+            return plantItemView;
         }
     }
 }
