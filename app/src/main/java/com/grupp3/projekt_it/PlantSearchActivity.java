@@ -260,6 +260,8 @@ public class PlantSearchActivity extends BaseActivity {
     private void closeSearchBar() {
         // Remove custom view.
         getSupportActionBar().setDisplayShowCustomEnabled(false);
+        // Remove search results
+        listView.setVisibility(View.GONE);
         // Change search icon accordingly.
         searchItem.setIcon(searchIcon);
         SearchOpened = false;
