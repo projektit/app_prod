@@ -76,7 +76,9 @@
         <activity
             android:name=".PlantSearchActivity"
             android:label="@string/title_section3"
-            android:theme="@style/AppTheme" >
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateVisible|adjustPan"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".Preferences"
