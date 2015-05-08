@@ -12,20 +12,28 @@
         android:paddingRight="10dip">
 
         <TextView
-            android:id="@+id/textView1"
+            android:id="@+id/plantResultName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#000000"
             android:textSize="20dip"
             android:paddingLeft="80dip"
-            android:layout_marginTop="10dp"/>
+            android:layout_marginTop="5dp"/>
+
+        <TextView
+            android:id="@+id/plantResultLatinName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#8C8C7F"
+            android:textSize="15dip"
+            android:paddingLeft="80dip"/>
 
     </LinearLayout>
 
     <ImageView
-        android:id="@+id/imageView1"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:id="@+id/plantImage"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:padding="5dp"
         android:layout_alignParentLeft="true"
         android:layout_marginLeft="10dp" />

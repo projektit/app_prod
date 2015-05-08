@@ -162,12 +162,14 @@
                 //find garden to work with
                 final Plant plant = allPlants.get(position);
 
-                //fill view
-                ImageView imageView1 = (ImageView) gardenItemView.findViewById(R.id.imageView1);
+                //Fill image and textviews in list items
+                ImageView plantImage = (ImageView) gardenItemView.findViewById(R.id.plantImage);
 
-                TextView textView1 = (TextView) gardenItemView.findViewById(R.id.textView1);
-                textView1.setText(plant.getSwe_name());
+                TextView plantResultName = (TextView) gardenItemView.findViewById(R.id.plantResultName);
+                plantResultName.setText(plant.getSwe_name());
 
+                TextView plantResultLatinName = (TextView) gardenItemView.findViewById(R.id.plantResultLatinName);
+                plantResultLatinName.setText(plant.getLatin_name());
 
                 // If the add to garden button is pressed, display options to add plant to a garden
                 Button addButton = (Button) gardenItemView.findViewById(R.id.add_btn);
@@ -196,7 +198,7 @@
                        *  Three download threads for disk and network access.
                        load is where you specify the URL/file that the picture should be read from
                        into method specifies which imageView that should be used*/
-                            Picasso.with(context).load(plant.getImg_url()).into(imageView1);
+                            Picasso.with(context).load(plant.getImg_url()).into(plantImage);
                             /*Picasso.with(context)
                             .load(plant.getImg_url())
                             .resize(50, 50)
