@@ -6,7 +6,6 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-
     tools:context="com.grupp3.projekt_it.NewGardenActivity"
     android:background="@drawable/main_background">
 
@@ -48,58 +47,92 @@
         android:layout_height="50dp"
         android:id="@+id/edit_notification_text"
         android:inputType="textCapSentences"
-        android:maxLength="20"
         android:layout_below="@+id/text_notification"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
 
-    <Button
-        android:id="@+id/datePicker"
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Ange datum"
-        android:onClick="showDatePickerDialog"
-        android:layout_alignBottom="@+id/text_date"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Ange tid och datum:"
+        android:id="@+id/time_date_notification"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_below="@+id/edit_notification_text"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="20dp"/>
-
-    <TextView
-        android:layout_width="75dp"
-        android:layout_height="35dp"
-        android:background="#FFFFFF"
-        android:id="@+id/text_date"
-        android:layout_centerVertical="true"
-        android:layout_alignRight="@+id/edit_notification_text"
-        android:layout_alignEnd="@+id/edit_notification_text" />
-
-    <Button
-        android:id="@+id/timePicker"
-        android:layout_width="wrap_content"
+        android:layout_alignParentStart="true" />
+    <RelativeLayout
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:text="Ange tid"
-        android:onClick="showTimePickerDialog"
-        android:layout_below="@+id/datePicker"
-        android:layout_alignRight="@+id/title_notification"
-        android:layout_alignEnd="@+id/title_notification"
-        android:layout_marginTop="44dp" />
+        android:layout_below="@+id/time_date_notification"
+        android:id="@+id/relative_time"
+        android:background="#ffffff">
 
-    <TextView
-        android:layout_width="65dp"
-        android:layout_height="35dp"
-        android:background="#FFFFFF"
-        android:id="@+id/text_time"
-        android:layout_alignBottom="@+id/timePicker"
-        android:layout_alignLeft="@+id/text_date"
-        android:layout_alignStart="@+id/text_date" />
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="35dp"
+            android:background="#FFFFFF"
+            android:id="@+id/text_time"
+            android:layout_alignParentLeft="true"
+            android:textSize="19sp"
+            android:gravity="left"
+            android:paddingTop="3.5dp"
+            android:paddingLeft="2dp"/>
+
+        <ImageButton
+            android:layout_height="35dp"
+            android:layout_width="35dp"
+            android:background="@drawable/ic_timer"
+            android:id="@+id/timePicker"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:gravity="right"
+        android:id="@+id/relative_date"
+        android:background="#ffffff"
+        android:layout_alignTop="@+id/relative_time"
+        android:layout_alignRight="@+id/edit_notification_text"
+        android:layout_alignEnd="@+id/edit_notification_text">
+
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="35dp"
+            android:background="#FFFFFF"
+            android:id="@+id/text_date"
+            android:textSize="19sp"
+            android:gravity="left"
+            android:paddingTop="3.5dp"
+            android:paddingLeft="2dp"/>
+
+        <ImageButton
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:background="@drawable/ic_calendar"
+            android:id="@+id/datePicker"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"/>
+
+    </RelativeLayout>
 
     <Button
+        android:background="@drawable/button_main_layout"
+        android:textColor="#ffffff"
+        android:textStyle="bold"
+        android:textSize="19sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Spara"
         android:id="@+id/save_notification"
-        android:layout_alignParentBottom="true"
+        android:layout_marginTop="39dp"
+        android:layout_below="@+id/relative_time"
         android:layout_centerHorizontal="true" />
-
 
 </RelativeLayout>

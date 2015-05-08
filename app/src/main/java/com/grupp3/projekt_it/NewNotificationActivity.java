@@ -16,6 +16,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import java.util.Calendar;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -27,8 +28,8 @@ public class NewNotificationActivity extends ActionBarActivity {
     String TAG = "com.grupp3.projekt_it";
     EditText editText;
     EditText editText2;
-    Button setTime;
-    Button setDate;
+    ImageButton setTime;
+    ImageButton setDate;
     Button save;
     TextView textDate;
     TextView textTime;
@@ -53,7 +54,7 @@ public class NewNotificationActivity extends ActionBarActivity {
         String notificationText = editText2.getText().toString();
         textDate = (TextView) findViewById(R.id.text_date);
         textTime = (TextView) findViewById(R.id.text_time);
-        setDate = (Button) findViewById(R.id.datePicker);
+        setDate = (ImageButton) findViewById(R.id.datePicker);
         setDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -61,7 +62,7 @@ public class NewNotificationActivity extends ActionBarActivity {
             }
         });
 
-        setTime = (Button) findViewById(R.id.timePicker);
+        setTime = (ImageButton) findViewById(R.id.timePicker);
         setTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
