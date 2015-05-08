@@ -5,7 +5,7 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="com.grupp3.projekt_it.Login"
-    android:background="@drawable/login">
+    android:background="@drawable/main_background">
 
     <EditText
         android:layout_width="wrap_content"
@@ -14,20 +14,23 @@
         android:width="300dp"
         android:height="50dp"
         android:hint="@string/subscription_number"
-        android:background="#ffffff"
+        android:background="#FFFFFF"
         android:layout_marginTop="184dp"
         android:padding="13dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:textStyle="italic" />
+        android:textStyle="italic"
 
-    <Button
+        />
+
+    <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="LOGGA IN"
+        android:background="@drawable/login_button"
         android:id="@+id/login_button"
         android:layout_below="@+id/user_login_info"
         android:layout_centerHorizontal="true"
-        android:clickable="true" />
+        android:clickable="true"
+        android:layout_marginTop="15dp"/>
 
 </RelativeLayout>

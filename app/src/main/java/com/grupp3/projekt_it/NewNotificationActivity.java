@@ -30,7 +30,7 @@ public class NewNotificationActivity extends ActionBarActivity {
     EditText editText2;
     ImageButton setTime;
     ImageButton setDate;
-    Button save;
+    ImageButton save;
     TextView textDate;
     TextView textTime;
     Context context;
@@ -70,7 +70,7 @@ public class NewNotificationActivity extends ActionBarActivity {
             }
         });
 
-        save = (Button) findViewById(R.id.save_notification);
+        save = (ImageButton) findViewById(R.id.save_notification);
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

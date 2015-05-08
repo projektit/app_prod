@@ -120,7 +120,8 @@
             android:name=".NewNotificationActivity"
             android:label="@string/new_notification_title"
             android:parentActivityName=".NewNotificationActivity"
-            android:theme="@style/AppTheme" >
+            android:theme="@style/AppTheme"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".NotificationManager"

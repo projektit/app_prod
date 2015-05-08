@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import java.util.Arrays;
@@ -30,7 +31,7 @@ public class Login extends ActionBarActivity {
 
         mUserLogin = (EditText)findViewById(R.id.user_login_info);
         // define the button
-        Button button = (Button)findViewById(R.id.login_button);
+        ImageButton button = (ImageButton)findViewById(R.id.login_button);
 
         //Auto-fill EditText
         Context context = getBaseContext();
