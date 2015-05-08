@@ -24,9 +24,6 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -51,7 +48,7 @@ public class MyGardenActivity extends ActionBarActivity {
         GardenUtil gardenUtil = new GardenUtil();
         Garden garden = gardenUtil.loadGarden(gardenName, getApplicationContext());
         context = getApplicationContext();
-        listView1 = (ListView)findViewById(R.id.listView1);
+        listView1 = (ListView)findViewById(R.id.listView2);
         selectedPlants = new ArrayList<>();
         onModify = false;
         buildListView();

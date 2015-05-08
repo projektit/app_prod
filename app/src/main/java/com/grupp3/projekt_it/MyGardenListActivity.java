@@ -1,43 +1,30 @@
 package com.grupp3.projekt_it;
 
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.DialogFragment;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.os.Environment;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.support.v7.internal.widget.AdapterViewCompat;
+import android.text.Layout;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.google.gson.Gson;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
+
 import java.lang.*;
-import java.lang.System;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Arrays;
 
 public class MyGardenListActivity extends BaseActivity {
@@ -56,7 +43,7 @@ public class MyGardenListActivity extends BaseActivity {
         /**
          * Adding our layout to parent class frame layout.
          */
-        getLayoutInflater().inflate(R.layout.activity_my_garden_list, frameLayout);
+        getLayoutInflater().inflate(R.layout.activity_my_garden_list2, frameLayout);
 
         /**
          * Setting title and itemChecked
@@ -67,7 +54,6 @@ public class MyGardenListActivity extends BaseActivity {
 
         onModify = false;
         // Build the list of created gardens (if none created, empty)
-        listView1 = (ListView) findViewById(R.id.listView1);
         selectedGardens = new ArrayList<>();
         buildListView();
     }
@@ -169,9 +155,44 @@ public class MyGardenListActivity extends BaseActivity {
         getSupportActionBar().setTitle("Min Trädgård");
         GardenUtil gardenUtil = new GardenUtil();
         allGardens = gardenUtil.loadAllGardens(getApplicationContext());
-        ArrayAdapter <Garden> adapter = new GardenListAdapter();
-        listView1.setAdapter(adapter);
+        ArrayList<Garden> toLeftList = new ArrayList<>();
+        ArrayList<Garden> toRightList = new ArrayList<>();
+        boolean left = false;
+        for(Garden garden : allGardens){
+            if(left){
+                toLeftList.add(garden);
+                left = false;
+            }else{
+                toRightList.add(garden);
+                left = true;
+            }
+        }
+        ArrayAdapter <Garden> adapterLeft = new GardenListAdapter(toLeftList);
+        ArrayAdapter <Garden> adapterRight = new GardenListAdapter(toRightList);
 
+        final int adapterCountLeft = adapterLeft.getCount();
+        LinearLayout linearLayoutLeft = (LinearLayout) findViewById(R.id.leftLinear);
+        linearLayoutLeft.removeAllViews();
+        View view = getLayoutInflater().inflate(R.layout.garden_list_item_new, null);
+        linearLayoutLeft.addView(view);
+
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        layoutParams.setMargins(8, 0, 0, 8);
+
+        for (int i = 0; i < adapterCountLeft; i++) {
+            View item = adapterLeft.getView(i, null, null);
+            linearLayoutLeft.addView(item, layoutParams);
+        }
+        final int adapterCountRight = adapterRight.getCount();
+        LinearLayout linearLayoutRight = (LinearLayout) findViewById(R.id.rightLinear);
+        linearLayoutRight.removeAllViews();
+        for (int i = 0; i < adapterCountRight; i++) {
+            View item = adapterRight.getView(i, null, null);
+            linearLayoutRight.addView(item, layoutParams);
+        }
+
+        /*
         //Listen for normal click on items in list
         listView1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -203,6 +224,7 @@ public class MyGardenListActivity extends BaseActivity {
                 return true;
             }
         });
+        */
     }
 
     // When the delete garden settings option is chosen this view is shown and clicking on items
@@ -216,12 +238,38 @@ public class MyGardenListActivity extends BaseActivity {
 
         GardenUtil gardenUtil = new GardenUtil();
         allGardens = gardenUtil.loadAllGardens(getApplicationContext());
-        ArrayAdapter <Garden> adapter = new GardenListDeleteAdapter();
-        listView1.setAdapter(adapter);
+        ArrayList<Garden> toLeftList = new ArrayList<>();
+        ArrayList<Garden> toRightList = new ArrayList<>();
+        boolean left = false;
+        for(Garden garden : allGardens){
+            if(left){
+                toLeftList.add(garden);
+                left = false;
+            }else{
+                toRightList.add(garden);
+                left = true;
+            }
+        }
+        ArrayAdapter <Garden> adapterLeft = new GardenListDeleteAdapter(toLeftList);
+        ArrayAdapter <Garden> adapterRight = new GardenListDeleteAdapter(toRightList);
 
-        //Listen for normal click on items in list
-        listView1.setOnItemClickListener(null);
-        listView1.setOnLongClickListener(null);
+        final int adapterCountLeft = adapterLeft.getCount();
+        LinearLayout linearLayoutLeft = (LinearLayout) findViewById(R.id.leftLinear);
+        linearLayoutLeft.removeAllViews();
+        View view = getLayoutInflater().inflate(R.layout.garden_list_item_new, null);
+        linearLayoutLeft.addView(view);
+        for (int i = 0; i < adapterCountLeft; i++) {
+            View item = adapterLeft.getView(i, null, null);
+            linearLayoutLeft.addView(item);
+        }
+
+        final int adapterCountRight = adapterRight.getCount();
+        LinearLayout linearLayoutRight = (LinearLayout) findViewById(R.id.rightLinear);
+        linearLayoutRight.removeAllViews();
+        for (int i = 0; i < adapterCountRight; i++) {
+            View item = adapterRight.getView(i, null, null);
+            linearLayoutRight.addView(item);
+        }
     }
     // When the change name settings option is chosen this view is shown and clicking on an item in
     // the list will allow the user to change the name of the garden
@@ -268,6 +316,10 @@ public class MyGardenListActivity extends BaseActivity {
             super.onBackPressed();
         }
     }
+    public void onNewItemClick(View view){
+        Intent intent = new Intent(this, NewGardenActivity.class);
+        startActivityForResult(intent, 1);
+    }
 
     @Override
     protected void openActivity(int position) {
@@ -307,103 +359,24 @@ public class MyGardenListActivity extends BaseActivity {
                 break;
         }
     }
-    private class GardenListAdapter extends ArrayAdapter <Garden>{
-        public GardenListAdapter(){
-            super(MyGardenListActivity.this, R.layout.garden_list_item, allGardens);
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            View gardenItemView = convertView;
-            //check if given view is null, if so inflate a new one
-            if(gardenItemView == null){
-                gardenItemView = getLayoutInflater().inflate(R.layout.garden_list_item, parent, false);
-            }
-            //find garden to work with
-            Garden garden = allGardens.get(position);
-
-            //fill view
-            int weatherCode = -1;
-            if(garden.getForecast() != null){
-                Weather[] weathers = garden.getForecast().getWeather();
-                    if (weathers[0].getIcon().equals("01d")) {
-                        weatherCode = R.drawable.d01d;
-                    } else if (weathers[0].getIcon().equals("02d")) {
-                        weatherCode = R.drawable.d02d;
-                    } else if (weathers[0].getIcon().equals("03d")) {
-                        weatherCode = R.drawable.d03d;
-                    } else if (weathers[0].getIcon().equals("04d")) {
-                        weatherCode = R.drawable.d04d;
-                    } else if (weathers[0].getIcon().equals("09d")) {
-                        weatherCode = R.drawable.d09d;
-                    } else if (weathers[0].getIcon().equals("10d")) {
-                        weatherCode = R.drawable.d10d;
-                    } else if (weathers[0].getIcon().equals("11d")) {
-                        weatherCode = R.drawable.d11d;
-                    } else if (weathers[0].getIcon().equals("13d")) {
-                        weatherCode = R.drawable.d13d;
-                    }else if (weathers[0].getIcon().equals("50d")) {
-                        weatherCode = R.drawable.d50d;
-                    }
-                if (weathers[0].getIcon().equals("01n")) {
-                    weatherCode = R.drawable.n01n;
-                } else if (weathers[0].getIcon().equals("02n")) {
-                    weatherCode = R.drawable.n02n;
-                } else if (weathers[0].getIcon().equals("03n")) {
-                    weatherCode = R.drawable.n03n;
-                } else if (weathers[0].getIcon().equals("04n")) {
-                    weatherCode = R.drawable.n04n;
-                } else if (weathers[0].getIcon().equals("09n")) {
-                    weatherCode = R.drawable.n09n;
-                } else if (weathers[0].getIcon().equals("10n")) {
-                    weatherCode = R.drawable.n10n;
-                } else if (weathers[0].getIcon().equals("11n")) {
-                    weatherCode = R.drawable.n11n;
-                } else if (weathers[0].getIcon().equals("13n")) {
-                    weatherCode = R.drawable.n13n;
-                }else if (weathers[0].getIcon().equals("50d")) {
-                    weatherCode = R.drawable.n50n;
-                }
-            }
-
-            ImageView imageView1 = (ImageView) gardenItemView.findViewById(R.id.imageView1);
-            imageView1.setImageResource(R.drawable.garden_lits_item_picture);
-            if(weatherCode != -1) {
-                ImageView imageView2 = (ImageView) gardenItemView.findViewById(R.id.imageView2);
-                imageView2.setImageResource(weatherCode);
-            }
-
-            TextView textView1 = (TextView) gardenItemView.findViewById(R.id.textView1);
-            textView1.setText(garden.getName());
-
-            String gardenCity = garden.getLocation().substring(0, garden.getLocation().length()-4);
-            TextView textView2 = (TextView) gardenItemView.findViewById(R.id.textView2);
-            textView2.setText(gardenCity);
-
-            if(weatherCode != -1) {
-                int temp = (int) Math.round(garden.getForecast().getMain().getTemp());
-                TextView textView3 = (TextView) gardenItemView.findViewById(R.id.textView3);
-                textView3.setText(Double.toString(temp).substring(0, Double.toString(temp).length()-2) + "\u00b0");
-            }
-
-            return gardenItemView;
-        }
-    }
     private class GardenListDeleteAdapter extends ArrayAdapter <Garden> {
-        public GardenListDeleteAdapter() {
-            super(MyGardenListActivity.this, R.layout.garden_list_item_delete, allGardens);
+        ArrayList <Garden> gardenList;
+        public GardenListDeleteAdapter(ArrayList<Garden> gardenList) {
+            super(MyGardenListActivity.this, R.layout.garden_list_item_delete2, gardenList);
+            this.gardenList = gardenList;
         }
 
         public View getView(int position, View convertView, ViewGroup parent) {
             View gardenItemView = convertView;
             //check if given view is null, if so inflate a new one
             if (gardenItemView == null) {
-                gardenItemView = getLayoutInflater().inflate(R.layout.garden_list_item_delete, parent, false);
+                gardenItemView = getLayoutInflater().inflate(R.layout.garden_list_item_delete2, parent, false);
             }
             //find garden to work with
-            final Garden garden = allGardens.get(position);
+            final Garden garden = gardenList.get(position);
             ImageView imageView1 = (ImageView) gardenItemView.findViewById(R.id.imageView1);
             imageView1.setImageResource(R.drawable.garden_lits_item_picture);
+
             TextView textView1 = (TextView) gardenItemView.findViewById(R.id.textView1);
             textView1.setText(garden.getName());
 
@@ -440,6 +413,121 @@ public class MyGardenListActivity extends BaseActivity {
                     }
                 }
             });
+            return gardenItemView;
+        }
+    }
+    private class GardenListAdapter extends ArrayAdapter <Garden> {
+        ArrayList <Garden> gardenList;
+        public GardenListAdapter(ArrayList<Garden> gardenList){
+            super(MyGardenListActivity.this, R.layout.garden_list_item2, gardenList);
+            this.gardenList = gardenList;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            View gardenItemView = convertView;
+            //check if given view is null, if so inflate a new one
+            if(gardenItemView == null){
+                gardenItemView = getLayoutInflater().inflate(R.layout.garden_list_item2, parent, false);
+            }
+            //find garden to work with
+            Garden garden = gardenList.get(position);
+            /*
+            //fill view
+            int weatherCode = -1;
+            if(garden.getForecast() != null){
+                Weather[] weathers = garden.getForecast().getWeather();
+                if (weathers[0].getIcon().equals("01d")) {
+                    weatherCode = R.drawable.d01d;
+                } else if (weathers[0].getIcon().equals("02d")) {
+                    weatherCode = R.drawable.d02d;
+                } else if (weathers[0].getIcon().equals("03d")) {
+                    weatherCode = R.drawable.d03d;
+                } else if (weathers[0].getIcon().equals("04d")) {
+                    weatherCode = R.drawable.d04d;
+                } else if (weathers[0].getIcon().equals("09d")) {
+                    weatherCode = R.drawable.d09d;
+                } else if (weathers[0].getIcon().equals("10d")) {
+                    weatherCode = R.drawable.d10d;
+                } else if (weathers[0].getIcon().equals("11d")) {
+                    weatherCode = R.drawable.d11d;
+                } else if (weathers[0].getIcon().equals("13d")) {
+                    weatherCode = R.drawable.d13d;
+                }else if (weathers[0].getIcon().equals("50d")) {
+                    weatherCode = R.drawable.d50d;
+                }
+                if (weathers[0].getIcon().equals("01n")) {
+                    weatherCode = R.drawable.n01n;
+                } else if (weathers[0].getIcon().equals("02n")) {
+                    weatherCode = R.drawable.n02n;
+                } else if (weathers[0].getIcon().equals("03n")) {
+                    weatherCode = R.drawable.n03n;
+                } else if (weathers[0].getIcon().equals("04n")) {
+                    weatherCode = R.drawable.n04n;
+                } else if (weathers[0].getIcon().equals("09n")) {
+                    weatherCode = R.drawable.n09n;
+                } else if (weathers[0].getIcon().equals("10n")) {
+                    weatherCode = R.drawable.n10n;
+                } else if (weathers[0].getIcon().equals("11n")) {
+                    weatherCode = R.drawable.n11n;
+                } else if (weathers[0].getIcon().equals("13n")) {
+                    weatherCode = R.drawable.n13n;
+                }else if (weathers[0].getIcon().equals("50d")) {
+                    weatherCode = R.drawable.n50n;
+                }
+            }
+            */
+            ImageView imageView1 = (ImageView) gardenItemView.findViewById(R.id.imageView1);
+            imageView1.setImageResource(R.drawable.garden_lits_item_picture);
+            /*
+            if(weatherCode != -1) {
+                ImageView imageView2 = (ImageView) gardenItemView.findViewById(R.id.imageView2);
+                imageView2.setImageResource(weatherCode);
+            }
+            */
+            TextView textView1 = (TextView) gardenItemView.findViewById(R.id.textView1);
+            textView1.setText(garden.getName());
+
+            String gardenCity = garden.getLocation().substring(0, garden.getLocation().length()-4);
+            TextView textView2 = (TextView) gardenItemView.findViewById(R.id.textView2);
+            textView2.setText(gardenCity);
+            /*
+            if(weatherCode != -1) {
+                int temp = (int) Math.round(garden.getForecast().getMain().getTemp());
+                TextView textView3 = (TextView) gardenItemView.findViewById(R.id.textView3);
+                textView3.setText(Double.toString(temp).substring(0, Double.toString(temp).length()-2) + "\u00b0");
+            }
+            */
+            final int finalPosition = position;
+            Button button1 = (Button)gardenItemView.findViewById(R.id.button1);
+            button1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Garden garden = allGardens.get(finalPosition);
+                    String gardenName = garden.getName();
+                    Intent intent = new Intent(getApplicationContext(), MyGardenActivity.class);
+                    intent.putExtra("gardenName", gardenName);
+                    startActivity(intent);
+                }
+            });
+            gardenItemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    Garden garden = allGardens.get(finalPosition);
+                    String gardenName = garden.getName();
+
+                    FragmentManager fragmentManager = getFragmentManager();
+                    GardenListFragment quickOptions = new GardenListFragment();
+
+                    Bundle bundle = new Bundle();
+                    bundle.putString("gardenName", gardenName);
+
+                    quickOptions.setArguments(bundle);
+                    quickOptions.show(fragmentManager, "disIsTag");
+                    return true;
+                }
+            });
+
             return gardenItemView;
         }
     }

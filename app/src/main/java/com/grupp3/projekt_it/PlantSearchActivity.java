@@ -58,7 +58,7 @@ public class PlantSearchActivity extends BaseActivity {
         // fetch resources
         searchIcon = getResources().getDrawable(R.drawable.ic_action_search);
         closeSearchIcon = getResources().getDrawable(R.drawable.ic_action_remove);
-        listView = (ListView) findViewById(R.id.listView1);
+        listView = (ListView) findViewById(R.id.listView2);
         // needs savedInstance to work, if it was open when saved it will now be restored
         if (SearchOpened) {
             openSearchBar(searchQuery);
