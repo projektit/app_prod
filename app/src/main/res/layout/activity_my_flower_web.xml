@@ -24,7 +24,7 @@
     <ImageButton
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/add_flower_button"
+        android:background="@drawable/add_plant_garden_button"
         android:layout_marginTop="20dp"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
