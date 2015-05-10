@@ -64,18 +64,18 @@
     </string-array>
 
     <array name="monthArray">
-        <item>@drawable/january</item>
-        <item>@drawable/february</item>
-        <item>@drawable/march</item>
-        <item>@drawable/april</item>
-        <item>@drawable/may</item>
-        <item>@drawable/june</item>
-        <item>@drawable/juli</item>
-        <item>@drawable/august</item>
-        <item>@drawable/september</item>
-        <item>@drawable/october</item>
-        <item>@drawable/november</item>
-        <item>@drawable/december</item>
+        <item>@drawable/month_january</item>
+        <item>@drawable/month_february</item>
+        <item>@drawable/month_march</item>
+        <item>@drawable/month_april</item>
+        <item>@drawable/month_may</item>
+        <item>@drawable/month_june</item>
+        <item>@drawable/month_july</item>
+        <item>@drawable/month_august</item>
+        <item>@drawable/month_september</item>
+        <item>@drawable/month_october</item>
+        <item>@drawable/month_november</item>
+        <item>@drawable/month_december</item>
     </array>
     <string name="title_activity_activity_help">activity_help</string>
 
