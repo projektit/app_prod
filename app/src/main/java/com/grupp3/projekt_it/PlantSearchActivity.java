@@ -25,7 +25,7 @@ import android.widget.TextView;
 
 public class PlantSearchActivity extends BaseActivity {
     //initialing variables
-    String TAG = "com.grupp3.projekt_it";
+    String TAG = "com.grupp3.projekt_it_sok";
     String searchQuery;
     Drawable searchIcon;
     Drawable closeSearchIcon;
@@ -36,38 +36,29 @@ public class PlantSearchActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.i(TAG, "onCreate");
         super.onCreate(savedInstanceState);
 
         // set layout
         setContentView(R.layout.activity_plant_search);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        /*
-        // saved instance not supported yet
-        if (savedInstanceState == null) {
-            //code if no previous search exists
-            Log.i(TAG, "so far");
-            SearchOpened = false;
-            searchQuery = "";
-        } else {
-            searchQuery = savedInstanceState.getString("searchQuery");
-            Log.i(TAG, searchQuery);
-            //restore previous results
-        }
-        */
-
         // fetch resources
         searchIcon = getResources().getDrawable(R.drawable.ic_action_search);
         closeSearchIcon = getResources().getDrawable(R.drawable.ic_action_remove);
         listView = (ListView) findViewById(R.id.listView2);
-        // needs savedInstance to work, if it was open when saved it will now be restored
-        if (SearchOpened) {
-            openSearchBar(searchQuery);
-        }
 
+        // needs savedInstance to work, if it was open when saved it will now be restored
+        //if (SearchOpened) {
+        //    Log.i(TAG, "SearchOpened == True");
+        //    openSearchBar(searchQuery);
+        //}
     }
+
+
     @Override
     protected void openActivity(int position) {
+        Log.i(TAG, "openActivity(int position)");
 
         /**
          * All activities with navigation drawer must contain this override function in order
@@ -102,13 +93,13 @@ public class PlantSearchActivity extends BaseActivity {
                 break;
         }
     }
+
+
     // method for searching stuff
     public void search(){
+        Log.i(TAG, "search()");
 
-        Log.i(TAG, "Try to close soft keyboard at search");
-        View view = this.getCurrentFocus();
-        InputMethodManager inputManager = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
-        inputManager.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        closeKeyBoard();
 
         // get user search input
         Context context = getApplicationContext();
@@ -124,17 +115,18 @@ public class PlantSearchActivity extends BaseActivity {
                 Activity activity = this;
                 String urlPlant = SearchEditText.getText().toString();
                 urlPlant = inputFilter(urlPlant);
-                Log.i(TAG, urlPlant);
+                //Log.i(TAG, urlPlant);
                 new DownloadPlant(context, listView, fragmentManager, activity, getLayoutInflater())
                         .execute("http://xn--trdgrdsappen-hcbq.nu/api" + "?name=" + urlPlant);
             } catch (Exception e) {
                 e.printStackTrace();
-                Log.i(TAG, "Connected but failed anyway");
+                //Log.i(TAG, "Connected but failed anyway");
             }
         }
     }
 
     public void getSearchSuggestions() {
+        Log.i(TAG, "getSearchSuggestions");
         // get user search input
         Context context = getApplicationContext();
 
@@ -149,59 +141,73 @@ public class PlantSearchActivity extends BaseActivity {
                 Activity activity = this;
                 String urlPlant = SearchEditText.getText().toString();
                 urlPlant = inputFilter(urlPlant);
-                Log.i(TAG, urlPlant);
+                //Log.i(TAG, urlPlant);
                 new DownloadPlant(context, listView, fragmentManager, activity, getLayoutInflater())
                         .execute("http://xn--trdgrdsappen-hcbq.nu/api" + "?name=" + urlPlant);
             } catch (Exception e) {
                 e.printStackTrace();
-                Log.i(TAG, "Connected but failed anyway");
+                //Log.i(TAG, "Connected but failed anyway");
             }
         }
     }
 
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        Log.i(TAG, "onCreateOptionsMenu");
         //inflate menu
         getMenuInflater().inflate(R.menu.menu_plant_search, menu);
         return true;
     }
 
+
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
+        Log.i(TAG, "onPrepareOptionsMenu");
         //code to change actionbar on search icon click
         searchItem = menu.findItem(R.id.search);
         MenuItem item = menu.findItem(R.id.action_settings);
         item.setVisible(false);
+        //closeKeyBoard();
         return true;
         //return super.onPrepareOptionsMenu(menu);
     }
 
+
     @Override
     public void onBackPressed() {
+        Log.i(TAG, "inBackPressed");
         Intent intent = getIntent(); //get intent that started this activity
         setResult(RESULT_OK, intent); // set result
         finish();
     }
 
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        Log.i(TAG, "onOptionsItemSelected(MenuItem item)");
         int id = item.getItemId();
         if (id == R.id.search) {
             if (SearchOpened) {
                 //close search bar
                 closeSearchBar();
+                //closeKeyBoard();
             } else {
                 //open search bar
                 openSearchBar(searchQuery);
+                //openKeyBoard();
             }
             return true;
         }
 
+
         else if (id == R.id.action_settings) {
+            Log.i(TAG, "id == R.id.action_settings");
             return true;
         }
 
         else if (id== android.R.id.home){
+            Log.i(TAG, "id== android.R.id.home");
             onBackPressed();
 
         }
@@ -210,6 +216,8 @@ public class PlantSearchActivity extends BaseActivity {
     }
 
     private void openSearchBar(String queryText) {
+        Log.i(TAG, "openSearchBar(String queryText)");
+        View view = this.getCurrentFocus();
 
         // Set custom view on action bar.
         ActionBar actionBar = getSupportActionBar();
@@ -219,14 +227,14 @@ public class PlantSearchActivity extends BaseActivity {
         // Search edit text field setup.
         SearchEditText = (EditText) actionBar.getCustomView().findViewById(R.id.editTextSearch);
 
-        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT,0);
 
         SearchEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
 
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    Log.i(TAG, "actionId == EditorInfo.IME_ACTION_SEARCH ");
+                    closeKeyBoard();
                     search();
                     return true;
                 }
@@ -237,6 +245,7 @@ public class PlantSearchActivity extends BaseActivity {
         //Auto search
 
         SearchEditText.addTextChangedListener(new TextWatcher() {
+
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
@@ -259,6 +268,7 @@ public class PlantSearchActivity extends BaseActivity {
     }
 
     private void closeSearchBar() {
+        Log.i(TAG, "closeSearchBar");
         // Remove custom view.
         getSupportActionBar().setDisplayShowCustomEnabled(false);
         // Remove search results
@@ -269,9 +279,24 @@ public class PlantSearchActivity extends BaseActivity {
     }
 
     private String inputFilter(String input) {
+        Log.i(TAG, "inputFilter");
         input = input.replaceAll("å", "a");
         input = input.replaceAll("ä", "a");
         input = input.replaceAll("ö", "o");
         return input.replaceAll("[^a-zA-Z ]", "");
+    }
+
+    private void closeKeyBoard(){
+        Log.i(TAG, "closeKeyBoard");
+        View view = this.getCurrentFocus();
+        InputMethodManager inputManager = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputManager.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+    }
+
+    private void openKeyBoard(){
+        Log.i(TAG, "openKeyBoard");
+        View view = this.getCurrentFocus();
+        InputMethodManager inputManager = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputManager.showSoftInputFromInputMethod(view.getWindowToken(), InputMethodManager.SHOW_FORCED);
     }
 }
