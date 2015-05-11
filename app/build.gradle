@@ -23,6 +23,7 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:22.0.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
+    compile files ('libs/ksoap2-android-assembly-3.4.0-jar-with-dependencies.jar')
 
     compile 'com.google.code.gson:gson:2.2.4'
     compile 'uk.co.deanwild:flowtextview:2.0.2@aar'
