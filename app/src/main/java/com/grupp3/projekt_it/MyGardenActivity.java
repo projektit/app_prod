@@ -31,6 +31,7 @@ import java.util.Comparator;
 public class MyGardenActivity extends ActionBarActivity {
     String TAG = "com.grupp3.projekt_it";
     String gardenName;
+    String gardenLocation;
     ListView listView1;
     Context context;
     ArrayList<Plant_DB> allPlants;
@@ -45,17 +46,16 @@ public class MyGardenActivity extends ActionBarActivity {
         getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
         Intent intent = getIntent();
         gardenName = intent.getStringExtra("gardenName");
-        GardenUtil gardenUtil = new GardenUtil();
-        Garden garden = gardenUtil.loadGarden(gardenName, getApplicationContext());
+        gardenLocation = intent.getStringExtra("gardenLocation");
         context = getApplicationContext();
         listView1 = (ListView)findViewById(R.id.listView2);
         selectedPlants = new ArrayList<>();
         onModify = false;
+        addGardenInfo();
         buildListView();
     }
     // method to populate listview from garden database
     public void buildListView() {
-        getSupportActionBar().setTitle(gardenName);
         GardenUtil gardenUtil = new GardenUtil();
         Garden garden = gardenUtil.loadGarden(gardenName, getApplicationContext());
 
@@ -246,6 +246,63 @@ public class MyGardenActivity extends ActionBarActivity {
             super.onBackPressed();
         }
     }
+    public void addGardenInfo() {
+        GardenUtil gardenUtil = new GardenUtil();
+        Garden garden = gardenUtil.loadGarden(gardenName, getApplicationContext());
+        //fill view
+        int weatherCode = -1;
+        if(garden.getForecast() != null){
+            Weather[] weathers = garden.getForecast().getWeather();
+            if (weathers[0].getIcon().equals("01d")) {
+                weatherCode = R.drawable.d01d;
+            } else if (weathers[0].getIcon().equals("02d")) {
+                weatherCode = R.drawable.d02d;
+            } else if (weathers[0].getIcon().equals("03d")) {
+                weatherCode = R.drawable.d03d;
+            } else if (weathers[0].getIcon().equals("04d")) {
+                weatherCode = R.drawable.d04d;
+            } else if (weathers[0].getIcon().equals("09d")) {
+                weatherCode = R.drawable.d09d;
+            } else if (weathers[0].getIcon().equals("10d")) {
+                weatherCode = R.drawable.d10d;
+            } else if (weathers[0].getIcon().equals("11d")) {
+                weatherCode = R.drawable.d11d;
+            } else if (weathers[0].getIcon().equals("13d")) {
+                weatherCode = R.drawable.d13d;
+            }else if (weathers[0].getIcon().equals("50d")) {
+                weatherCode = R.drawable.d50d;
+            }
+            if (weathers[0].getIcon().equals("01n")) {
+                weatherCode = R.drawable.n01n;
+            } else if (weathers[0].getIcon().equals("02n")) {
+                weatherCode = R.drawable.n02n;
+            } else if (weathers[0].getIcon().equals("03n")) {
+                weatherCode = R.drawable.n03n;
+            } else if (weathers[0].getIcon().equals("04n")) {
+                weatherCode = R.drawable.n04n;
+            } else if (weathers[0].getIcon().equals("09n")) {
+                weatherCode = R.drawable.n09n;
+            } else if (weathers[0].getIcon().equals("10n")) {
+                weatherCode = R.drawable.n10n;
+            } else if (weathers[0].getIcon().equals("11n")) {
+                weatherCode = R.drawable.n11n;
+            } else if (weathers[0].getIcon().equals("13n")) {
+                weatherCode = R.drawable.n13n;
+            }else if (weathers[0].getIcon().equals("50d")) {
+                weatherCode = R.drawable.n50n;
+            }
+        }
+        TextView gardenNameTV = (TextView)findViewById(R.id.my_garden_name);
+        gardenNameTV.setText(gardenName);
+        String gardenCity = garden.getLocation().substring(0, garden.getLocation().length() - 4);
+        TextView gardenLocationTV = (TextView) findViewById(R.id.my_garden_location);
+        gardenLocationTV.setText(gardenCity);
+        int temp = (int) Math.round(garden.getForecast().getMain().getTemp());
+        TextView gardenTemp = (TextView) findViewById(R.id.my_garden_temp);
+        gardenTemp.setText(Double.toString(temp).substring(0, Double.toString(temp).length()-2) + "\u00b0");
+        ImageView weatherPicture = (ImageView) findViewById(R.id.my_garden_weather);
+        weatherPicture.setImageResource(weatherCode);
+    }
     private class PlantListAdapter extends ArrayAdapter <Plant_DB> {
         public PlantListAdapter() {
             super(context, R.layout.plant_list_item, allPlants);
@@ -266,6 +323,8 @@ public class MyGardenActivity extends ActionBarActivity {
 
             TextView textView1 = (TextView) plantItemView.findViewById(R.id.textView1);
             textView1.setText(plant.get_swe_name());
+            TextView textView2 = (TextView) plantItemView.findViewById(R.id.plantResultLatinName);
+            textView2.setText(plant.get_latin_name());
 
             ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(context.CONNECTIVITY_SERVICE);
             NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();

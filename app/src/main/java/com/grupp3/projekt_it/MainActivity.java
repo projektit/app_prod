@@ -7,6 +7,9 @@ import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.Html;
+import android.text.Spannable;
+import android.text.Spanned;
+import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.text.method.ScrollingMovementMethod;
 import android.text.util.Linkify;
@@ -40,6 +43,7 @@ public class MainActivity extends BaseActivity {
     private static final int TIME_INTERVAL = 2000; // # milliseconds, desired time passed between two back presses.
     private long mBackPressed;
     private TextView tv;
+    String TAG = "com.grupp3.projekt_it";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +84,7 @@ public class MainActivity extends BaseActivity {
              */
             // Define the specific textview
             tv = (TextView)findViewById(R.id.mon_tips_text);
+
             // Set the text in the textview
             tv.setText(Html.fromHtml(html));
             // Allow scrolling

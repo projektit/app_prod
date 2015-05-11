@@ -51,7 +51,7 @@
         </activity>
         <activity
             android:name=".MyGardenActivity"
-            android:label="@string/title_activity_main_activity2"
+            android:label=""
             android:parentActivityName=".MyGardenListActivity"
             android:theme="@style/AppTheme" >
             <meta-data
