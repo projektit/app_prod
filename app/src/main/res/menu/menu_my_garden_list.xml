@@ -14,11 +14,9 @@
         app:showAsAction="never"/>
 
     <item android:id="@+id/action_new"
-        android:title="New"
-        android:icon="@drawable/ic_action_new"
+        android:title="Ny trädgård"
         android:orderInCategory="100"
-        app:showAsAction="ifRoom"
-        android:visible="true"/>
+        app:showAsAction="never"/>
 
     <item android:id="@+id/action_discard"
         android:title="New"

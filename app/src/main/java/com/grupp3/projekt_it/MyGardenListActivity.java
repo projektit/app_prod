@@ -29,12 +29,13 @@ import java.util.Arrays;
 
 public class MyGardenListActivity extends BaseActivity {
     String TAG = "com.grupp3.projekt_it";
-    ListView listView1;
     Menu menu;
 
     public Boolean onModify;
     ArrayList<Garden> allGardens;
     ArrayList<String> selectedGardens;
+    LinearLayout linearLayoutLeft;
+    LinearLayout linearLayoutRight;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +56,11 @@ public class MyGardenListActivity extends BaseActivity {
         onModify = false;
         // Build the list of created gardens (if none created, empty)
         selectedGardens = new ArrayList<>();
+
+        linearLayoutLeft = (LinearLayout) findViewById(R.id.leftLinear);
+        linearLayoutRight = (LinearLayout) findViewById(R.id.rightLinear);
         buildListView();
+        Log.i(TAG, "listdone");
     }
 
     @Override
@@ -71,7 +76,9 @@ public class MyGardenListActivity extends BaseActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
+        Log.i(TAG, "menu1");
         int id = item.getItemId();
+        Log.i(TAG, "menu2");
 
         //Change name setting in overflow menu is pressed
         if (id == R.id.action_settings) {
@@ -106,8 +113,6 @@ public class MyGardenListActivity extends BaseActivity {
             selectedGardens.clear();
             MenuItem discardItem = menu.findItem(R.id.action_discard);
             discardItem.setVisible(false);
-            MenuItem newItem = menu.findItem(R.id.action_new);
-            newItem.setVisible(true);
             buildListView();
             onModify = false;
             return true;
@@ -171,21 +176,25 @@ public class MyGardenListActivity extends BaseActivity {
         ArrayAdapter <Garden> adapterRight = new GardenListAdapter(toRightList);
 
         final int adapterCountLeft = adapterLeft.getCount();
-        LinearLayout linearLayoutLeft = (LinearLayout) findViewById(R.id.leftLinear);
         linearLayoutLeft.removeAllViews();
         View view = getLayoutInflater().inflate(R.layout.garden_list_item_new, null);
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onNewItemClick(v);
+            }
+        });
+
         linearLayoutLeft.addView(view);
 
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         layoutParams.setMargins(8, 0, 0, 8);
-
         for (int i = 0; i < adapterCountLeft; i++) {
             View item = adapterLeft.getView(i, null, null);
             linearLayoutLeft.addView(item, layoutParams);
         }
         final int adapterCountRight = adapterRight.getCount();
-        LinearLayout linearLayoutRight = (LinearLayout) findViewById(R.id.rightLinear);
         linearLayoutRight.removeAllViews();
         for (int i = 0; i < adapterCountRight; i++) {
             View item = adapterRight.getView(i, null, null);
@@ -231,8 +240,6 @@ public class MyGardenListActivity extends BaseActivity {
     // in the list will remove them
     public void deleteGardenView() {
         getSupportActionBar().setTitle("Redigeringsläge");
-        MenuItem newItem = menu.findItem(R.id.action_new);
-        newItem.setVisible(false);
         MenuItem discardItem = menu.findItem(R.id.action_discard);
         discardItem.setVisible(true);
 
@@ -250,13 +257,18 @@ public class MyGardenListActivity extends BaseActivity {
                 left = true;
             }
         }
-        ArrayAdapter <Garden> adapterLeft = new GardenListDeleteAdapter(toLeftList);
-        ArrayAdapter <Garden> adapterRight = new GardenListDeleteAdapter(toRightList);
+        ArrayAdapter <Garden> adapterLeft = new DeleteGardenListAdapter(toLeftList);
+        ArrayAdapter <Garden> adapterRight = new DeleteGardenListAdapter(toRightList);
 
         final int adapterCountLeft = adapterLeft.getCount();
-        LinearLayout linearLayoutLeft = (LinearLayout) findViewById(R.id.leftLinear);
         linearLayoutLeft.removeAllViews();
         View view = getLayoutInflater().inflate(R.layout.garden_list_item_new, null);
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onNewItemClick(v);
+            }
+        });
         linearLayoutLeft.addView(view);
         for (int i = 0; i < adapterCountLeft; i++) {
             View item = adapterLeft.getView(i, null, null);
@@ -264,7 +276,6 @@ public class MyGardenListActivity extends BaseActivity {
         }
 
         final int adapterCountRight = adapterRight.getCount();
-        LinearLayout linearLayoutRight = (LinearLayout) findViewById(R.id.rightLinear);
         linearLayoutRight.removeAllViews();
         for (int i = 0; i < adapterCountRight; i++) {
             View item = adapterRight.getView(i, null, null);
@@ -276,29 +287,48 @@ public class MyGardenListActivity extends BaseActivity {
     public void changeNameView() {
         getSupportActionBar().setTitle("Redigeringsläge");
 
-        //Listen for normal click on items in list
-        listView1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        GardenUtil gardenUtil = new GardenUtil();
+        allGardens = gardenUtil.loadAllGardens(getApplicationContext());
+        ArrayList<Garden> toLeftList = new ArrayList<>();
+        ArrayList<Garden> toRightList = new ArrayList<>();
+        boolean left = false;
+        for(Garden garden : allGardens){
+            if(left){
+                toLeftList.add(garden);
+                left = false;
+            }else{
+                toRightList.add(garden);
+                left = true;
+            }
+        }
+        ArrayAdapter <Garden> adapterLeft = new ChangeGardenListAdapter(toLeftList);
+        ArrayAdapter <Garden> adapterRight = new ChangeGardenListAdapter(toRightList);
+
+        final int adapterCountLeft = adapterLeft.getCount();
+        linearLayoutLeft.removeAllViews();
+        View view = getLayoutInflater().inflate(R.layout.garden_list_item_new, null);
+        view.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Garden garden = allGardens.get(position);
-                String gardenName = garden.getName();
-                // Change the name of the chosen garden
-                FragmentManager fragmentManager = getFragmentManager();
-                ChangeGardenNameFragment changName = new ChangeGardenNameFragment();
-                Bundle bundle = new Bundle();
-                bundle.putString("gardenName", gardenName);
-                changName.setArguments(bundle);
-                changName.show(fragmentManager, "disIsTag2");
-                onModify = false;
-                // Change back to the default view
-                MenuItem discardItem = menu.findItem(R.id.action_discard);
-                discardItem.setVisible(false);
-                MenuItem newItem = menu.findItem(R.id.action_new);
-                newItem.setVisible(true);
-                buildListView();
+            public void onClick(View v) {
+                onNewItemClick(v);
             }
         });
-        listView1.setOnLongClickListener(null);
+        linearLayoutLeft.addView(view);
+
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        layoutParams.setMargins(8, 0, 0, 8);
+
+        for (int i = 0; i < adapterCountLeft; i++) {
+            View item = adapterLeft.getView(i, null, null);
+            linearLayoutLeft.addView(item, layoutParams);
+        }
+        final int adapterCountRight = adapterRight.getCount();
+        linearLayoutRight.removeAllViews();
+        for (int i = 0; i < adapterCountRight; i++) {
+            View item = adapterRight.getView(i, null, null);
+            linearLayoutRight.addView(item, layoutParams);
+        }
     }
     // Override the back button to change the view back to the previous if it is set as one of the two
     // settings views, if not go back to previous activity
@@ -308,8 +338,6 @@ public class MyGardenListActivity extends BaseActivity {
             onModify = false;
             MenuItem discardItem = menu.findItem(R.id.action_discard);
             discardItem.setVisible(false);
-            MenuItem newItem = menu.findItem(R.id.action_new);
-            newItem.setVisible(true);
             buildListView();
             return;
         }else {
@@ -359,9 +387,9 @@ public class MyGardenListActivity extends BaseActivity {
                 break;
         }
     }
-    private class GardenListDeleteAdapter extends ArrayAdapter <Garden> {
+    private class DeleteGardenListAdapter extends ArrayAdapter <Garden> {
         ArrayList <Garden> gardenList;
-        public GardenListDeleteAdapter(ArrayList<Garden> gardenList) {
+        public DeleteGardenListAdapter(ArrayList<Garden> gardenList) {
             super(MyGardenListActivity.this, R.layout.garden_list_item_delete2, gardenList);
             this.gardenList = gardenList;
         }
@@ -510,6 +538,17 @@ public class MyGardenListActivity extends BaseActivity {
                     startActivity(intent);
                 }
             });
+
+            gardenItemView.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View view){
+                    Garden garden = gardenList.get(finalPosition);
+                    String gardenName = garden.getName();
+                    Intent intent = new Intent(getApplicationContext(), MyGardenActivity.class);
+                    intent.putExtra("gardenName", gardenName);
+                    startActivity(intent);
+                }
+            });
             gardenItemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
@@ -528,6 +567,133 @@ public class MyGardenListActivity extends BaseActivity {
                 }
             });
 
+
+            return gardenItemView;
+        }
+    }
+    private class ChangeGardenListAdapter extends ArrayAdapter <Garden> {
+        ArrayList<Garden> gardenList;
+
+        public ChangeGardenListAdapter(ArrayList<Garden> gardenList) {
+            super(MyGardenListActivity.this, R.layout.garden_list_item2, gardenList);
+            this.gardenList = gardenList;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            View gardenItemView = convertView;
+            //check if given view is null, if so inflate a new one
+            if (gardenItemView == null) {
+                gardenItemView = getLayoutInflater().inflate(R.layout.garden_list_item2, parent, false);
+            }
+            //find garden to work with
+            Garden garden = gardenList.get(position);
+            /*
+            //fill view
+            int weatherCode = -1;
+            if(garden.getForecast() != null){
+                Weather[] weathers = garden.getForecast().getWeather();
+                if (weathers[0].getIcon().equals("01d")) {
+                    weatherCode = R.drawable.d01d;
+                } else if (weathers[0].getIcon().equals("02d")) {
+                    weatherCode = R.drawable.d02d;
+                } else if (weathers[0].getIcon().equals("03d")) {
+                    weatherCode = R.drawable.d03d;
+                } else if (weathers[0].getIcon().equals("04d")) {
+                    weatherCode = R.drawable.d04d;
+                } else if (weathers[0].getIcon().equals("09d")) {
+                    weatherCode = R.drawable.d09d;
+                } else if (weathers[0].getIcon().equals("10d")) {
+                    weatherCode = R.drawable.d10d;
+                } else if (weathers[0].getIcon().equals("11d")) {
+                    weatherCode = R.drawable.d11d;
+                } else if (weathers[0].getIcon().equals("13d")) {
+                    weatherCode = R.drawable.d13d;
+                }else if (weathers[0].getIcon().equals("50d")) {
+                    weatherCode = R.drawable.d50d;
+                }
+                if (weathers[0].getIcon().equals("01n")) {
+                    weatherCode = R.drawable.n01n;
+                } else if (weathers[0].getIcon().equals("02n")) {
+                    weatherCode = R.drawable.n02n;
+                } else if (weathers[0].getIcon().equals("03n")) {
+                    weatherCode = R.drawable.n03n;
+                } else if (weathers[0].getIcon().equals("04n")) {
+                    weatherCode = R.drawable.n04n;
+                } else if (weathers[0].getIcon().equals("09n")) {
+                    weatherCode = R.drawable.n09n;
+                } else if (weathers[0].getIcon().equals("10n")) {
+                    weatherCode = R.drawable.n10n;
+                } else if (weathers[0].getIcon().equals("11n")) {
+                    weatherCode = R.drawable.n11n;
+                } else if (weathers[0].getIcon().equals("13n")) {
+                    weatherCode = R.drawable.n13n;
+                }else if (weathers[0].getIcon().equals("50d")) {
+                    weatherCode = R.drawable.n50n;
+                }
+            }
+            */
+            ImageView imageView1 = (ImageView) gardenItemView.findViewById(R.id.imageView1);
+            imageView1.setImageResource(R.drawable.garden_lits_item_picture);
+            /*
+            if(weatherCode != -1) {
+                ImageView imageView2 = (ImageView) gardenItemView.findViewById(R.id.imageView2);
+                imageView2.setImageResource(weatherCode);
+            }
+            */
+            TextView textView1 = (TextView) gardenItemView.findViewById(R.id.textView1);
+            textView1.setText(garden.getName());
+
+            String gardenCity = garden.getLocation().substring(0, garden.getLocation().length() - 4);
+            TextView textView2 = (TextView) gardenItemView.findViewById(R.id.textView2);
+            textView2.setText(gardenCity);
+            /*
+            if(weatherCode != -1) {
+                int temp = (int) Math.round(garden.getForecast().getMain().getTemp());
+                TextView textView3 = (TextView) gardenItemView.findViewById(R.id.textView3);
+                textView3.setText(Double.toString(temp).substring(0, Double.toString(temp).length()-2) + "\u00b0");
+            }
+            */
+            final int finalPosition = position;
+            Button button1 = (Button) gardenItemView.findViewById(R.id.button1);
+            button1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Garden garden = gardenList.get(finalPosition);
+                    String gardenName = garden.getName();
+                    // Change the name of the chosen garden
+                    FragmentManager fragmentManager = getFragmentManager();
+                    ChangeGardenNameFragment changName = new ChangeGardenNameFragment();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("gardenName", gardenName);
+                    changName.setArguments(bundle);
+                    changName.show(fragmentManager, "disIsTag2");
+                    onModify = false;
+                    // Change back to the default view
+                    MenuItem discardItem = menu.findItem(R.id.action_discard);
+                    discardItem.setVisible(false);
+                    buildListView();
+                }
+            });
+            gardenItemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Garden garden = gardenList.get(finalPosition);
+                    String gardenName = garden.getName();
+                    // Change the name of the chosen garden
+                    FragmentManager fragmentManager = getFragmentManager();
+                    ChangeGardenNameFragment changName = new ChangeGardenNameFragment();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("gardenName", gardenName);
+                    changName.setArguments(bundle);
+                    changName.show(fragmentManager, "disIsTag2");
+                    onModify = false;
+                    // Change back to the default view
+                    MenuItem discardItem = menu.findItem(R.id.action_discard);
+                    discardItem.setVisible(false);
+                    buildListView();
+                }
+            });
             return gardenItemView;
         }
     }
