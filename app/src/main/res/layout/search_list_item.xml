@@ -22,11 +22,13 @@
 
         <TextView
             android:id="@+id/plantResultLatinName"
-            android:layout_width="wrap_content"
+            android:layout_width="245dp"
             android:layout_height="wrap_content"
             android:textColor="#8C8C7F"
             android:textSize="15dip"
-            android:paddingLeft="80dip"/>
+            android:paddingLeft="80dip"
+            android:ellipsize="end"
+            android:singleLine="true"/>
 
     </LinearLayout>
 

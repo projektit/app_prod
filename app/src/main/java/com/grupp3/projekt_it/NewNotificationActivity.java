@@ -89,10 +89,13 @@ public class NewNotificationActivity extends ActionBarActivity {
                         OnBootReceiver.setAllUserAlarms(context);
                         Toast.makeText(NewNotificationActivity.this, "En ny händelse har skapats", Toast.LENGTH_LONG).show();
                         finish();
+                        return;
                     }
                     Toast.makeText(NewNotificationActivity.this, "Din händelse saknar titel", Toast.LENGTH_LONG).show();
+                    return;
                 }
-                Toast.makeText(NewNotificationActivity.this, "Ange tid för händelse", Toast.LENGTH_LONG).show();
+                Toast.makeText(NewNotificationActivity.this, "Ange tid och datum för händelse", Toast.LENGTH_LONG).show();
+                return;
             }
         });
 

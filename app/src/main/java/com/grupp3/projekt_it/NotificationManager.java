@@ -62,9 +62,6 @@ public class NotificationManager extends BaseActivity{
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            return true;
-        }
-        if (id == R.id.action_remove_notification) {
             onModify = true;
             Toast.makeText(NotificationManager.this, "Tryck för att välja notifikation", Toast.LENGTH_LONG).show();
             deleteNotificationView();
