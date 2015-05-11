@@ -503,7 +503,7 @@ public class MyGardenListActivity extends BaseActivity {
             button1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Garden garden = allGardens.get(finalPosition);
+                    Garden garden = gardenList.get(finalPosition);
                     String gardenName = garden.getName();
                     Intent intent = new Intent(getApplicationContext(), MyGardenActivity.class);
                     intent.putExtra("gardenName", gardenName);
@@ -513,7 +513,7 @@ public class MyGardenListActivity extends BaseActivity {
             gardenItemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    Garden garden = allGardens.get(finalPosition);
+                    Garden garden = gardenList.get(finalPosition);
                     String gardenName = garden.getName();
 
                     FragmentManager fragmentManager = getFragmentManager();
