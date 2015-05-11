@@ -84,6 +84,23 @@ public class MainActivity extends BaseActivity {
             stream.read(buffer);
             stream.close();
             String html = new String(buffer);
+
+            String div1 = substringBetween(html, "<div id=\"div1\">", "</div>");
+            String div2 = substringBetween(html, "<div id=\"div2\">", "</div>");
+            String div3 = substringBetween(html, "<div id=\"div3\">", "</div>");
+            String div4 = substringBetween(html, "<div id=\"div4\">", "</div>");
+            String div5 = substringBetween(html, "<div id=\"div5\">", "</div>");
+            String div6 = substringBetween(html, "<div id=\"div6\">", "</div>");
+            String div7 = substringBetween(html, "<div id=\"div7\">", "</div>");
+            String div8 = substringBetween(html, "<div id=\"div8\">", "</div>");
+            String div9 = substringBetween(html, "<div id=\"div9\">", "</div>");
+            String div10 = substringBetween(html, "<div id=\"div10\">", "</div>");
+            String div11 = substringBetween(html, "<div id=\"div11\">", "</div>");
+            String div12 = substringBetween(html, "<div id=\"div12\">", "</div>");
+            String div13 = substringBetween(html, "<div id=\"div13\">", "</div>");
+            String div14 = substringBetween(html, "<div id=\"div14\">", "</div>");
+
+            Log.i(TAG, div1);
             /**
              * Textview settings
              */
@@ -206,5 +223,18 @@ public class MainActivity extends BaseActivity {
             }
             mBackPressed = java.lang.System.currentTimeMillis();
         }
+    }
+    public static String substringBetween(String str, String open, String close) {
+        if (str == null || open == null || close == null) {
+            return null;
+        }
+        int start = str.indexOf(open);
+        if (start != -1) {
+            int end = str.indexOf(close, start + open.length());
+            if (end != -1) {
+                return str.substring(start + open.length(), end);
+            }
+        }
+        return null;
     }
 }
