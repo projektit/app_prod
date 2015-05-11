@@ -17,6 +17,7 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -33,12 +34,13 @@ public class PlantSearchActivity extends BaseActivity {
     MenuItem searchItem;
     boolean SearchOpened;
     EditText SearchEditText;
+    InputMethodManager inputManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.i(TAG, "onCreate");
         super.onCreate(savedInstanceState);
-
+        inputManager = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
         // set layout
         setContentView(R.layout.activity_plant_search);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -49,10 +51,11 @@ public class PlantSearchActivity extends BaseActivity {
         listView = (ListView) findViewById(R.id.listView2);
 
         // needs savedInstance to work, if it was open when saved it will now be restored
-        //if (SearchOpened) {
-        //    Log.i(TAG, "SearchOpened == True");
-        //    openSearchBar(searchQuery);
-        //}
+        if (SearchOpened) {
+            Log.i(TAG, "SearchOpened == True");
+            openSearchBar(searchQuery);
+        }
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
     }
 
 
@@ -188,14 +191,19 @@ public class PlantSearchActivity extends BaseActivity {
         Log.i(TAG, "onOptionsItemSelected(MenuItem item)");
         int id = item.getItemId();
         if (id == R.id.search) {
+            Log.i(TAG, "id == R.id.search");
             if (SearchOpened) {
+                Log.i(TAG, "iSearchOpened");
                 //close search bar
+                closeKeyBoard();
                 closeSearchBar();
-                //closeKeyBoard();
+
+
             } else {
+                Log.i(TAG, "id == R.id.search");
                 //open search bar
                 openSearchBar(searchQuery);
-                //openKeyBoard();
+                openKeyBoard();
             }
             return true;
         }
@@ -234,7 +242,7 @@ public class PlantSearchActivity extends BaseActivity {
 
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                     Log.i(TAG, "actionId == EditorInfo.IME_ACTION_SEARCH ");
-                    closeKeyBoard();
+
                     search();
                     return true;
                 }
@@ -275,6 +283,7 @@ public class PlantSearchActivity extends BaseActivity {
         listView.setVisibility(View.GONE);
         // Change search icon accordingly.
         searchItem.setIcon(searchIcon);
+
         SearchOpened = false;
     }
 
@@ -289,14 +298,25 @@ public class PlantSearchActivity extends BaseActivity {
     private void closeKeyBoard(){
         Log.i(TAG, "closeKeyBoard");
         View view = this.getCurrentFocus();
-        InputMethodManager inputManager = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
+        //InputMethodManager inputManager = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
         inputManager.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
     }
 
-    private void openKeyBoard(){
-        Log.i(TAG, "openKeyBoard");
+
+    private void toggleKeyBoard(){
+        Log.i(TAG, "toggleKeyBoard");
         View view = this.getCurrentFocus();
         InputMethodManager inputManager = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
-        inputManager.showSoftInputFromInputMethod(view.getWindowToken(), InputMethodManager.SHOW_FORCED);
+        //inputManager.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_IMPLICIT_ONLY);
+        inputManager.toggleSoftInputFromWindow(view.getWindowToken(), InputMethodManager.SHOW_FORCED, 0);
+    }
+
+
+    private void openKeyBoard() {
+        Log.i(TAG, "openKeyBoard");
+        inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (inputManager != null) {
+            inputManager.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0);
+        }
     }
 }
