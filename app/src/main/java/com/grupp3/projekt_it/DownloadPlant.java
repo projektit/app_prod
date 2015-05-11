@@ -90,7 +90,7 @@
               //doesn't match any entry in the database
               //don't display if search field is empty
               if (!urlSearch.endsWith("=")) {
-                  Toast.makeText(this.context, "Inget resultat hittades, försök med något annat!", Toast.LENGTH_LONG).show();
+                  Toast.makeText(this.context, "Inget resultat hittades, försök med något annat!", Toast.LENGTH_SHORT).show();
               }
               //if previous search have been made and displayed entries
               //hide these when user write a name that doesn't exisit

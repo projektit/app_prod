@@ -34,13 +34,11 @@
         android:layout_below="@+id/textView1"
         android:id="@+id/textView2" />
 
-    <Button
+    <ImageButton
         android:id="@+id/button1"
-        android:background="@drawable/pink_button"
-        android:textColor="@android:color/white"
+        android:background="@drawable/log_in_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Lägg till ny trädgård"
         android:layout_below="@+id/textView2"
         android:layout_alignRight="@+id/imageView1"
         android:layout_alignEnd="@+id/imageView1"
