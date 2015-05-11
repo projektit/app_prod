@@ -27,6 +27,7 @@ import java.util.GregorianCalendar;
 public class OnBootReceiver extends BroadcastReceiver{
     static String TAG = "com.grupp3.projekt_it";
     private static final int PERIOD = 1000 * 60 * 60;
+    //private static final int PERIOD = 1000 * 6;
 
     //on receive restarts alarm after device reboot
     @Override
@@ -69,18 +70,27 @@ public class OnBootReceiver extends BroadcastReceiver{
 
     }
     static void setZoneAlarms(Context context){
-        Log.i(TAG, "Zone alarm set");
+        Log.i(TAG, "Daily alarm set");
+
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.set(Calendar.HOUR_OF_DAY, 16);
+        calendar.set(Calendar.HOUR_OF_DAY, 11);
         calendar.set(Calendar.MINUTE, 30);
 
         AlarmManager alarmManager= (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(context, CheckZoneService.class);
+        Intent intent = new Intent(context, DailyService.class);
         PendingIntent pendingIntent = PendingIntent.getService(context, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
         if(pendingIntent != null){
             alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
         }
+
+        /*
+        AlarmManager alarmManager= (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(context, DailyService.class);
+        PendingIntent pendingIntent = PendingIntent.getService(context, 0, intent, 0);
+        alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime(), 60*1000, pendingIntent);
+        */
+
 
     }
 

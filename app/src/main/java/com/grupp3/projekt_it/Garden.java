@@ -24,9 +24,19 @@ public class Garden {
     String name;
     int zone;
     Forecast forecast;
+    Forecast2 forecast2;
     public Garden(){
 
     }
+
+    public Forecast2 getForecast2() {
+        return forecast2;
+    }
+
+    public void setForecast2(Forecast2 forecast2) {
+        this.forecast2 = forecast2;
+    }
+
     public Garden(String name, String location, String tableName, int zone){
         this.location = location;
         this.name = name;

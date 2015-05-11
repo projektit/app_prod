@@ -60,8 +60,12 @@ public class GardenService extends IntentService {
                 urlLocation = urlLocation.replaceAll("ä", "a");
                 urlLocation = urlLocation.replaceAll("ö", "o");
                 try {
+
                     new DownloadForecast(items[i], context, garden)
                             .execute("http://api.openweathermap.org/data/2.5/weather?q=" + urlLocation + "&units=metric");
+                    new DownloadForecast2(items[i], context, garden)
+                            .execute("http://api.openweathermap.org/data/2.5/forecast?q="
+                                    + urlLocation + "&units=metric");
                 } catch (Exception e) {
                     e.printStackTrace();
                     Log.i(TAG, "Connected but failed anyway");

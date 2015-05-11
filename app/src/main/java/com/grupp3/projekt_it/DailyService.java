@@ -15,6 +15,7 @@ import android.provider.CalendarContract;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
+import java.lang.*;
 import java.util.ArrayList;
 
 /**
@@ -24,16 +25,16 @@ import java.util.ArrayList;
  * TODO: Customize class - update intent actions, extra parameters and static
  * helper methods.
  */
-public class CheckZoneService extends IntentService {
+public class DailyService extends IntentService {
     String TAG = "com.grupp3.projekt_it";
 
-    public CheckZoneService() {
-        super("CheckZoneService");
+    public DailyService() {
+        super("DailyService");
     }
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        Log.i(TAG, "CheckZoneService started");
+        Log.i(TAG, "DailyService started");
         Context context = getApplicationContext();
         //get network info
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(context.CONNECTIVITY_SERVICE);
@@ -48,15 +49,39 @@ public class CheckZoneService extends IntentService {
         }
         String [] items = desiredFiles.toArray(new String[desiredFiles.size()]);
         //do for all gardens
-        ArrayList <String> messages = new ArrayList <String>();
-        int counter = 0;
+        ArrayList <String> zoneMessages = new ArrayList <String>();
+        ArrayList <String> frostMessages = new ArrayList <String>();
+        int zoneCounter = 0;
         for(int i = 0; i < items.length; i++) {
             GardenUtil gardenUtil = new GardenUtil();
             Garden garden = gardenUtil.loadGarden(items[i], context);
-            if(garden.getForecast() == null){
+            if(garden.getForecast() == null || garden.getForecast2() == null){
                 return;
             }
-            double gardenMinTemp = garden.getForecast().getMain().getTemp_min();
+            ArrayList <Integer> futureTemps = new ArrayList <Integer>();
+            ForecastList [] forecastList = garden.getForecast2().getList();
+            Long currentTime = java.lang.System.currentTimeMillis()/1000;
+
+            Double futureMinTemp = forecastList[0].getMain().getTemp_min();
+            for(ForecastList fl : forecastList){
+                Long forecastTime = fl.getDt();
+                if(currentTime < forecastTime) {
+                    if(forecastTime < (currentTime + 60*60*24)) {
+                        if (futureMinTemp > fl.getMain().getTemp_min()) {
+                            futureMinTemp = fl.getMain().getTemp_min();
+                        }
+                    }
+                }
+            }
+            Log.i(TAG, Long.toString(currentTime));
+            Log.i(TAG, "antal dagar: " + Integer.toString(forecastList.length) + " : " + Integer.toString(garden.getForecast2().getCnt()));
+            Log.i(TAG, "minTemp 24h: " + Double.toString(futureMinTemp));
+            //code for checking if frost warning;
+            if(futureMinTemp < 0){
+                frostMessages.add(garden.getName());
+            }
+
+            //code for checking zone
             String tableName = garden.getTableName();
             SQLPlantHelper sqlPlantHelper = new SQLPlantHelper(getApplicationContext());
             ArrayList <Plant_DB> allPlants = sqlPlantHelper.getAllPlants(garden.getTableName());
@@ -93,25 +118,26 @@ public class CheckZoneService extends IntentService {
                         plantMinTemp = 1;
                     }
 
-                    if (plantMinTemp < gardenMinTemp) {
-                        messages.add("Din " + plant_db.get_swe_name() + " i " + garden.getName() + " fryser");
-                        counter += 1;
+                    if (plantMinTemp < futureMinTemp) {
+                        zoneMessages.add("Din " + plant_db.get_swe_name() + " i " + garden.getName() + " fryser");
+                        zoneCounter += 1;
                     }
                 }
 
             }
         }
-        if(counter > 0) {
+        //notifications for zones
+        if(zoneCounter > 0) {
             NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
 
             if (items.length > 1) {
-                if (counter > 1) {
+                if (zoneCounter > 1) {
                     builder.setContentText("Några blommor i dina trädgårdar fryser");
                 } else {
                     builder.setContentText("En blommor i någon av dina trädgårdar fryser");
                 }
             } else {
-                if(counter > 1) {
+                if(zoneCounter > 1) {
                     builder.setContentText("Några blommor i din trädgård fryser");
                 }else{
                     builder.setContentText("En blomma i din trädgård fryser");
@@ -126,6 +152,15 @@ public class CheckZoneService extends IntentService {
 
             builder.setLights(Color.WHITE, 1000, 5000);
 
+            builder.setContentIntent(pendingIntent);
+
+            NotificationCompat.InboxStyle inboxStyle = new NotificationCompat.InboxStyle();
+            inboxStyle.setBigContentTitle("Händelser: ");
+            for (String message : zoneMessages) {
+                inboxStyle.addLine(message);
+            }
+            builder.setStyle(inboxStyle);
+
             Notification notification = builder.build();
             SharedPreferences getPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
             boolean vibrate = getPrefs.getBoolean("notification_vibration", true);
@@ -134,14 +169,48 @@ public class CheckZoneService extends IntentService {
             }
             notification.defaults |= Notification.DEFAULT_LIGHTS;
 
+            NotificationManager manager = (NotificationManager) this.getSystemService(NOTIFICATION_SERVICE);
+            manager.notify(2, notification);
+
+        }
+
+        //notifications for frost
+        if(frostMessages.size() > 0) {
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
+            Intent intent1 = new Intent(this, MyGardenListActivity.class);
+            PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent1, PendingIntent.FLAG_UPDATE_CURRENT);
+
+            if (frostMessages.size() > 1) {
+                builder.setContentText("Risk för frost i några av dina trädgårdar");
+            }else{
+                builder.setContentText("Risk för frost i en trädgård");
+                intent1 = new Intent(this, MyGardenActivity.class);
+                intent1.putExtra("gardenName", frostMessages.get(0));
+                pendingIntent = PendingIntent.getActivity(this, 0, intent1, PendingIntent.FLAG_UPDATE_CURRENT);
+            }
+
+            builder.setAutoCancel(true);
+            builder.setContentTitle("Varning!");
+            builder.setSmallIcon(R.drawable.app_icon);
+
+            builder.setLights(Color.WHITE, 1000, 5000);
+
             builder.setContentIntent(pendingIntent);
 
             NotificationCompat.InboxStyle inboxStyle = new NotificationCompat.InboxStyle();
-            inboxStyle.setBigContentTitle("Händelser: ");
-            for (String message : messages) {
+            inboxStyle.setBigContentTitle("Riskvarningar i följander trädgårdar: ");
+            for (String message : frostMessages) {
                 inboxStyle.addLine(message);
             }
             builder.setStyle(inboxStyle);
+
+            Notification notification = builder.build();
+            SharedPreferences getPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+            boolean vibrate = getPrefs.getBoolean("notification_vibration", true);
+            if (vibrate == true) {
+                notification.defaults |= Notification.DEFAULT_VIBRATE;
+            }
+            notification.defaults |= Notification.DEFAULT_LIGHTS;
 
             NotificationManager manager = (NotificationManager) this.getSystemService(NOTIFICATION_SERVICE);
             manager.notify(2, notification);

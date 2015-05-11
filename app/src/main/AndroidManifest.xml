@@ -105,7 +105,7 @@
             android:exported="false" >
         </service>
         <service
-            android:name=".CheckZoneService"
+            android:name=".DailyService"
             android:exported="false" >
         </service>
         <service

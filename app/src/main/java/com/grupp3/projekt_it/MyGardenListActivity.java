@@ -60,7 +60,6 @@ public class MyGardenListActivity extends BaseActivity {
         linearLayoutLeft = (LinearLayout) findViewById(R.id.leftLinear);
         linearLayoutRight = (LinearLayout) findViewById(R.id.rightLinear);
         buildListView();
-        Log.i(TAG, "listdone");
     }
 
     @Override
@@ -76,9 +75,7 @@ public class MyGardenListActivity extends BaseActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        Log.i(TAG, "menu1");
-        int id = item.getItemId();
-        Log.i(TAG, "menu2");
+         int id = item.getItemId();
 
         //Change name setting in overflow menu is pressed
         if (id == R.id.action_settings) {
@@ -109,7 +106,6 @@ public class MyGardenListActivity extends BaseActivity {
             for(String gardenName : selectedGardens){
                 gardenUtil.deleteGarden(gardenName, getApplicationContext());
             }
-            Log.i(TAG, "HEEEEEEEREE");
             selectedGardens.clear();
             MenuItem discardItem = menu.findItem(R.id.action_discard);
             discardItem.setVisible(false);
