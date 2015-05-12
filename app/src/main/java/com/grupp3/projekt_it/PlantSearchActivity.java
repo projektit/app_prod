@@ -144,7 +144,7 @@ public class PlantSearchActivity extends BaseActivity {
                 Activity activity = this;
                 String urlPlant = SearchEditText.getText().toString();
                 urlPlant = inputFilter(urlPlant);
-                //Log.i(TAG, urlPlant);
+                Log.i(TAG, urlPlant);
                 new DownloadPlant(context, listView, fragmentManager, activity, getLayoutInflater())
                         .execute("http://xn--trdgrdsappen-hcbq.nu/api" + "?name=" + urlPlant);
             } catch (Exception e) {
@@ -288,11 +288,13 @@ public class PlantSearchActivity extends BaseActivity {
     }
 
     private String inputFilter(String input) {
-        Log.i(TAG, "inputFilter");
-        input = input.replaceAll("å", "a");
-        input = input.replaceAll("ä", "a");
-        input = input.replaceAll("ö", "o");
-        return input.replaceAll("[^a-zA-Z ]", "");
+        input = input.replaceAll("å", "[oh]");
+        input = input.replaceAll("ä", "[aeh]");
+        input = input.replaceAll("ö", "[ueh]");
+        input = input.replaceAll("Å", "[oh]");
+        input = input.replaceAll("Ä", "[aeh]");
+        input = input.replaceAll("Ö", "[ueh]");
+        return input.replaceAll("[^\\w\\[\\]]", "");
     }
 
     private void closeKeyBoard(){
