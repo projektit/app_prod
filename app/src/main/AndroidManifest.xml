@@ -26,13 +26,15 @@
         </activity>
         <activity
             android:name=".MainActivity"
-            android:label="@string/title_section1" >
+            android:label="@string/title_section1"
+            android:screenOrientation="portrait">
         </activity>
         <activity android:name=".BaseActivity" >
         </activity>
         <activity
             android:name=".MyGardenListActivity"
-            android:label="@string/title_section2" >
+            android:label="@string/title_section2"
+            android:screenOrientation="portrait">
 
             <!--
                 meta-data
@@ -44,7 +46,8 @@
             android:name=".NewGardenActivity"
             android:label="@string/title_activity_new_garden"
             android:parentActivityName=".MyGardenListActivity"
-            android:theme="@style/BlankActionBar" >
+            android:theme="@style/BlankActionBar"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.grupp3.projekt_it.MyGardenListActivity" />
@@ -53,7 +56,8 @@
             android:name=".MyGardenActivity"
             android:label=""
             android:parentActivityName=".MyGardenListActivity"
-            android:theme="@style/AppTheme" >
+            android:theme="@style/AppTheme"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.grupp3.projekt_it.MyGardenListActivity" />
@@ -82,13 +86,15 @@
         </activity>
         <activity
             android:name=".Preferences"
-            android:label="settings" >
+            android:label="settings"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".MyFlowerActivity"
             android:label=""
             android:parentActivityName=".MyFlowerActivity"
-            android:theme="@style/BlankActionBar" >
+            android:theme="@style/BlankActionBar"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.grupp3.projekt_it.MyFlowerActivity" />
@@ -97,7 +103,8 @@
             android:name=".MyFlowerWebActivity"
             android:label=""
             android:parentActivityName=".PlantSearchActivity"
-            android:theme="@style/AppTheme" >
+            android:theme="@style/AppTheme"
+            android:screenOrientation="portrait">
         </activity>
 
         <service
@@ -116,7 +123,8 @@
         <activity
             android:name=".HelpActivity"
             android:label="Hjälp"
-            android:parentActivityName=".MyGardenListActivity" >
+            android:parentActivityName=".MyGardenListActivity"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".NewNotificationActivity"
@@ -127,7 +135,8 @@
         </activity>
         <activity
             android:name=".NotificationManager"
-            android:label="Mina Händelser" >
+            android:label="Mina Händelser"
+            android:screenOrientation="portrait">
         </activity>
     </application>
 

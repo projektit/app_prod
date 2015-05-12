@@ -18,6 +18,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
@@ -177,7 +178,7 @@ public class MyGardenListActivity extends BaseActivity {
         }
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        layoutParams.setMargins(8, 0, 0, 8);
+        layoutParams.setMargins(5, 0, 5, 48);
 
         ArrayAdapter <Garden> adapterLeft = new GardenListAdapter(toLeftList);
         ArrayAdapter <Garden> adapterRight = new GardenListAdapter(toRightList);
@@ -229,7 +230,7 @@ public class MyGardenListActivity extends BaseActivity {
         }
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        layoutParams.setMargins(8, 0, 0, 8);
+        layoutParams.setMargins(5, 0, 5, 48);
 
         ArrayAdapter <Garden> adapterLeft = new DeleteGardenListAdapter(toLeftList);
         ArrayAdapter <Garden> adapterRight = new DeleteGardenListAdapter(toRightList);
@@ -277,7 +278,7 @@ public class MyGardenListActivity extends BaseActivity {
         }
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        layoutParams.setMargins(8, 0, 0, 8);
+        layoutParams.setMargins(5, 0, 5, 48);
 
         ArrayAdapter <Garden> adapterLeft = new ChangeGardenListAdapter(toLeftList);
         ArrayAdapter <Garden> adapterRight = new ChangeGardenListAdapter(toRightList);
@@ -479,8 +480,8 @@ public class MyGardenListActivity extends BaseActivity {
             textView2.setText(gardenCity);
 
             final int finalPosition = position;
-            Button button1 = (Button)gardenItemView.findViewById(R.id.button1);
-            button1.setOnClickListener(new View.OnClickListener() {
+            ImageButton showGarden = (ImageButton)gardenItemView.findViewById(R.id.show_garden);
+            showGarden.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Garden garden = gardenList.get(finalPosition);
@@ -568,8 +569,8 @@ public class MyGardenListActivity extends BaseActivity {
             textView2.setText(gardenCity);
 
             final int finalPosition = position;
-            Button button1 = (Button) gardenItemView.findViewById(R.id.button1);
-            button1.setOnClickListener(new View.OnClickListener() {
+            ImageButton showGarden = (ImageButton) gardenItemView.findViewById(R.id.show_garden);
+            showGarden.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Garden garden = gardenList.get(finalPosition);

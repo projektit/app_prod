@@ -35,8 +35,8 @@
         android:id="@+id/textView2" />
 
     <ImageButton
-        android:id="@+id/button1"
-        android:background="@drawable/log_in_button"
+        android:id="@+id/add_new_garden"
+        android:background="@drawable/add_new_garden_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/textView2"
