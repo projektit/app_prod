@@ -25,6 +25,7 @@ public class Garden {
     int zone;
     Forecast forecast;
     Forecast2 forecast2;
+    int picNumber;
     public Garden(){
 
     }
@@ -37,11 +38,12 @@ public class Garden {
         this.forecast2 = forecast2;
     }
 
-    public Garden(String name, String location, String tableName, int zone){
+    public Garden(String name, String location, String tableName, int zone, int picNumber){
         this.location = location;
         this.name = name;
         this.tableName = tableName;
         this.zone = zone;
+        this.picNumber = picNumber;
     }
 
     public int getZone() {
@@ -69,5 +71,9 @@ public class Garden {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public int getPicNumber() {
+        return picNumber;
     }
 }

@@ -129,14 +129,17 @@ public class MyGardenListActivity extends BaseActivity {
                 String[] result = data.getStringArrayExtra("Result");
                 Context context = getApplicationContext();
                 GardenUtil gardenUtil = new GardenUtil();
-
+                //counters
                 int tableNumber = gardenUtil.getTableNumber(context);
+                int picNumber = gardenUtil.getPicNumber(context);
                 gardenUtil.setTableNumber(context, tableNumber + 1);
+                gardenUtil.setPicNumber(context, picNumber + 1);
+
                 Log.i(TAG, Integer.toString(tableNumber));
                 String tableName = "t" + Integer.toString(tableNumber);
                 Log.i(TAG, tableName);
                 //set zone = 1, quickfix
-                Garden garden = new Garden(result[0], result[1], tableName, 1);
+                Garden garden = new Garden(result[0], result[1], tableName, 1, picNumber);
                 String[] files = getApplicationContext().fileList();
 
                 ArrayList<String> files2 = new ArrayList<String>(Arrays.asList(files));
@@ -378,7 +381,19 @@ public class MyGardenListActivity extends BaseActivity {
             SQLPlantHelper sqlPlantHelper = new SQLPlantHelper(getApplicationContext());
             ArrayList <Plant_DB> allPlants = sqlPlantHelper.getAllPlants(garden.getTableName());
             ImageView imageView1 = (ImageView) gardenItemView.findViewById(R.id.imageView1);
-            imageView1.setImageResource(R.drawable.garden_lits_item_picture);
+            int picNumber = garden.getPicNumber();
+            if(picNumber == 1){
+                imageView1.setImageResource(R.drawable.ic_flower_to_garden1);
+            }
+            if(picNumber == 2){
+                imageView1.setImageResource(R.drawable.ic_flower_to_garden2);
+            }
+            if(picNumber == 3){
+                imageView1.setImageResource(R.drawable.ic_flower_to_garden3);
+            }
+            if(picNumber == 4){
+                imageView1.setImageResource(R.drawable.ic_flower_to_garden4);
+            }
 
             TextView textView1 = (TextView) gardenItemView.findViewById(R.id.textView1);
             textView1.setText(garden.getName());
@@ -441,26 +456,20 @@ public class MyGardenListActivity extends BaseActivity {
             SQLPlantHelper sqlPlantHelper = new SQLPlantHelper(getApplicationContext());
             ArrayList <Plant_DB> allPlants = sqlPlantHelper.getAllPlants(garden.getTableName());
             ImageView imageView1 = (ImageView) gardenItemView.findViewById(R.id.imageView1);
-            imageView1.setImageResource(R.drawable.garden_lits_item_picture);
-            /*
-            ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(context.CONNECTIVITY_SERVICE);
-            NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-            if(allPlants.size()>0){
-                if (networkInfo != null && networkInfo.isConnected()) {
-                    try {
-                        Plant_DB plant_db = allPlants.get(1);
-                        Picasso.with(context).load(plant_db.get_img_url()).into(imageView1);
 
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        imageView1.setImageResource(R.drawable.garden_lits_item_picture);
-                        Log.i(TAG, "Connected but failed anyway");
-                    }
-                }
-            }else {
-                imageView1.setImageResource(R.drawable.garden_lits_item_picture);
+            int picNumber = garden.getPicNumber();
+            if(picNumber == 1){
+                imageView1.setImageResource(R.drawable.ic_flower_to_garden1);
             }
-            */
+            if(picNumber == 2){
+                imageView1.setImageResource(R.drawable.ic_flower_to_garden2);
+            }
+            if(picNumber == 3){
+                imageView1.setImageResource(R.drawable.ic_flower_to_garden3);
+            }
+            if(picNumber == 4){
+                imageView1.setImageResource(R.drawable.ic_flower_to_garden4);
+            }
 
             TextView textView1 = (TextView) gardenItemView.findViewById(R.id.textView1);
             textView1.setText(garden.getName());
@@ -537,7 +546,19 @@ public class MyGardenListActivity extends BaseActivity {
             SQLPlantHelper sqlPlantHelper = new SQLPlantHelper(getApplicationContext());
             ArrayList <Plant_DB> allPlants = sqlPlantHelper.getAllPlants(garden.getTableName());
             ImageView imageView1 = (ImageView) gardenItemView.findViewById(R.id.imageView1);
-            imageView1.setImageResource(R.drawable.garden_lits_item_picture);
+            int picNumber = garden.getPicNumber();
+            if(picNumber == 1){
+                imageView1.setImageResource(R.drawable.ic_flower_to_garden1);
+            }
+            if(picNumber == 2){
+                imageView1.setImageResource(R.drawable.ic_flower_to_garden2);
+            }
+            if(picNumber == 3){
+                imageView1.setImageResource(R.drawable.ic_flower_to_garden3);
+            }
+            if(picNumber == 4){
+                imageView1.setImageResource(R.drawable.ic_flower_to_garden4);
+            }
 
             TextView textView1 = (TextView) gardenItemView.findViewById(R.id.textView1);
             textView1.setText(garden.getName());

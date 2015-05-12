@@ -216,5 +216,46 @@ public class GardenUtil {
         PendingIntent pendingIntent = PendingIntent.getService(context, userNotification.getId(), intent, PendingIntent.FLAG_CANCEL_CURRENT);
         alarmManager.cancel(pendingIntent);
     }
+    public int getPicNumber(Context context){
+        String [] files = context.fileList();
+        List <String> files2 = Arrays.asList(files);
+        if(files2.contains("number.picNumber")){
+            String file = "";
+            FileInputStream fileInputStream;
+            try{
+                fileInputStream = context.openFileInput("number.picNumber");
+                byte[] input = new byte[fileInputStream.available()];
+                while(fileInputStream.read(input) != -1){
+                    file += new String(input);
+                }
+                fileInputStream.close();
+
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            setPicNumber(context, Integer.parseInt(file));
+            return Integer.parseInt(file);
+        }else{
+            setPicNumber(context, 1);
+            return 1;
+        }
+    }
+    public void setPicNumber(Context context, int picNumber){
+        if(picNumber == 5){
+            picNumber = 1;
+        }
+        String picNumber2 = Integer.toString(picNumber);
+        try {
+            FileOutputStream fileOutputStream = context.openFileOutput("number.picNumber", Context.MODE_PRIVATE);
+            fileOutputStream.write(picNumber2.getBytes());
+            fileOutputStream.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
 
