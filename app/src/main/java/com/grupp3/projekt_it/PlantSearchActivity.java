@@ -288,9 +288,9 @@ public class PlantSearchActivity extends BaseActivity {
     }
 
     private String inputFilter(String input) {
-        input = input.replaceAll("å", "[oh]");
-        input = input.replaceAll("ä", "[aeh]");
-        input = input.replaceAll("ö", "[ueh]");
+        input = input.replaceAll("å", "[ohh]");
+        input = input.replaceAll("ä", "[aehh]");
+        input = input.replaceAll("ö", "[uehh]");
         input = input.replaceAll("Å", "[oh]");
         input = input.replaceAll("Ä", "[aeh]");
         input = input.replaceAll("Ö", "[ueh]");
