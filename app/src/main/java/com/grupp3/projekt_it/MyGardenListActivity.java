@@ -3,6 +3,8 @@ package com.grupp3.projekt_it;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.text.Layout;
 import android.util.Log;
@@ -22,6 +24,8 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.squareup.picasso.Picasso;
 
 import java.lang.*;
 import java.util.ArrayList;
@@ -168,6 +172,10 @@ public class MyGardenListActivity extends BaseActivity {
                 left = true;
             }
         }
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        layoutParams.setMargins(8, 0, 0, 8);
+
         ArrayAdapter <Garden> adapterLeft = new GardenListAdapter(toLeftList);
         ArrayAdapter <Garden> adapterRight = new GardenListAdapter(toRightList);
 
@@ -181,11 +189,8 @@ public class MyGardenListActivity extends BaseActivity {
             }
         });
 
-        linearLayoutLeft.addView(view);
+        linearLayoutLeft.addView(view, layoutParams);
 
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        layoutParams.setMargins(8, 0, 0, 8);
         for (int i = 0; i < adapterCountLeft; i++) {
             View item = adapterLeft.getView(i, null, null);
             linearLayoutLeft.addView(item, layoutParams);
@@ -196,40 +201,6 @@ public class MyGardenListActivity extends BaseActivity {
             View item = adapterRight.getView(i, null, null);
             linearLayoutRight.addView(item, layoutParams);
         }
-
-        /*
-        //Listen for normal click on items in list
-        listView1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.i(TAG, "click");
-                Garden garden = allGardens.get(position);
-                String gardenName = garden.getName();
-                Intent intent = new Intent(getApplicationContext(), MyGardenActivity.class);
-                intent.putExtra("gardenName", gardenName);
-                startActivity(intent);
-            }
-        });
-
-        //Listener for long click on items in list
-        listView1.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                Garden garden = allGardens.get(position);
-                String gardenName = garden.getName();
-
-                FragmentManager fragmentManager = getFragmentManager();
-                GardenListFragment quickOptions = new GardenListFragment();
-
-                Bundle bundle = new Bundle();
-                bundle.putString("gardenName", gardenName);
-
-                quickOptions.setArguments(bundle);
-                quickOptions.show(fragmentManager, "disIsTag");
-                return true;
-            }
-        });
-        */
     }
 
     // When the delete garden settings option is chosen this view is shown and clicking on items
@@ -253,6 +224,10 @@ public class MyGardenListActivity extends BaseActivity {
                 left = true;
             }
         }
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        layoutParams.setMargins(8, 0, 0, 8);
+
         ArrayAdapter <Garden> adapterLeft = new DeleteGardenListAdapter(toLeftList);
         ArrayAdapter <Garden> adapterRight = new DeleteGardenListAdapter(toRightList);
 
@@ -265,17 +240,17 @@ public class MyGardenListActivity extends BaseActivity {
                 onNewItemClick(v);
             }
         });
-        linearLayoutLeft.addView(view);
+        linearLayoutLeft.addView(view, layoutParams);
         for (int i = 0; i < adapterCountLeft; i++) {
             View item = adapterLeft.getView(i, null, null);
-            linearLayoutLeft.addView(item);
+            linearLayoutLeft.addView(item, layoutParams);
         }
 
         final int adapterCountRight = adapterRight.getCount();
         linearLayoutRight.removeAllViews();
         for (int i = 0; i < adapterCountRight; i++) {
             View item = adapterRight.getView(i, null, null);
-            linearLayoutRight.addView(item);
+            linearLayoutRight.addView(item, layoutParams);
         }
     }
     // When the change name settings option is chosen this view is shown and clicking on an item in
@@ -297,6 +272,10 @@ public class MyGardenListActivity extends BaseActivity {
                 left = true;
             }
         }
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        layoutParams.setMargins(8, 0, 0, 8);
+
         ArrayAdapter <Garden> adapterLeft = new ChangeGardenListAdapter(toLeftList);
         ArrayAdapter <Garden> adapterRight = new ChangeGardenListAdapter(toRightList);
 
@@ -309,11 +288,7 @@ public class MyGardenListActivity extends BaseActivity {
                 onNewItemClick(v);
             }
         });
-        linearLayoutLeft.addView(view);
-
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        layoutParams.setMargins(8, 0, 0, 8);
+        linearLayoutLeft.addView(view, layoutParams);
 
         for (int i = 0; i < adapterCountLeft; i++) {
             View item = adapterLeft.getView(i, null, null);
@@ -391,6 +366,7 @@ public class MyGardenListActivity extends BaseActivity {
         }
 
         public View getView(int position, View convertView, ViewGroup parent) {
+            Context context = getApplicationContext();
             View gardenItemView = convertView;
             //check if given view is null, if so inflate a new one
             if (gardenItemView == null) {
@@ -398,6 +374,9 @@ public class MyGardenListActivity extends BaseActivity {
             }
             //find garden to work with
             final Garden garden = gardenList.get(position);
+
+            SQLPlantHelper sqlPlantHelper = new SQLPlantHelper(getApplicationContext());
+            ArrayList <Plant_DB> allPlants = sqlPlantHelper.getAllPlants(garden.getTableName());
             ImageView imageView1 = (ImageView) gardenItemView.findViewById(R.id.imageView1);
             imageView1.setImageResource(R.drawable.garden_lits_item_picture);
 
@@ -449,6 +428,7 @@ public class MyGardenListActivity extends BaseActivity {
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
+            Context context = getApplicationContext();
             View gardenItemView = convertView;
             //check if given view is null, if so inflate a new one
             if(gardenItemView == null){
@@ -456,72 +436,39 @@ public class MyGardenListActivity extends BaseActivity {
             }
             //find garden to work with
             Garden garden = gardenList.get(position);
-            /*
-            //fill view
-            int weatherCode = -1;
-            if(garden.getForecast() != null){
-                Weather[] weathers = garden.getForecast().getWeather();
-                if (weathers[0].getIcon().equals("01d")) {
-                    weatherCode = R.drawable.d01d;
-                } else if (weathers[0].getIcon().equals("02d")) {
-                    weatherCode = R.drawable.d02d;
-                } else if (weathers[0].getIcon().equals("03d")) {
-                    weatherCode = R.drawable.d03d;
-                } else if (weathers[0].getIcon().equals("04d")) {
-                    weatherCode = R.drawable.d04d;
-                } else if (weathers[0].getIcon().equals("09d")) {
-                    weatherCode = R.drawable.d09d;
-                } else if (weathers[0].getIcon().equals("10d")) {
-                    weatherCode = R.drawable.d10d;
-                } else if (weathers[0].getIcon().equals("11d")) {
-                    weatherCode = R.drawable.d11d;
-                } else if (weathers[0].getIcon().equals("13d")) {
-                    weatherCode = R.drawable.d13d;
-                }else if (weathers[0].getIcon().equals("50d")) {
-                    weatherCode = R.drawable.d50d;
-                }
-                if (weathers[0].getIcon().equals("01n")) {
-                    weatherCode = R.drawable.n01n;
-                } else if (weathers[0].getIcon().equals("02n")) {
-                    weatherCode = R.drawable.n02n;
-                } else if (weathers[0].getIcon().equals("03n")) {
-                    weatherCode = R.drawable.n03n;
-                } else if (weathers[0].getIcon().equals("04n")) {
-                    weatherCode = R.drawable.n04n;
-                } else if (weathers[0].getIcon().equals("09n")) {
-                    weatherCode = R.drawable.n09n;
-                } else if (weathers[0].getIcon().equals("10n")) {
-                    weatherCode = R.drawable.n10n;
-                } else if (weathers[0].getIcon().equals("11n")) {
-                    weatherCode = R.drawable.n11n;
-                } else if (weathers[0].getIcon().equals("13n")) {
-                    weatherCode = R.drawable.n13n;
-                }else if (weathers[0].getIcon().equals("50d")) {
-                    weatherCode = R.drawable.n50n;
-                }
-            }
-            */
+
+
+            SQLPlantHelper sqlPlantHelper = new SQLPlantHelper(getApplicationContext());
+            ArrayList <Plant_DB> allPlants = sqlPlantHelper.getAllPlants(garden.getTableName());
             ImageView imageView1 = (ImageView) gardenItemView.findViewById(R.id.imageView1);
             imageView1.setImageResource(R.drawable.garden_lits_item_picture);
             /*
-            if(weatherCode != -1) {
-                ImageView imageView2 = (ImageView) gardenItemView.findViewById(R.id.imageView2);
-                imageView2.setImageResource(weatherCode);
+            ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(context.CONNECTIVITY_SERVICE);
+            NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+            if(allPlants.size()>0){
+                if (networkInfo != null && networkInfo.isConnected()) {
+                    try {
+                        Plant_DB plant_db = allPlants.get(1);
+                        Picasso.with(context).load(plant_db.get_img_url()).into(imageView1);
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        imageView1.setImageResource(R.drawable.garden_lits_item_picture);
+                        Log.i(TAG, "Connected but failed anyway");
+                    }
+                }
+            }else {
+                imageView1.setImageResource(R.drawable.garden_lits_item_picture);
             }
             */
+
             TextView textView1 = (TextView) gardenItemView.findViewById(R.id.textView1);
             textView1.setText(garden.getName());
 
             String gardenCity = garden.getLocation().substring(0, garden.getLocation().length()-4);
             TextView textView2 = (TextView) gardenItemView.findViewById(R.id.textView2);
             textView2.setText(gardenCity);
-            /*
-            if(weatherCode != -1) {
-                int temp = (int) Math.round(garden.getForecast().getMain().getTemp());
-                TextView textView3 = (TextView) gardenItemView.findViewById(R.id.textView3);
-                textView3.setText(Double.toString(temp).substring(0, Double.toString(temp).length()-2) + "\u00b0");
-            }
-            */
+
             final int finalPosition = position;
             Button button1 = (Button)gardenItemView.findViewById(R.id.button1);
             button1.setOnClickListener(new View.OnClickListener() {
@@ -577,6 +524,7 @@ public class MyGardenListActivity extends BaseActivity {
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
+            Context context = getApplicationContext();
             View gardenItemView = convertView;
             //check if given view is null, if so inflate a new one
             if (gardenItemView == null) {
@@ -584,72 +532,20 @@ public class MyGardenListActivity extends BaseActivity {
             }
             //find garden to work with
             Garden garden = gardenList.get(position);
-            /*
-            //fill view
-            int weatherCode = -1;
-            if(garden.getForecast() != null){
-                Weather[] weathers = garden.getForecast().getWeather();
-                if (weathers[0].getIcon().equals("01d")) {
-                    weatherCode = R.drawable.d01d;
-                } else if (weathers[0].getIcon().equals("02d")) {
-                    weatherCode = R.drawable.d02d;
-                } else if (weathers[0].getIcon().equals("03d")) {
-                    weatherCode = R.drawable.d03d;
-                } else if (weathers[0].getIcon().equals("04d")) {
-                    weatherCode = R.drawable.d04d;
-                } else if (weathers[0].getIcon().equals("09d")) {
-                    weatherCode = R.drawable.d09d;
-                } else if (weathers[0].getIcon().equals("10d")) {
-                    weatherCode = R.drawable.d10d;
-                } else if (weathers[0].getIcon().equals("11d")) {
-                    weatherCode = R.drawable.d11d;
-                } else if (weathers[0].getIcon().equals("13d")) {
-                    weatherCode = R.drawable.d13d;
-                }else if (weathers[0].getIcon().equals("50d")) {
-                    weatherCode = R.drawable.d50d;
-                }
-                if (weathers[0].getIcon().equals("01n")) {
-                    weatherCode = R.drawable.n01n;
-                } else if (weathers[0].getIcon().equals("02n")) {
-                    weatherCode = R.drawable.n02n;
-                } else if (weathers[0].getIcon().equals("03n")) {
-                    weatherCode = R.drawable.n03n;
-                } else if (weathers[0].getIcon().equals("04n")) {
-                    weatherCode = R.drawable.n04n;
-                } else if (weathers[0].getIcon().equals("09n")) {
-                    weatherCode = R.drawable.n09n;
-                } else if (weathers[0].getIcon().equals("10n")) {
-                    weatherCode = R.drawable.n10n;
-                } else if (weathers[0].getIcon().equals("11n")) {
-                    weatherCode = R.drawable.n11n;
-                } else if (weathers[0].getIcon().equals("13n")) {
-                    weatherCode = R.drawable.n13n;
-                }else if (weathers[0].getIcon().equals("50d")) {
-                    weatherCode = R.drawable.n50n;
-                }
-            }
-            */
+
+            //set image
+            SQLPlantHelper sqlPlantHelper = new SQLPlantHelper(getApplicationContext());
+            ArrayList <Plant_DB> allPlants = sqlPlantHelper.getAllPlants(garden.getTableName());
             ImageView imageView1 = (ImageView) gardenItemView.findViewById(R.id.imageView1);
             imageView1.setImageResource(R.drawable.garden_lits_item_picture);
-            /*
-            if(weatherCode != -1) {
-                ImageView imageView2 = (ImageView) gardenItemView.findViewById(R.id.imageView2);
-                imageView2.setImageResource(weatherCode);
-            }
-            */
+
             TextView textView1 = (TextView) gardenItemView.findViewById(R.id.textView1);
             textView1.setText(garden.getName());
 
             String gardenCity = garden.getLocation().substring(0, garden.getLocation().length() - 4);
             TextView textView2 = (TextView) gardenItemView.findViewById(R.id.textView2);
             textView2.setText(gardenCity);
-            /*
-            if(weatherCode != -1) {
-                int temp = (int) Math.round(garden.getForecast().getMain().getTemp());
-                TextView textView3 = (TextView) gardenItemView.findViewById(R.id.textView3);
-                textView3.setText(Double.toString(temp).substring(0, Double.toString(temp).length()-2) + "\u00b0");
-            }
-            */
+
             final int finalPosition = position;
             Button button1 = (Button) gardenItemView.findViewById(R.id.button1);
             button1.setOnClickListener(new View.OnClickListener() {

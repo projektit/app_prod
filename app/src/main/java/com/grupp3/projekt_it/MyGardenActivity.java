@@ -294,14 +294,17 @@ public class MyGardenActivity extends ActionBarActivity {
         }
         TextView gardenNameTV = (TextView)findViewById(R.id.my_garden_name);
         gardenNameTV.setText(gardenName);
+
         String gardenCity = garden.getLocation().substring(0, garden.getLocation().length() - 4);
         TextView gardenLocationTV = (TextView) findViewById(R.id.my_garden_location);
         gardenLocationTV.setText(gardenCity);
-        int temp = (int) Math.round(garden.getForecast().getMain().getTemp());
-        TextView gardenTemp = (TextView) findViewById(R.id.my_garden_temp);
-        gardenTemp.setText(Double.toString(temp).substring(0, Double.toString(temp).length()-2) + "\u00b0");
-        ImageView weatherPicture = (ImageView) findViewById(R.id.my_garden_weather);
-        weatherPicture.setImageResource(weatherCode);
+        if(weatherCode != -1) {
+            int temp = (int) Math.round(garden.getForecast().getMain().getTemp());
+            TextView gardenTemp = (TextView) findViewById(R.id.my_garden_temp);
+            gardenTemp.setText(Double.toString(temp).substring(0, Double.toString(temp).length() - 2) + "\u00b0");
+            ImageView weatherPicture = (ImageView) findViewById(R.id.my_garden_weather);
+            weatherPicture.setImageResource(weatherCode);
+        }
     }
     private class PlantListAdapter extends ArrayAdapter <Plant_DB> {
         public PlantListAdapter() {

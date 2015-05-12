@@ -1,5 +1,6 @@
 package com.grupp3.projekt_it;
 
+import android.app.FragmentManager;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.Color;
@@ -9,6 +10,7 @@ import android.os.Bundle;
 import android.text.Html;
 import android.text.Spannable;
 import android.text.Spanned;
+import android.text.SpannedString;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.text.method.ScrollingMovementMethod;
@@ -17,8 +19,12 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.webkit.WebView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -29,11 +35,14 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.w3c.dom.Text;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
@@ -44,6 +53,8 @@ public class MainActivity extends BaseActivity {
     private long mBackPressed;
     private TextView tv;
     String TAG = "com.grupp3.projekt_it";
+    LinearLayout linearLayoutLeft;
+    LinearLayout linearLayoutRight;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +64,7 @@ public class MainActivity extends BaseActivity {
         /**
          * Adding our layout to parent class frame layout.
          */
-        getLayoutInflater().inflate(R.layout.activity_main, frameLayout);
+        getLayoutInflater().inflate(R.layout.activity_main2, frameLayout);
         //set alarms
         OnBootReceiver.setForecastAlarms(getApplicationContext());
         int month = Calendar.getInstance().get(Calendar.MONTH);
@@ -76,6 +87,7 @@ public class MainActivity extends BaseActivity {
         // Get the current month
         Calendar calendar = Calendar.getInstance();
         int currentMonth = calendar.get(Calendar.MONTH);
+        ArrayList <String> divList = new ArrayList<>();
         // Read data from html file and display it depending on month
         try{
             InputStream stream = this.getAssets().open(tipsArray[currentMonth]);
@@ -100,10 +112,12 @@ public class MainActivity extends BaseActivity {
             String div13 = substringBetween(html, "<div id=\"div13\">", "</div>");
             String div14 = substringBetween(html, "<div id=\"div14\">", "</div>");
 
-            Log.i(TAG, div1);
+            String [] divArray = {div1, div2, div3, div4, div5, div6, div7, div8, div9, div10, div11, div12, div13, div14};
+            divList = new ArrayList(Arrays.asList(divArray));
             /**
              * Textview settings
              */
+        /*
             // Define the specific textview
             tv = (TextView)findViewById(R.id.mon_tips_text);
 
@@ -113,6 +127,7 @@ public class MainActivity extends BaseActivity {
             //tv.setMovementMethod(new ScrollingMovementMethod());
             // Allow links to be clicked
             tv.setMovementMethod(LinkMovementMethod.getInstance());
+            */
         }
         catch (IOException e) {
             e.printStackTrace();
@@ -122,16 +137,56 @@ public class MainActivity extends BaseActivity {
         TypedArray images = getResources().obtainTypedArray(R.array.monthArray);
         int resourceId = images.getResourceId(currentMonth, -1);
         // Define the ImageView
-        ImageView im = (ImageView) findViewById(R.id.imageView);
+        ImageView im = (ImageView) findViewById(R.id.imageView1);
         // Set correct drawable as background in the ImageView
         im.setImageResource(resourceId);
 
         // Array to store background colors to be shown in the activity
         String [] colors = {"#7c4c8a", "#790b14", "#608f31", "#f6c61a", "#71945c", "#b52c3e", "#89144b", "#a2882d", "#918f80", "#354a12", "#d3d069", "#7f4a18"};
         // Define the layout and set the color to the correct one
+        /*
         RelativeLayout rl = (RelativeLayout) findViewById(R.id.backgroundColor);
         rl.setBackgroundColor(Color.parseColor(colors[currentMonth]));
+        */
+        Log.i(TAG, "Daniel");
+        linearLayoutLeft = (LinearLayout) findViewById(R.id.leftLinear);
+        linearLayoutRight = (LinearLayout) findViewById(R.id.rightLinear);
+        buildList(divList);
+    }
+    private void buildList(ArrayList <String> divList){
+        ArrayList<String> toLeftList = new ArrayList<>();
+        ArrayList<String> toRightList = new ArrayList<>();
+        boolean left = false;
+        for(String div : divList){
+            if(left){
+                toLeftList.add(div);
+                left = false;
+            }else{
+                toRightList.add(div);
+                left = true;
+            }
+        }
+        ArrayAdapter <String> adapterLeft = new MainListAdapter(toLeftList);
+        ArrayAdapter <String> adapterRight = new MainListAdapter(toRightList);
 
+        final int adapterCountLeft = adapterLeft.getCount();
+        linearLayoutLeft.removeAllViews();
+
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        layoutParams.setMargins(8, 0, 0, 8);
+
+        for (int i = 0; i < adapterCountLeft; i++) {
+            View item = adapterLeft.getView(i, null, null);
+            linearLayoutLeft.addView(item, layoutParams);
+        }
+
+        final int adapterCountRight = adapterRight.getCount();
+        linearLayoutRight.removeAllViews();
+        for (int i = 0; i < adapterCountRight; i++) {
+            View item = adapterRight.getView(i, null, null);
+            linearLayoutRight.addView(item, layoutParams);
+        }
     }
     @Override
      public boolean onPrepareOptionsMenu(Menu menu){
@@ -236,5 +291,44 @@ public class MainActivity extends BaseActivity {
             }
         }
         return null;
+    }
+    private class MainListAdapter extends ArrayAdapter<String> {
+        ArrayList<String> divList;
+        public MainListAdapter(ArrayList<String> divList){
+            super(MainActivity.this, R.layout.main_item, divList);
+            this.divList = divList;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            View mainItemView = convertView;
+            //check if given view is null, if so inflate a new one
+            if(mainItemView == null){
+                mainItemView = getLayoutInflater().inflate(R.layout.main_item, parent, false);
+            }
+
+            ImageView imageView1 = (ImageView) mainItemView.findViewById(R.id.imageView1);
+            imageView1.setImageResource(R.drawable.garden_lits_item_picture);
+
+            Spanned text = Html.fromHtml(divList.get(position));
+            String htmlText = divList.get(position);
+            
+            //htmlText.
+            TextView textView1 = (TextView) mainItemView.findViewById(R.id.textView1);
+            /*
+            if(text.length() > 20){
+                Log.i(TAG, "bigger than 20");
+                TextView textView2 = (TextView) mainItemView.findViewById(R.id.textView2);
+                //textView2.setTextColor(26367);
+                textView1.setText(text);
+                textView2.setText("Read More");
+            }
+            */
+
+            textView1.setText(Html.fromHtml(divList.get(position)));
+
+
+            return mainItemView;
+        }
     }
 }
