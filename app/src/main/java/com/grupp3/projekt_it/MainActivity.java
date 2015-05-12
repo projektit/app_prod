@@ -1,9 +1,12 @@
 package com.grupp3.projekt_it;
 
 import android.app.FragmentManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -30,6 +33,8 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
+import com.squareup.picasso.Picasso;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -59,6 +64,9 @@ public class MainActivity extends BaseActivity {
     int currentUrl;
     ArrayList<String> divList = new ArrayList<>();
     ArrayList<String> urlList = new ArrayList<>();
+
+    ArrayList<MainItemObject> mainItemObjects;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,6 +100,7 @@ public class MainActivity extends BaseActivity {
         Calendar calendar = Calendar.getInstance();
         int currentMonth = calendar.get(Calendar.MONTH);
         ArrayList <String> divList = new ArrayList<>();
+        ArrayList <String> urlList = new ArrayList<>();
         // Read data from html file and display it depending on month
         try{
             InputStream stream = this.getAssets().open(tipsArray[currentMonth]);
@@ -125,8 +134,27 @@ public class MainActivity extends BaseActivity {
             String div13 = substringBetween(html, "<div id=\"div13\">", "</div>");
             String div14 = substringBetween(html, "<div id=\"div14\">", "</div>");
 
+            String url1 = "http://pixabay.com/static/uploads/photo/2012/02/16/12/09/dandelion-13468_640.jpg";
+            String url2 = "http://pixabay.com/static/uploads/photo/2014/08/05/17/23/the-carrot-410670_640.jpg";
+            String url3 = "http://pixabay.com/static/uploads/photo/2013/08/28/18/07/clematis-176818_640.jpg";
+            String url4 = "";
+            String url5 = "";
+            String url6 = "http://pixabay.com/static/uploads/photo/2013/10/24/16/00/flowers-200270_640.jpg";
+            String url7 = "http://pixabay.com/static/uploads/photo/2013/09/06/16/00/potatoes-179471_640.jpg";
+            String url8 = "";
+            String url9 = "";
+            String url10 = "";
+            String url11 = "http://pixabay.com/static/uploads/photo/2013/10/06/10/45/hare-191365_640.jpg";
+            String url12 = "";
+            String url13 = "";
+            String url14 = "";
+
+
+
             String [] divArray = {div1, div2, div3, div4, div5, div6, div7, div8, div9, div10, div11, div12, div13, div14};
             divList = new ArrayList(Arrays.asList(divArray));
+            String [] urls = {url1, url2, url3, url4, url5, url6, url7, url8, url9, url10, url11, url12, url13, url4};
+            urlList = new ArrayList(Arrays.asList(urls));
             /**
              * Textview settings
              */
@@ -180,23 +208,27 @@ public class MainActivity extends BaseActivity {
         Log.i(TAG, "Daniel");
         linearLayoutLeft = (LinearLayout) findViewById(R.id.leftLinear);
         linearLayoutRight = (LinearLayout) findViewById(R.id.rightLinear);
-        buildList(divList);
+        mainItemObjects = new ArrayList<MainItemObject>();
+        for(int i = 0; i < divList.size(); i++){
+            mainItemObjects.add(new MainItemObject(divList.get(i), urlList.get(i)));
+        }
+        buildList();
     }
-    private void buildList(ArrayList <String> divList){
-        ArrayList<String> toLeftList = new ArrayList<>();
-        ArrayList<String> toRightList = new ArrayList<>();
+    private void buildList(){
+        ArrayList<MainItemObject> toLeftList = new ArrayList<>();
+        ArrayList<MainItemObject> toRightList = new ArrayList<>();
         boolean left = false;
-        for(String div : divList){
+        for(MainItemObject mainItemObject : mainItemObjects){
             if(left){
-                toLeftList.add(div);
+                toLeftList.add(mainItemObject);
                 left = false;
             }else{
-                toRightList.add(div);
+                toRightList.add(mainItemObject);
                 left = true;
             }
         }
-        ArrayAdapter <String> adapterLeft = new MainListAdapter(toLeftList);
-        ArrayAdapter <String> adapterRight = new MainListAdapter(toRightList);
+        ArrayAdapter <MainItemObject> adapterLeft = new MainListAdapter(toLeftList);
+        ArrayAdapter <MainItemObject> adapterRight = new MainListAdapter(toRightList);
 
         final int adapterCountLeft = adapterLeft.getCount();
         linearLayoutLeft.removeAllViews();
@@ -321,11 +353,11 @@ public class MainActivity extends BaseActivity {
         }
         return null;
     }
-    private class MainListAdapter extends ArrayAdapter<String> {
-        ArrayList<String> divList;
-        public MainListAdapter(ArrayList<String> divList){
-            super(MainActivity.this, R.layout.main_item, divList);
-            this.divList = divList;
+    private class MainListAdapter extends ArrayAdapter<MainItemObject> {
+        ArrayList<MainItemObject> someMainItemObjects;
+        public MainListAdapter(ArrayList<MainItemObject> someMainItemObjects){
+            super(MainActivity.this, R.layout.main_item, someMainItemObjects);
+            this.someMainItemObjects = someMainItemObjects;
         }
 
         @Override
@@ -336,11 +368,28 @@ public class MainActivity extends BaseActivity {
                 mainItemView = getLayoutInflater().inflate(R.layout.main_item, parent, false);
             }
 
-            ImageView imageView1 = (ImageView) mainItemView.findViewById(R.id.imageView1);
-            imageView1.setImageResource(R.drawable.garden_lits_item_picture);
+            Context context = getApplicationContext();
+            MainItemObject mainItemObject = someMainItemObjects.get(position);
 
-            Spanned text = Html.fromHtml(divList.get(position));
-            final String htmlText = divList.get(position);
+            ImageView imageView1 = (ImageView) mainItemView.findViewById(R.id.imageView1);
+
+            String url = mainItemObject.getImageUrl();
+            if(!"".equals(url)) {
+                ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(context.CONNECTIVITY_SERVICE);
+                NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+                if (networkInfo != null && networkInfo.isConnected()) {
+                    try {
+                        Picasso.with(context).load(url).into(imageView1);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        Log.i(TAG, "Connected but failed anyway");
+                    }
+                }
+            }
+
+
+            Spanned text = Html.fromHtml(mainItemObject.getHtmlText());
+            final String htmlText = mainItemObject.getHtmlText();
             
             //htmlText.
             final TextView textView1 = (TextView) mainItemView.findViewById(R.id.textView1);
