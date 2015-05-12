@@ -16,7 +16,7 @@
         tools:replace="android:icon,android:theme" >
         <activity
             android:name=".Init"
-            android:label="@string/title_activity_init"
+            android:label="Min Trädgård"
             android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
