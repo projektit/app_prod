@@ -24,4 +24,8 @@ public class MainItemObject {
     public String getImageUrl() {
         return imageUrl;
     }
+
+    public String toString(){
+        return htmlText + "            " + imageUrl;
+    }
 }

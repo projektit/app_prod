@@ -19,6 +19,7 @@ import android.text.method.LinkMovementMethod;
 import android.text.method.ScrollingMovementMethod;
 import android.text.util.Linkify;
 import android.util.Log;
+import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -60,10 +61,6 @@ public class MainActivity extends BaseActivity {
     String TAG = "com.grupp3.projekt_it";
     LinearLayout linearLayoutLeft;
     LinearLayout linearLayoutRight;
-    int currentDiv;
-    int currentUrl;
-    ArrayList<String> divList = new ArrayList<>();
-    ArrayList<String> urlList = new ArrayList<>();
 
     ArrayList<MainItemObject> mainItemObjects;
 
@@ -109,16 +106,7 @@ public class MainActivity extends BaseActivity {
             stream.read(buffer);
             stream.close();
             String html = new String(buffer);
-            currentDiv = 1;
-
-            while(html.contains("<div id=\"div" + currentDiv + "\">")){
-                String thisDiv = substringBetween(html, "<div id=\"div" + currentDiv + "\">", "</div>");
-                divList.add(thisDiv);
-                currentDiv++;
-            }
-            for(String s: divList){
-                Log.i(TAG, s);
-            }
+            /*
             String div1 = substringBetween(html, "<div id=\"div1\">", "</div>");
             String div2 = substringBetween(html, "<div id=\"div2\">", "</div>");
             String div3 = substringBetween(html, "<div id=\"div3\">", "</div>");
@@ -134,62 +122,52 @@ public class MainActivity extends BaseActivity {
             String div13 = substringBetween(html, "<div id=\"div13\">", "</div>");
             String div14 = substringBetween(html, "<div id=\"div14\">", "</div>");
 
-            String url1 = "http://pixabay.com/static/uploads/photo/2012/02/16/12/09/dandelion-13468_640.jpg";
-            String url2 = "http://pixabay.com/static/uploads/photo/2014/08/05/17/23/the-carrot-410670_640.jpg";
-            String url3 = "http://pixabay.com/static/uploads/photo/2013/08/28/18/07/clematis-176818_640.jpg";
-            String url4 = "";
-            String url5 = "";
-            String url6 = "http://pixabay.com/static/uploads/photo/2013/10/24/16/00/flowers-200270_640.jpg";
-            String url7 = "http://pixabay.com/static/uploads/photo/2013/09/06/16/00/potatoes-179471_640.jpg";
-            String url8 = "";
-            String url9 = "";
-            String url10 = "";
-            String url11 = "http://pixabay.com/static/uploads/photo/2013/10/06/10/45/hare-191365_640.jpg";
-            String url12 = "";
-            String url13 = "";
-            String url14 = "";
-
-
-
             String [] divArray = {div1, div2, div3, div4, div5, div6, div7, div8, div9, div10, div11, div12, div13, div14};
             divList = new ArrayList(Arrays.asList(divArray));
-            String [] urls = {url1, url2, url3, url4, url5, url6, url7, url8, url9, url10, url11, url12, url13, url4};
-            urlList = new ArrayList(Arrays.asList(urls));
-            /**
-             * Textview settings
-             */
-        /*
-            // Define the specific textview
-            tv = (TextView)findViewById(R.id.mon_tips_text);
-
-            // Set the text in the textview
-            tv.setText(Html.fromHtml(html));
-            // Allow scrolling
-            //tv.setMovementMethod(new ScrollingMovementMethod());
-            // Allow links to be clicked
-            tv.setMovementMethod(LinkMovementMethod.getInstance());
             */
+            int currentDiv = 1;
+            while(html.contains("<div id=\"div" + currentDiv + "\">")){
+                String thisDiv = substringBetween(html, "<div id=\"div" + currentDiv + "\">", "</div>");
+                divList.add(thisDiv);
+                currentDiv++;
+            }
+
             InputStream stream2 = this.getAssets().open("may_tips_url.html");
             int streamSize2 = stream2.available();
             byte[] buffer2 = new byte[streamSize2];
             stream2.read(buffer2);
             stream2.close();
             String url = new String(buffer2);
-            currentUrl = 1;
+
+            int currentUrl = 1;
             while(url.contains("<div id=\"url" + currentUrl + "\">")){
-                urlList.add(substringBetween(url, "<div id=\"url" + currentUrl + "\">", "</div>"));
+                urlList.add((substringBetween(url, "<div id=\"url" + currentUrl + "\">", "</div>")));
+                Log.i(TAG, (substringBetween(url, "<div id=\"url" + currentUrl + "\">", "</div>")));
                 currentUrl++;
             }
-            Log.i(TAG, "Jag kom ut");
-            for(String st: urlList){
-                Log.i(TAG, st);
-            }
+            /*
+            String [] urls = {
+                    "",
+                    "http://pixabay.com/static/uploads/photo/2014/08/05/17/23/the-carrot-410670_640.jpg",
+                    "http://pixabay.com/static/uploads/photo/2013/08/28/18/07/clematis-176818_640.jpg",
+                    "",
+                    "",
+                    "http://pixabay.com/static/uploads/photo/2013/12/06/13/00/water-lily-224195_640.jpg",
+                    "http://pixabay.com/static/uploads/photo/2013/09/06/16/00/potatoes-179471_640.jpg",
+                    "",
+                    "http://pixabay.com/static/uploads/photo/2013/11/28/12/14/grass-220465_640.jpg",
+                    "",
+                    "http://pixabay.com/static/uploads/photo/2013/10/06/10/45/hare-191365_640.jpg",
+                    "http://pixabay.com/static/uploads/photo/2010/12/13/09/58/appetite-2038_640.jpg",
+                    "",
+                    "http://pixabay.com/static/uploads/photo/2014/04/01/14/19/rose-302531_640.jpg"
+            };
+            urlList = new ArrayList(Arrays.asList(urls));
+            */
         }
         catch (IOException e) {
             e.printStackTrace();
         }
-
-
         // Get correct drawable for the month
         TypedArray images = getResources().obtainTypedArray(R.array.monthArray);
         int resourceId = images.getResourceId(currentMonth, -1);
@@ -201,23 +179,20 @@ public class MainActivity extends BaseActivity {
         // Array to store background colors to be shown in the activity
         String [] colors = {"#7c4c8a", "#790b14", "#608f31", "#f6c61a", "#71945c", "#b52c3e", "#89144b", "#a2882d", "#918f80", "#354a12", "#d3d069", "#7f4a18"};
         // Define the layout and set the color to the correct one
-        /*
-        RelativeLayout rl = (RelativeLayout) findViewById(R.id.backgroundColor);
-        rl.setBackgroundColor(Color.parseColor(colors[currentMonth]));
-        */
-        Log.i(TAG, "Daniel");
         linearLayoutLeft = (LinearLayout) findViewById(R.id.leftLinear);
         linearLayoutRight = (LinearLayout) findViewById(R.id.rightLinear);
         mainItemObjects = new ArrayList<MainItemObject>();
+
         for(int i = 0; i < divList.size(); i++){
-            mainItemObjects.add(new MainItemObject(divList.get(i), urlList.get(i)));
+            MainItemObject mainItemObject = new MainItemObject(divList.get(i), Html.fromHtml(urlList.get(i)).toString());
+            mainItemObjects.add(mainItemObject);
         }
         buildList();
     }
     private void buildList(){
         ArrayList<MainItemObject> toLeftList = new ArrayList<>();
         ArrayList<MainItemObject> toRightList = new ArrayList<>();
-        boolean left = false;
+        boolean left = true;
         for(MainItemObject mainItemObject : mainItemObjects){
             if(left){
                 toLeftList.add(mainItemObject);
@@ -372,9 +347,8 @@ public class MainActivity extends BaseActivity {
             MainItemObject mainItemObject = someMainItemObjects.get(position);
 
             ImageView imageView1 = (ImageView) mainItemView.findViewById(R.id.imageView1);
-
             String url = mainItemObject.getImageUrl();
-            if(!"".equals(url)) {
+            if(!"null".equals(url)) {
                 ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(context.CONNECTIVITY_SERVICE);
                 NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
                 if (networkInfo != null && networkInfo.isConnected()) {
