@@ -18,6 +18,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import org.apache.http.conn.ConnectTimeoutException;
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
@@ -25,6 +26,22 @@ import org.ksoap2.transport.HttpTransportSE;
 
 import java.net.SocketTimeoutException;
 
+/*********************************************************************************************
+ * @author  Marcus Elwin
+ * Date: 2015-05-10
+ *@version 1.2
+ * This class, is used for Login to the application "Min trädgård"
+ * This class and its methods, are implementing Bonniers's SubscriptionAPI and the method
+ * GetSubscriptionStatus, with the SOAP 1.1. Protocol. An external libary ksoap2 was used
+ * To create an HTTP POST request as described on this website:
+ * http://api.bm-data.com/services/bm400/1.3/SubscriptionAPI.asmx?op=GetSubscriptionStatus
+ * To be able to login, the user needs an active subscription, this information is fetched from
+ * the .NET webservice in the API, and processed, if isActive=true, an new Activity is started
+ * "MainActivity to take the user to the home screen. if isActive=false, a toast with info
+ * that the subscription is inactive
+ * result = 1, -1, 0 corresponds to true, false, other cases e.g. network error.
+ * @Throws SocketTimeOutException
+ **********************************************************************************************/
 
 public class Login extends ActionBarActivity {
 
@@ -71,48 +88,31 @@ public class Login extends ActionBarActivity {
             public void onClick(View v) {
                 // get text from textbox
                 user = mUserLogin.getText().toString().trim();
-                //call method for login save response
+                //Start Async Task for Login save responses
                 new LoginTask().execute(user);
                 //boolean serviceResponse = doLogin(user);
-
-               /* // check if the entered information is a valid user, if not show error message
-                if (Arrays.asList(acceptedUsers).contains(user)) {
-                    // Save valid premnumber
-
-                    Context context = getBaseContext();
-                    setDefaults("premKey", user, context);
-
-
-                    // Change activity and send the user number to be used in other activities
-                    Intent i = new Intent(Login.this, MainActivity.class);
-                    //i.putExtra("user", user);
-                    startActivity(i);
-                } else {
-                    Toast.makeText(Login.this, "Ogiltigt prenumerationsnummer", Toast.LENGTH_SHORT).show();
-                }*/
             }
         });
     }
-
-    private boolean doLogin(String subscriptionNr) throws SocketTimeoutException{
-        boolean result = false;
+        //method used in another thread for the SOAP connection
+        //and handling of response codes for requests
+    private int doLogin(String subscriptionNr) throws SocketTimeoutException{
+        int result = -1;
         //SoapObject request
         SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
-        Log.i(TAG, request.toString());
         //add property to request that when user enters e.g. their SubNr
+        //also needed ServiceID to validate in API
         request.addProperty("serviceID", serviceId);
         request.addProperty("subscriptionNr", subscriptionNr);
-        Log.i(TAG, "1: " + request.toString());
         //specify which version of soap to be used for serial communication
         SoapSerializationEnvelope soapEnvelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
-        Log.i(TAG, "2:" + soapEnvelope.toString());
         //to make sure that object are not null, need not for e.g. php but for .NET services
         soapEnvelope.dotNet = true;
         //pass everything to the soap envelope
         soapEnvelope.setOutputSoapObject(request);
-        Log.i(TAG, "3: " + soapEnvelope.toString());
-        //passing in URL
+        //passing in URL starting HTTP POST
         HttpTransportSE androidHttpTransport = new HttpTransportSE(URL, timeout);
+        //empty object to receive response in from request
         Object response = null;
         androidHttpTransport.debug = true;
         Log.i(TAG, "4: "+ androidHttpTransport.requestDump);
@@ -127,45 +127,36 @@ public class Login extends ActionBarActivity {
             //log response
             Log.i(TAG, "6: Server svar: " + responseResult);
             //if user subscription is active
-            //return result equals true
+            //return result equals 1
             if (responseResult.contains("IsActive=true")){
-                result = true;
+                result = 1;
                 Log.i(TAG, "7: IsActive=true: " + responseResult);
 
             }
             //if user subscription is inactive
-            //return result false
+            //return result -1
             else if(responseResult.contains("IsActive=false")){
-                result = false;
+                result = -1;
                 Log.i(TAG, "8: IsActive=false: " + responseResult);
 
             }
             //if user subscription is unknown
             //return result false
             else {
-                result = false;
+                result = 0;
                 Log.i(TAG, "9: IsActive=false && IsFound=false: " + responseResult);
 
             }
 
         }
-        // handle SockeTimeoutException
+        // Handle Socket TimeoutException
         //by printing Toast on UI thread
-        //returns true for no to be able to test to login
-        //without permission
         catch(SocketTimeoutException e) {
-         /*e.printStackTrace();
-            Login.this.runOnUiThread(new Runnable() {
-                public void run() {
-                    Toast.makeText(Login.this,
-                            "Problem med att kontakta servern, " +
-                                    "vänligen kolla er internet uppkoppling och kolla igen ",
-                            Toast.LENGTH_SHORT).show();
-
-                }
-            });
-
-            return true;*/
+         //print StackTrace
+         e.printStackTrace();
+            //set result to 0 to indicate that an network error has occurred
+            //that the new activity shall not be started
+            result = 0;
 
         }
 
@@ -180,6 +171,12 @@ public class Login extends ActionBarActivity {
 
 
     }
+
+    public void showToast(String text, int duration) {
+        Toast toast = Toast.makeText(this.getBaseContext(), text, duration);
+        toast.show();
+    }
+
 
 
     @Override
@@ -227,10 +224,16 @@ public class Login extends ActionBarActivity {
         return preferences.getString(key, null);
     }
     //create new AsyncTask for connection to .NET service in SubNr API
-    private class LoginTask extends AsyncTask<String, Boolean, Boolean> {
+    //String, as in parameter for doInBackground method
+    //Boolean, as in parameter for onPostExecute method
+    //Android requires Network operating e.g. HTTP GET/POST, SOAP etc
+    //To be performed on another thread for efficiency
+    //doInBackground is performed on the new thread
+    //onPostExecute is performed on the main UI thread
+    private class LoginTask extends AsyncTask<String, Void, Integer> {
         //create dialog for Login task
         private final ProgressDialog dialog = new ProgressDialog(Login.this);
-        private boolean response = true;
+        private int response = 1;
          //method before execute on main thread
         //displays message for login dialog
         protected void onPreExecute(){
@@ -241,33 +244,29 @@ public class Login extends ActionBarActivity {
 
         }
 
+        //don't interact with UI
+        //everything is done on the new thread
         @Override
-        protected Boolean doInBackground(String... subscriptionNrs) {
+        protected Integer doInBackground(String... subscriptionNrs) {
             try {
                 response = doLogin(subscriptionNrs[0]);
             } catch (SocketTimeoutException e) {
-                boolean errorFlag = true;
-                publishProgress(errorFlag);
-
+                Log.i(TAG, "Will this happen? " + response);
+                return response;
             }
-
             Log.i(TAG, "11: response: " + response);
-            //don't interact with UI
-            //everything is done on the new thread
             return response;
 
         }
+
         @Override
         // pass result back to main thread
-        protected void onPostExecute(Boolean response){
+        protected void onPostExecute(Integer response){
             Log.i(TAG, "12: här: " + response);
             // check if the entered information is a valid user, if not show error message
             //Case 1: if users subscriptions is Active
-            //Now false=true as there is problems with the subscriptionNrs
-            //TODO: Change false in first if statement to true when
-            //TODO: and vice versa for else-if correct subscriptionNrs are given
 
-            if (response == true) {
+            if (response == 1) {
 
                 // Save valid prem number in settings
                 Context context = getBaseContext();
@@ -284,11 +283,11 @@ public class Login extends ActionBarActivity {
                 Log.i(TAG, "13: startActivity: " + MainActivity.class.toString());
             }
             //Case 2: Users subscriptions is inactive
-            else if(response == false) {
+            else if(response == -1 ) {
 
                 Toast.makeText(Login.this,
-                        "Prenumerationen har utgått, " +
-                                "vänligen förnya innan du kan logga in igen ",
+                        "Prenumerationen har utgått, " + "eller prenumerationsnumret är ogiltigt"+
+                                " vänligen förnya, eller testa med annat prenumerationsnumret",
                         Toast.LENGTH_SHORT).show();
                 Log.i(TAG, "14: don't startActivity ");
 
@@ -300,10 +299,11 @@ public class Login extends ActionBarActivity {
             ////SubscriptionNrFormatNotValid or DatabaseNotValid or
             // ServiceIdNotValid or CommunicationError or PostalNumberIncorrect or
             // ProductNumberIncorrect or Bundled or SingleCopy
-            else {
+            else if(response == 0) {
 
-                Toast.makeText(getApplicationContext(),
-                        "Ogilitigt  eller inaktivt konto, testa igen eller kontakta supporten",
+                Toast.makeText(Login.this,
+                        "Problem med att kontakta servern, " +
+                                "vänligen kolla er internet uppkoppling och testa igen ",
                         Toast.LENGTH_LONG).show();
 
                 if (this.dialog.isShowing()) {
