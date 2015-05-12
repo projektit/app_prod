@@ -55,6 +55,8 @@ public class MainActivity extends BaseActivity {
     String TAG = "com.grupp3.projekt_it";
     LinearLayout linearLayoutLeft;
     LinearLayout linearLayoutRight;
+    int currentDiv;
+    ArrayList<String> divList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,7 +98,11 @@ public class MainActivity extends BaseActivity {
             stream.read(buffer);
             stream.close();
             String html = new String(buffer);
-
+            currentDiv = 1;
+            while(html.contains("<div id=\"div" + currentDiv + ">")){
+                divList.add(substringBetween(html, "<div id=\"div" + currentDiv + ">", "</div>"));
+                currentDiv++;
+            }
             String div1 = substringBetween(html, "<div id=\"div1\">", "</div>");
             String div2 = substringBetween(html, "<div id=\"div2\">", "</div>");
             String div3 = substringBetween(html, "<div id=\"div3\">", "</div>");
@@ -174,7 +180,7 @@ public class MainActivity extends BaseActivity {
 
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        layoutParams.setMargins(8, 0, 0, 8);
+        layoutParams.setMargins(5, 19, 5, 19);
 
         for (int i = 0; i < adapterCountLeft; i++) {
             View item = adapterLeft.getView(i, null, null);

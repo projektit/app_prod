@@ -148,7 +148,7 @@ public class DailyService extends IntentService {
 
             builder.setAutoCancel(true);
             builder.setContentTitle("Nya skötselråd!");
-            builder.setSmallIcon(R.drawable.app_icon);
+            builder.setSmallIcon(R.mipmap.app_icon_launch);
 
             builder.setLights(Color.WHITE, 1000, 5000);
 
@@ -191,7 +191,7 @@ public class DailyService extends IntentService {
 
             builder.setAutoCancel(true);
             builder.setContentTitle("Varning!");
-            builder.setSmallIcon(R.drawable.app_icon);
+            builder.setSmallIcon(R.mipmap.app_icon_launch);
 
             builder.setLights(Color.WHITE, 1000, 5000);
 

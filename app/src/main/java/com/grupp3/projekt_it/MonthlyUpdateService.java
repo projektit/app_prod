@@ -39,7 +39,7 @@ public class MonthlyUpdateService extends IntentService {
             builder.setAutoCancel(true);
             builder.setContentTitle("Månadens tips är här");
             builder.setContentText("Klicka för mer att få veta mer");
-            builder.setSmallIcon(R.drawable.app_icon);
+            builder.setSmallIcon(R.mipmap.app_icon_launch);
 
             Intent intent1 = new Intent(this, MainActivity.class);
             PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent1, PendingIntent.FLAG_UPDATE_CURRENT);
