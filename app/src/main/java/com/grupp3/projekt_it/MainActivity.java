@@ -311,21 +311,42 @@ public class MainActivity extends BaseActivity {
             imageView1.setImageResource(R.drawable.garden_lits_item_picture);
 
             Spanned text = Html.fromHtml(divList.get(position));
-            String htmlText = divList.get(position);
+            final String htmlText = divList.get(position);
             
             //htmlText.
-            TextView textView1 = (TextView) mainItemView.findViewById(R.id.textView1);
-            /*
-            if(text.length() > 20){
-                Log.i(TAG, "bigger than 20");
-                TextView textView2 = (TextView) mainItemView.findViewById(R.id.textView2);
-                //textView2.setTextColor(26367);
-                textView1.setText(text);
-                textView2.setText("Read More");
-            }
-            */
+            final TextView textView1 = (TextView) mainItemView.findViewById(R.id.textView1);
+            final String preview = substringBetween(htmlText, "<p>", "</p>");
+            final TextView textView2 = (TextView) mainItemView.findViewById(R.id.textView2);
+            textView1.setText(text);
+            textView2.setText("Läs mer");
+            textView1.setText(Html.fromHtml(preview));
 
-            textView1.setText(Html.fromHtml(divList.get(position)));
+            textView2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(textView2.getText().equals("Läs mer")){
+                        textView1.setText(Html.fromHtml(htmlText));
+                        textView2.setText("Visa mindre");
+
+                    }else if(textView2.getText().equals("Visa mindre")){
+                        textView1.setText(Html.fromHtml(preview));
+                        textView2.setText("Läs mer");
+                    }
+                }
+            });
+            mainItemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(textView2.getText().equals("Läs mer")){
+                        textView1.setText(Html.fromHtml(htmlText));
+                        textView2.setText("Visa mindre");
+
+                    }else if(textView2.getText().equals("Visa mindre")){
+                        textView1.setText(Html.fromHtml(preview));
+                        textView2.setText("Läs mer");
+                    }
+                }
+            });
 
 
             return mainItemView;
