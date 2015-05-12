@@ -56,7 +56,9 @@ public class MainActivity extends BaseActivity {
     LinearLayout linearLayoutLeft;
     LinearLayout linearLayoutRight;
     int currentDiv;
-    ArrayList<String> divList;
+    int currentUrl;
+    ArrayList<String> divList = new ArrayList<>();
+    ArrayList<String> urlList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,9 +101,14 @@ public class MainActivity extends BaseActivity {
             stream.close();
             String html = new String(buffer);
             currentDiv = 1;
-            while(html.contains("<div id=\"div" + currentDiv + ">")){
-                divList.add(substringBetween(html, "<div id=\"div" + currentDiv + ">", "</div>"));
+
+            while(html.contains("<div id=\"div" + currentDiv + "\">")){
+                String thisDiv = substringBetween(html, "<div id=\"div" + currentDiv + "\">", "</div>");
+                divList.add(thisDiv);
                 currentDiv++;
+            }
+            for(String s: divList){
+                Log.i(TAG, s);
             }
             String div1 = substringBetween(html, "<div id=\"div1\">", "</div>");
             String div2 = substringBetween(html, "<div id=\"div2\">", "</div>");
@@ -134,10 +141,26 @@ public class MainActivity extends BaseActivity {
             // Allow links to be clicked
             tv.setMovementMethod(LinkMovementMethod.getInstance());
             */
+            InputStream stream2 = this.getAssets().open("may_tips_url.html");
+            int streamSize2 = stream2.available();
+            byte[] buffer2 = new byte[streamSize2];
+            stream2.read(buffer2);
+            stream2.close();
+            String url = new String(buffer2);
+            currentUrl = 1;
+            while(url.contains("<div id=\"url" + currentUrl + "\">")){
+                urlList.add(substringBetween(url, "<div id=\"url" + currentUrl + "\">", "</div>"));
+                currentUrl++;
+            }
+            Log.i(TAG, "Jag kom ut");
+            for(String st: urlList){
+                Log.i(TAG, st);
+            }
         }
         catch (IOException e) {
             e.printStackTrace();
         }
+
 
         // Get correct drawable for the month
         TypedArray images = getResources().obtainTypedArray(R.array.monthArray);
