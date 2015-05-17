@@ -14,27 +14,24 @@ import org.w3c.dom.Text;
 import java.io.IOException;
 import java.io.InputStream;
 
-
-/**
- * Created by Esra on 2015-05-04.
+/*
+ * This activity gets data from a local file witch is then displayed in a simple textViev. It gives
+ * users of the application answers to some basic functionality of the app and some of the features.
  */
 
 public class HelpActivity extends BaseActivity {
-
+    // Define the activity textView
     private TextView tv;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-       /* setContentView(R.layout.activity_activity_help);*/
-
         getLayoutInflater().inflate(R.layout.activity_activity_help, frameLayout);
-
         mDrawerList.setItemChecked(position, true);
 
-
-
+        /*
+         * Open an input stream and read the content of a file char by char and save it in a string
+         */
         try{
             InputStream stream = this.getAssets().open("helpText.html");
             int streamSize = stream.available();
@@ -60,7 +57,6 @@ public class HelpActivity extends BaseActivity {
 
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -82,6 +78,9 @@ public class HelpActivity extends BaseActivity {
 
         return super.onOptionsItemSelected(item);
     }
+    /*
+     * Method for hiding the overflow menu
+     */
     @Override
     public boolean onPrepareOptionsMenu(Menu menu){
         MenuItem item = menu.findItem(R.id.action_settings);
@@ -97,9 +96,6 @@ public class HelpActivity extends BaseActivity {
          * to not be able to launch another instance of itself from navigation bar.
          * Remove correct startActivity(..) call to do so.
          */
-
-//		mDrawerList.setItemChecked(position, true);
-//		setTitle(listArray[position]);
         mDrawerLayout.closeDrawer(mDrawerList);
         BaseActivity.position = position; //Setting currently selected position in this field so that it will be available in our child activities.
 
@@ -128,4 +124,3 @@ public class HelpActivity extends BaseActivity {
                 break;
         }
 }}
-

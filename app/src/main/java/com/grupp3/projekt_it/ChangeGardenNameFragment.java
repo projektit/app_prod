@@ -24,9 +24,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-/**
- * Created by Daniel on 2015-04-21.
- */
 public class ChangeGardenNameFragment extends DialogFragment {
     String TAG = "com.grupp3.projekt_it";
     @Override

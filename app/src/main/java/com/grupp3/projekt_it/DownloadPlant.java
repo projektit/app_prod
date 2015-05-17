@@ -41,9 +41,6 @@
     import java.util.Arrays;
     import java.util.HashMap;
 
-    /**
-     * Created by Daniel on 2015-04-21.
-     */
     public class DownloadPlant extends AsyncTask<String, Void, String> {
         String TAG = "com.grupp3.projekt_it";
         Context context;

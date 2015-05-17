@@ -6,7 +6,6 @@ import android.graphics.BitmapFactory;
 import java.io.ByteArrayOutputStream;
 
 /**
- * Created by Marcus on 2015-04-29.
  * When storing pictures in SQLite database
  * One might need to use the BLOB type, binary large object
  * that stores binary data.

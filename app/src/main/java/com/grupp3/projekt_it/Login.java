@@ -27,9 +27,6 @@ import org.ksoap2.transport.HttpTransportSE;
 import java.net.SocketTimeoutException;
 
 /*********************************************************************************************
- * @author  Marcus Elwin
- * Date: 2015-05-10
- *@version 1.2
  * This class, is used for Login to the application "Min trädgård"
  * This class and its methods, are implementing Bonniers's SubscriptionAPI and the method
  * GetSubscriptionStatus, with the SOAP 1.1. Protocol. An external libary ksoap2 was used
@@ -64,23 +61,18 @@ public class Login extends ActionBarActivity {
         setContentView(R.layout.activity_login);
         // hide the actionbar in this activity
         getSupportActionBar().hide();
-
         mUserLogin = (EditText) findViewById(R.id.user_login_info);
         // define the button
-
         ImageButton button = (ImageButton)findViewById(R.id.login_button);
-
 
         //Auto-fill EditText
         Context context = getBaseContext();
         String premNum = getDefaults("premKey", context);
 
-
         if (premNum != null) {
             mUserLogin.setText(premNum);
 
         }
-
 
         // wait for the button to be clicked
         button.setOnClickListener(new View.OnClickListener() {
@@ -94,8 +86,8 @@ public class Login extends ActionBarActivity {
             }
         });
     }
-        //method used in another thread for the SOAP connection
-        //and handling of response codes for requests
+    //method used in another thread for the SOAP connection
+    //and handling of response codes for requests
     private int doLogin(String subscriptionNr) throws SocketTimeoutException{
         int result = -1;
         //SoapObject request
@@ -167,17 +159,12 @@ public class Login extends ActionBarActivity {
         //for later processing
         Log.i(TAG, "10: return: " + result);
         return result;
-
-
-
     }
 
     public void showToast(String text, int duration) {
         Toast toast = Toast.makeText(this.getBaseContext(), text, duration);
         toast.show();
     }
-
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -210,14 +197,12 @@ public class Login extends ActionBarActivity {
         startActivity(intent);
     }
 
-
     public static void setDefaults(String key, String value, Context context) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString(key, value);
         editor.commit();
     }
-
 
     public static String getDefaults(String key, Context context) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
@@ -240,8 +225,6 @@ public class Login extends ActionBarActivity {
 
             this.dialog.setMessage("Loggar in...");
             this.dialog.show();
-
-
         }
 
         //don't interact with UI
@@ -256,7 +239,6 @@ public class Login extends ActionBarActivity {
             }
             Log.i(TAG, "11: response: " + response);
             return response;
-
         }
 
         @Override
@@ -265,9 +247,7 @@ public class Login extends ActionBarActivity {
             Log.i(TAG, "12: här: " + response);
             // check if the entered information is a valid user, if not show error message
             //Case 1: if users subscriptions is Active
-
             if (response == 1) {
-
                 // Save valid prem number in settings
                 Context context = getBaseContext();
                 setDefaults("premKey", user, context);
@@ -300,7 +280,6 @@ public class Login extends ActionBarActivity {
             // ServiceIdNotValid or CommunicationError or PostalNumberIncorrect or
             // ProductNumberIncorrect or Bundled or SingleCopy
             else if(response == 0) {
-
                 Toast.makeText(Login.this,
                         "Problem med att kontakta servern, " +
                                 "vänligen kolla er internet uppkoppling och testa igen ",
@@ -311,9 +290,5 @@ public class Login extends ActionBarActivity {
                 }
             }
         }
-
-
-
     }
-
 }

@@ -33,9 +33,6 @@ import java.util.ArrayList;
 import uk.co.deanwild.flowtextview.FlowTextView;
 
 /*************************************************************************************************
- * Author: Marcus Elwin
- * Projekt IT, 2015-04-27
- * Version: 1.0
  * This Activity is to be used together with MyGardenActivity
  * The user have n number of flowers, which they can click on by onItemClick method.
  * When a flower has been selected, a new Activity , MyFlowerActivity is opened
@@ -99,21 +96,13 @@ public class MyFlowerWebActivity extends ActionBarActivity {
 
     //method to display flower info
     public void showFlowerInfo(){
-
         //get info from jsonPLant
         Gson gson = new Gson();
         //convert PLANT again
         //by making instant of PLANT_DB and covert Gson object to
         //handle this type
         final Plant plant = gson.fromJson(jsonPlant, Plant.class);
-        //create textView for print outs
-
-        //Image URL
-        //convert to bitArray
-        /*byte[] flowerImage = new getFlowerImage.execute("http://www.alltomtradgard.se/ImageGallery/Thumbnails/63/135763/107909_191262.jpg");*/
-        //new getFlowerImage().execute("http://www.alltomtradgard.se/ImageGallery/Thumbnails/63/135763/107909_191262.jpg");
         ImageView imageView1 = (ImageView) findViewById(R.id.flower_picture);
-
         //new DownloadImage(imageView1).execute(plant.getImg_url());
         /* Picasso is a 3rd party library that takes care of image loading in android applications
                  * With the library re-use of adapters is automatically detected and previous downloads are
@@ -144,6 +133,5 @@ public class MyFlowerWebActivity extends ActionBarActivity {
                 chooseGardenFragment.show(fragmentManager, "disIsTag4");
             }
         });
-
     }
 }

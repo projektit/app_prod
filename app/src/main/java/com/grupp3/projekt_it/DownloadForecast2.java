@@ -13,9 +13,6 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-/**
- * Created by Daniel on 2015-05-11.
- */
 public class DownloadForecast2 extends AsyncTask<String, Void, String> {
     String TAG = "com.grupp3.projekt_it";
     String fileName;

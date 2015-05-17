@@ -16,10 +16,6 @@ import com.google.gson.GsonBuilder;
 import java.lang.*;
 import java.util.ArrayList;
 
-/**
- * Created by Daniel on 2015-04-23.
- */
-
 //Fragment which allows users to pick a garden in which the selected flower will be saved
 public class ChooseGardenFragment extends DialogFragment {
     String TAG = "com.grupp3.projekt_it";

@@ -16,9 +16,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-/**
- * Created by Daniel on 2015-04-22.
- */
 public class GardenUtil {
     public void saveGarden(Garden garden, Context context){
         Gson gson = new Gson();

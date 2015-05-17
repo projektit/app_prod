@@ -23,9 +23,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-/**
- * Created by Daniel on 2015-04-21.
- */
 public class GardenListFragment extends DialogFragment {
     String TAG = "com.grupp3.projekt_it";
     @Override

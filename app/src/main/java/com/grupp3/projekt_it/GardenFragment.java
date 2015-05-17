@@ -13,9 +13,6 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 
-/**
- * Created by Daniel on 2015-04-27.
- */
 public class GardenFragment extends DialogFragment {
     String TAG = "com.grupp3.projekt_it";
     @Override

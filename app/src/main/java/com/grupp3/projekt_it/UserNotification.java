@@ -1,8 +1,5 @@
 package com.grupp3.projekt_it;
 
-/**
- * Created by Daniel on 2015-05-06.
- */
 public class UserNotification {
     int id;
     int year;

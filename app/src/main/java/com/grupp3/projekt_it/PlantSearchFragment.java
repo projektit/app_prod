@@ -12,9 +12,6 @@ import android.os.Bundle;
 
 import com.google.gson.Gson;
 
-/**
- * Created by Daniel on 2015-04-23.
- */
 public class PlantSearchFragment extends DialogFragment {
     String TAG = "com.grupp3.projekt_it";
     @Override

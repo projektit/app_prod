@@ -14,9 +14,6 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 
-/**
- * Created by Daniel on 2015-05-04.
- */
 public class DownloadImage extends AsyncTask <String, Void, byte[]>{
     String TAG = "com.grupp3.projekt_it";
     ImageView imageView;

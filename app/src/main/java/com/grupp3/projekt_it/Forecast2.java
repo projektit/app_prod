@@ -1,8 +1,5 @@
 package com.grupp3.projekt_it;
 
-/**
- * Created by Daniel on 2015-05-11.
- */
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;

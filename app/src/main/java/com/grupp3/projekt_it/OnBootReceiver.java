@@ -17,10 +17,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-/**
- * Created by Daniel on 2015-04-17.
- */
-
 //Extends broadcast receiver allows another context to execute application code with same permissions
     // onReceive receives broadcast messages from OS, see manifest
 

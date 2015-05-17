@@ -1,9 +1,5 @@
 package com.grupp3.projekt_it;
 
-/**
- * Created by Oscar.Melin on 2015-04-16.
- */
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -25,7 +21,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 /**
- * @author dipenp
  *
  * This activity will add Navigation Drawer for our application and all the code related to navigation drawer.
  * We are going to extend all our other activites from this BaseActivity so that every activity will have Navigation Drawer in it.
@@ -83,14 +78,9 @@ public class BaseActivity extends ActionBarActivity {
         frameLayout = (FrameLayout)findViewById(R.id.content_frame);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
-
-        // set a custom shadow that overlays the main content when the drawer opens
-        //mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
-
-        // set up the drawer's list view with items and click listener
-        //mDrawerList.setAdapter(new ArrayAdapter<String>(this, R.layout.navigation_drawer_list_item, listArray));
         myAdapter = new MyAdapter(this);
         mDrawerList.setAdapter(myAdapter);
+
         mDrawerList.setOnItemClickListener(new OnItemClickListener() {
 
             @Override
@@ -174,9 +164,6 @@ public class BaseActivity extends ActionBarActivity {
          * to not be able to launch another instance of itself from navigation bar.
          * Remove correct startActivity(..) call to do so.
          */
-
-//		mDrawerList.setItemChecked(position, true);
-//		setTitle(listArray[position]);
         mDrawerLayout.closeDrawer(mDrawerList);
         BaseActivity.position = position; //Setting currently selected position in this field so that it will be available in our child activities.
 

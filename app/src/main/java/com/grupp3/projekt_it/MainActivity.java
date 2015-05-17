@@ -52,24 +52,23 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
-
+/*
+ * This activity reads the content of a local file and displays it in a listview. It gives the user
+ * of the application month related tips for his/her garden witch can be of interest. The information
+ * displayed is changed automatically every month.
+ */
 public class MainActivity extends BaseActivity {
-
     private static final int TIME_INTERVAL = 2000; // # milliseconds, desired time passed between two back presses.
     private long mBackPressed;
     private TextView tv;
     String TAG = "com.grupp3.projekt_it";
     LinearLayout linearLayoutLeft;
     LinearLayout linearLayoutRight;
-
     ArrayList<MainItemObject> mainItemObjects;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_main);
-
         /**
          * Adding our layout to parent class frame layout.
          */
@@ -98,7 +97,7 @@ public class MainActivity extends BaseActivity {
         int currentMonth = calendar.get(Calendar.MONTH);
         ArrayList <String> divList = new ArrayList<>();
         ArrayList <String> urlList = new ArrayList<>();
-        // Read data from html file and display it depending on month
+        // Read data from html file and store it to a string
         try{
             InputStream stream = this.getAssets().open(tipsArray[currentMonth]);
             int streamSize = stream.available();
@@ -106,32 +105,16 @@ public class MainActivity extends BaseActivity {
             stream.read(buffer);
             stream.close();
             String html = new String(buffer);
-            /*
-            String div1 = substringBetween(html, "<div id=\"div1\">", "</div>");
-            String div2 = substringBetween(html, "<div id=\"div2\">", "</div>");
-            String div3 = substringBetween(html, "<div id=\"div3\">", "</div>");
-            String div4 = substringBetween(html, "<div id=\"div4\">", "</div>");
-            String div5 = substringBetween(html, "<div id=\"div5\">", "</div>");
-            String div6 = substringBetween(html, "<div id=\"div6\">", "</div>");
-            String div7 = substringBetween(html, "<div id=\"div7\">", "</div>");
-            String div8 = substringBetween(html, "<div id=\"div8\">", "</div>");
-            String div9 = substringBetween(html, "<div id=\"div9\">", "</div>");
-            String div10 = substringBetween(html, "<div id=\"div10\">", "</div>");
-            String div11 = substringBetween(html, "<div id=\"div11\">", "</div>");
-            String div12 = substringBetween(html, "<div id=\"div12\">", "</div>");
-            String div13 = substringBetween(html, "<div id=\"div13\">", "</div>");
-            String div14 = substringBetween(html, "<div id=\"div14\">", "</div>");
 
-            String [] divArray = {div1, div2, div3, div4, div5, div6, div7, div8, div9, div10, div11, div12, div13, div14};
-            divList = new ArrayList(Arrays.asList(divArray));
-            */
             int currentDiv = 1;
+            // Fill the arraylist with substrings of the stored file. The substrings will be displayed
+            // in the listview listitems.
             while(html.contains("<div id=\"div" + currentDiv + "\">")){
                 String thisDiv = substringBetween(html, "<div id=\"div" + currentDiv + "\">", "</div>");
                 divList.add(thisDiv);
                 currentDiv++;
             }
-
+            // Same as above
             InputStream stream2 = this.getAssets().open("may_tips_url.html");
             int streamSize2 = stream2.available();
             byte[] buffer2 = new byte[streamSize2];
@@ -145,29 +128,11 @@ public class MainActivity extends BaseActivity {
                 Log.i(TAG, (substringBetween(url, "<div id=\"url" + currentUrl + "\">", "</div>")));
                 currentUrl++;
             }
-            /*
-            String [] urls = {
-                    "",
-                    "http://pixabay.com/static/uploads/photo/2014/08/05/17/23/the-carrot-410670_640.jpg",
-                    "http://pixabay.com/static/uploads/photo/2013/08/28/18/07/clematis-176818_640.jpg",
-                    "",
-                    "",
-                    "http://pixabay.com/static/uploads/photo/2013/12/06/13/00/water-lily-224195_640.jpg",
-                    "http://pixabay.com/static/uploads/photo/2013/09/06/16/00/potatoes-179471_640.jpg",
-                    "",
-                    "http://pixabay.com/static/uploads/photo/2013/11/28/12/14/grass-220465_640.jpg",
-                    "",
-                    "http://pixabay.com/static/uploads/photo/2013/10/06/10/45/hare-191365_640.jpg",
-                    "http://pixabay.com/static/uploads/photo/2010/12/13/09/58/appetite-2038_640.jpg",
-                    "",
-                    "http://pixabay.com/static/uploads/photo/2014/04/01/14/19/rose-302531_640.jpg"
-            };
-            urlList = new ArrayList(Arrays.asList(urls));
-            */
         }
         catch (IOException e) {
             e.printStackTrace();
         }
+
         // Get correct drawable for the month
         TypedArray images = getResources().obtainTypedArray(R.array.monthArray);
         int resourceId = images.getResourceId(currentMonth, -1);
@@ -176,8 +141,6 @@ public class MainActivity extends BaseActivity {
         // Set correct drawable as background in the ImageView
         im.setImageResource(resourceId);
 
-        // Array to store background colors to be shown in the activity
-        String [] colors = {"#7c4c8a", "#790b14", "#608f31", "#f6c61a", "#71945c", "#b52c3e", "#89144b", "#a2882d", "#918f80", "#354a12", "#d3d069", "#7f4a18"};
         // Define the layout and set the color to the correct one
         linearLayoutLeft = (LinearLayout) findViewById(R.id.leftLinear);
         linearLayoutRight = (LinearLayout) findViewById(R.id.rightLinear);
@@ -260,9 +223,6 @@ public class MainActivity extends BaseActivity {
          * to not be able to launch another instance of itself from navigation bar.
          * Remove correct startActivity(..) call to do so.
          */
-
-//		mDrawerList.setItemChecked(position, true);
-//		setTitle(listArray[position]);
         mDrawerLayout.closeDrawer(mDrawerList);
         BaseActivity.position = position; //Setting currently selected position in this field so that it will be available in our child activities.
 
@@ -360,7 +320,6 @@ public class MainActivity extends BaseActivity {
                     }
                 }
             }
-
 
             Spanned text = Html.fromHtml(mainItemObject.getHtmlText());
             final String htmlText = mainItemObject.getHtmlText();

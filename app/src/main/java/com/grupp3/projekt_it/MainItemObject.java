@@ -1,9 +1,5 @@
 package com.grupp3.projekt_it;
 
-/**
- * Created by Daniel on 2015-05-12.
- */
-
 //Object to hold information about the monthly advice boxes which appear in MainActivity
 public class MainItemObject {
     //Holds html advice text

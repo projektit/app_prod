@@ -13,9 +13,6 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 
-/**
- * Created by Daniel on 2015-05-06.
- */
 public class UserNotificationService  extends IntentService {
     String TAG = "com.grupp3.projekt_it";
 

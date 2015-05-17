@@ -6,9 +6,13 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+/*
+ * This activity is used to be shown at the startup of the application. It contains a background
+ * witch is shown for a chosen amount of time. When the time is up the activity changes to an
+ * other.
+ */
 
 public class Init extends ActionBarActivity {
-
     // Time the init activity runs on startup (ms)
     private final int DURATION = 3000;
     private Thread initThread;
@@ -19,7 +23,8 @@ public class Init extends ActionBarActivity {
         setContentView(R.layout.activity_init);
         // Hide the actionbar
         getSupportActionBar().hide();
-        // Run this activity for a time, then change to another
+
+        // After a duration of time, change activity
         initThread = new Thread() {
             @Override
             public void run() {
@@ -39,7 +44,6 @@ public class Init extends ActionBarActivity {
         };
         initThread.start();
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

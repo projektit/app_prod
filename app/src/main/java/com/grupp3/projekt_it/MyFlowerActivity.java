@@ -29,9 +29,6 @@
         import uk.co.deanwild.flowtextview.FlowTextView;
 
         /*************************************************************************************************
-         * Author: Marcus Elwin
-         * Projekt IT, 2015-04-27
-         * Version: 1.0
          * This Activity is to be used together with MyGardenActivity
          * The user have n number of flowers, which they can click on by onItemClick method.
          * When a flower has been selected, a new Activity , MyFlowerActivity is opened
@@ -39,7 +36,6 @@
          * user screen after the columns, name, swe_name, type, zone max/min, soil, watering, sun,
          * misc, latinname
          *************************************************************************************************/
-
 
         public class MyFlowerActivity extends ActionBarActivity {
             String jsonPlant;
@@ -98,13 +94,7 @@
                 //handle this type
                 final Plant_DB plant_db = gson.fromJson(jsonPlant, Plant_DB.class);
                 //create textView for print outs
-                //Image URL
-                //convert to bitArray
-                /*byte[] flowerImage = new getFlowerImage.execute("http://www.alltomtradgard.se/ImageGallery/Thumbnails/63/135763/107909_191262.jpg");*/
-                //new getFlowerImage().execute("http://www.alltomtradgard.se/ImageGallery/Thumbnails/63/135763/107909_191262.jpg");
                 ImageView imageView1 = (ImageView) findViewById(R.id.flower_picture);
-                //new DownloadImage(imageView1).execute(plant_db.get_img_url());
-
                 /* Picasso is a 3rd party library that takes care of image loading in android applications
                  * With the library re-use of adapters is automatically detected and previous downloads are
                   * canceled. The with method is used for the global default instance with defaut values:
@@ -114,8 +104,6 @@
                    load is where you specify the URL/file that the picture should be read from
                    into method specifies which imageView that should be used*/
                 Picasso.with(this).load(plant_db.get_img_url()).into(imageView1);
-                //Log.i(TAG, "byte array: " + flowerImage[0]);
-                // Print name of the flower
 
                 TextView textView12 =(TextView) findViewById(R.id.flower_name);
                 textView12.setText(plant_db.get_swe_name());

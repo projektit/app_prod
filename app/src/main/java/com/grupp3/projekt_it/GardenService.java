@@ -18,10 +18,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
-/**
- * Created by Daniel on 2015-04-17.
- */
-
 //service which will run in background according to alarm setup in OnBootReceiver class
 
 public class GardenService extends IntentService {
