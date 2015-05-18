@@ -19,7 +19,16 @@ import java.util.Calendar;
  * <p/>
  * TODO: Customize class - update intent actions, extra parameters and static
  * helper methods.
- */
+ *
+ * @author Marcus Elwin
+ * @author Daniel Freberg
+ * @author Esra Kahraman
+ * @author Oscar Melin
+ * @author Mikael Mölder
+ * @author Erik Nordell
+ * @author Felicia Schnell
+ *
+*/
 public class MonthlyUpdateService extends IntentService {
     String TAG = "com.grupp3.projekt_it";
 

@@ -3,16 +3,24 @@ package com.grupp3.projekt_it;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
-
 import com.google.gson.Gson;
-
 import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+/*
+ *
+ * @author Marcus Elwin
+ * @author Daniel Freberg
+ * @author Esra Kahraman
+ * @author Oscar Melin
+ * @author Mikael Mölder
+ * @author Erik Nordell
+ * @author Felicia Schnell
+ *
+*/
 public class DownloadForecast2 extends AsyncTask<String, Void, String> {
     String TAG = "com.grupp3.projekt_it";
     String fileName;

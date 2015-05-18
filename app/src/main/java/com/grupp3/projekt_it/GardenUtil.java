@@ -4,10 +4,7 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -15,7 +12,17 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
+/*
+ *
+ * @author Marcus Elwin
+ * @author Daniel Freberg
+ * @author Esra Kahraman
+ * @author Oscar Melin
+ * @author Mikael Mölder
+ * @author Erik Nordell
+ * @author Felicia Schnell
+ *
+*/
 public class GardenUtil {
     public void saveGarden(Garden garden, Context context){
         Gson gson = new Gson();

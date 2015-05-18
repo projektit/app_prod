@@ -4,7 +4,17 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-
+/*
+ *
+ * @author Marcus Elwin
+ * @author Daniel Freberg
+ * @author Esra Kahraman
+ * @author Oscar Melin
+ * @author Mikael Mölder
+ * @author Erik Nordell
+ * @author Felicia Schnell
+ *
+ */
 
 public class AllFlowersActivity extends ActionBarActivity {
 
@@ -13,7 +23,6 @@ public class AllFlowersActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_flowers);
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

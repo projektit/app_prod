@@ -2,16 +2,18 @@ package com.grupp3.projekt_it;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-
 // POJO to convert weather data (which is in json format) to a java object using gson library
-
+/*
+ *
+ * @author Marcus Elwin
+ * @author Daniel Freberg
+ * @author Esra Kahraman
+ * @author Oscar Melin
+ * @author Mikael Mölder
+ * @author Erik Nordell
+ * @author Felicia Schnell
+ *
+*/
 public class Forecast {
     Long id;
     Long dt;

@@ -27,7 +27,17 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-
+/*
+ *
+ * @author Marcus Elwin
+ * @author Daniel Freberg
+ * @author Esra Kahraman
+ * @author Oscar Melin
+ * @author Mikael Mölder
+ * @author Erik Nordell
+ * @author Felicia Schnell
+ *
+*/
 public class MyGardenActivity extends ActionBarActivity {
     String TAG = "com.grupp3.projekt_it";
     String gardenName;
@@ -182,15 +192,9 @@ public class MyGardenActivity extends ActionBarActivity {
             return true;
         }
         if (id == R.id.action_new) {
-            /*
-            Intent intent = new Intent(getApplicationContext(), PlantSearchActivity.class);
-            startActivity(intent);
-            */
-
             Intent intent = new Intent(getApplicationContext(), PlantSearchActivity.class);
             intent.putExtra("gardenName", gardenName);
             startActivityForResult(intent, 1);
-
         }
         if(id == R.id.remove_plant){
             onModify = true;
@@ -333,14 +337,9 @@ public class MyGardenActivity extends ActionBarActivity {
             NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
             if (networkInfo != null && networkInfo.isConnected()) {
                 try {
-                    /*Picasso.with(context)
-                            .load(plant.get_img_url())
-                            .resize(50, 50)
-                            .centerCrop()
-                            .into(imageView1);*/
                     Picasso.with(context).load(plant.get_img_url()).into(imageView1);
-
-                } catch (Exception e) {
+                }
+                catch (Exception e) {
                     e.printStackTrace();
                     Log.i(TAG, "Connected but failed anyway");
                 }
@@ -404,14 +403,9 @@ public class MyGardenActivity extends ActionBarActivity {
             NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
             if (networkInfo != null && networkInfo.isConnected()) {
                 try {
-                    /*Picasso.with(context)
-                            .load(plant.get_img_url())
-                            .resize(50, 50)
-                            .centerCrop()
-                            .into(imageView1);*/
                     Picasso.with(context).load(plant.get_img_url()).into(imageView1);
-
-                } catch (Exception e) {
+                }
+                catch (Exception e) {
                     e.printStackTrace();
                     Log.i(TAG, "Connected but failed anyway");
                 }

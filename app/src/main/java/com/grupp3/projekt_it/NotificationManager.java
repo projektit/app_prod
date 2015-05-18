@@ -1,11 +1,8 @@
 package com.grupp3.projekt_it;
 
-import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,22 +11,25 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.google.gson.Gson;
-
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 
-
+/*
+ *
+ * @author Marcus Elwin
+ * @author Daniel Freberg
+ * @author Esra Kahraman
+ * @author Oscar Melin
+ * @author Mikael Mölder
+ * @author Erik Nordell
+ * @author Felicia Schnell
+ *
+*/
 public class NotificationManager extends BaseActivity{
     Menu menu;
     ListView ls;
-    //ArrayList<UserNotification> allUserNotifications;
     ArrayList<Integer> selectedNotifications;
     Boolean onModify = false;
     @Override
@@ -154,9 +154,6 @@ public class NotificationManager extends BaseActivity{
          * to not be able to launch another instance of itself from navigation bar.
          * Remove correct startActivity(..) call to do so.
          */
-
-//		mDrawerList.setItemChecked(position, true);
-//		setTitle(listArray[position]);
         mDrawerLayout.closeDrawer(mDrawerList);
         BaseActivity.position = position; //Setting currently selected position in this field so that it will be available in our child activities.
 
@@ -280,5 +277,4 @@ public class NotificationManager extends BaseActivity{
         else
             return "0" + String.valueOf(c);
     }
-
 }

@@ -1,5 +1,15 @@
 package com.grupp3.projekt_it;
-
+/*
+ *
+ * @author Marcus Elwin
+ * @author Daniel Freberg
+ * @author Esra Kahraman
+ * @author Oscar Melin
+ * @author Mikael Mölder
+ * @author Erik Nordell
+ * @author Felicia Schnell
+ *
+*/
 //Plant POJO
 public class Plant {
     int id;

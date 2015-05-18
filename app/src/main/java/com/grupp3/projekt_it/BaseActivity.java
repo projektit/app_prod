@@ -13,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -25,6 +24,15 @@ import android.widget.TextView;
  * This activity will add Navigation Drawer for our application and all the code related to navigation drawer.
  * We are going to extend all our other activites from this BaseActivity so that every activity will have Navigation Drawer in it.
  * This activity layout contain one frame layout in which we will add our child activity layout.
+ *
+ * @author Marcus Elwin
+ * @author Daniel Freberg
+ * @author Esra Kahraman
+ * @author Oscar Melin
+ * @author Mikael Mölder
+ * @author Erik Nordell
+ * @author Felicia Schnell
+ *
  */
 public class BaseActivity extends ActionBarActivity {
 

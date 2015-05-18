@@ -11,7 +11,16 @@ import java.io.ByteArrayOutputStream;
  * that stores binary data.
  * getBytes convert pic from URL to a byte array to store pic in database
  * getImage converts the byte array back to an image
- */
+ *
+ * @author Marcus Elwin
+ * @author Daniel Freberg
+ * @author Esra Kahraman
+ * @author Oscar Melin
+ * @author Mikael Mölder
+ * @author Erik Nordell
+ * @author Felicia Schnell
+ *
+*/
 public class ImageUtilities {
 
     //convert from bitmap to byte array method

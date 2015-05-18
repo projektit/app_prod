@@ -1,17 +1,12 @@
 package com.grupp3.projekt_it;
 
-import android.app.AlertDialog;
 import android.app.DatePickerDialog;
-import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import java.util.Calendar;
@@ -21,9 +16,17 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
-
-
+/*
+ *
+ * @author Marcus Elwin
+ * @author Daniel Freberg
+ * @author Esra Kahraman
+ * @author Oscar Melin
+ * @author Mikael Mölder
+ * @author Erik Nordell
+ * @author Felicia Schnell
+ *
+*/
 public class NewNotificationActivity extends ActionBarActivity {
     String TAG = "com.grupp3.projekt_it";
     EditText editText;
@@ -45,15 +48,17 @@ public class NewNotificationActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_notification);
+        context = getApplicationContext();
+
         editText = (EditText) findViewById(R.id.edit_notification_title);
         editText.setBackgroundResource(R.drawable.garden_name_textbox);
-        String notificationTitle = editText.getText().toString();
+
         editText2 = (EditText) findViewById(R.id.edit_notification_text);
-        context = getApplicationContext();
         editText2.setBackgroundResource(R.drawable.garden_name_textbox);
-        String notificationText = editText2.getText().toString();
+
         textDate = (TextView) findViewById(R.id.text_date);
         textTime = (TextView) findViewById(R.id.text_time);
+
         setDate = (ImageButton) findViewById(R.id.datePicker);
         setDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -112,6 +117,7 @@ public class NewNotificationActivity extends ActionBarActivity {
         date.setCallBack(ondate);
         date.show(getFragmentManager(), "Date Picker");
     }
+
     DatePickerDialog.OnDateSetListener ondate = new DatePickerDialog.OnDateSetListener() {
         @Override
         public void onDateSet(DatePicker view, int yearOfCentury, int monthOfYear, int dayOfMonth) {
@@ -171,8 +177,6 @@ public class NewNotificationActivity extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
-
 
     @Override
     public boolean onPrepareOptionsMenu (Menu menu) {

@@ -6,16 +6,23 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
-
 import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
 
+/*
+ *
+ * @author Marcus Elwin
+ * @author Daniel Freberg
+ * @author Esra Kahraman
+ * @author Oscar Melin
+ * @author Mikael Mölder
+ * @author Erik Nordell
+ * @author Felicia Schnell
+ *
+*/
 class SQLPlantHelper extends SQLiteOpenHelper {
     String TAG = "com.grupp3.projekt_it";
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "plants.db";
-    //private static final String TABLE_FLOWERS = "flowers";
 
     private static final String COLUMN_ID = "_id";
     private static final String COLUMN_NAME = "_name";
@@ -38,7 +45,6 @@ class SQLPlantHelper extends SQLiteOpenHelper {
     String newTableName;
 
     public SQLPlantHelper(Context context) {
-        //super(context, DATABASE_NAME, factory, DATABASE_VERSION);
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         Log.i(TAG, " sql helper constructor");
     }
@@ -138,7 +144,6 @@ class SQLPlantHelper extends SQLiteOpenHelper {
     }
     public void deletePlant_ID(int id, String tableName){
         SQLiteDatabase db = getWritableDatabase();
-        //db.execSQL("DELETE FROM " + tableName + " WHERE " + COLUMN_ID + "+\"" + id + "\";");
         db.delete(tableName, COLUMN_ID + "=" + id, null);
     }
     public void deletePlant_SWE(String sweName, String tableName){

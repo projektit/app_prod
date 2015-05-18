@@ -1,7 +1,6 @@
 package com.grupp3.projekt_it;
 
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
@@ -9,15 +8,22 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 import java.io.IOException;
 import java.io.InputStream;
 
 /*
- * This activity gets data from a local file witch is then displayed in a simple textViev. It gives
+ * This activity gets data from a local file witch is displayed in a simple textViev. It gives
  * users of the application answers to some basic functionality of the app and some of the features.
- */
+ *
+ * @author Marcus Elwin
+ * @author Daniel Freberg
+ * @author Esra Kahraman
+ * @author Oscar Melin
+ * @author Mikael Mölder
+ * @author Erik Nordell
+ * @author Felicia Schnell
+ *
+*/
 
 public class HelpActivity extends BaseActivity {
     // Define the activity textView

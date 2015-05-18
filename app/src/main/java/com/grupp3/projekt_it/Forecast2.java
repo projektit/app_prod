@@ -2,8 +2,17 @@ package com.grupp3.projekt_it;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.List;
-
+/*
+ *
+ * @author Marcus Elwin
+ * @author Daniel Freberg
+ * @author Esra Kahraman
+ * @author Oscar Melin
+ * @author Mikael Mölder
+ * @author Erik Nordell
+ * @author Felicia Schnell
+ *
+*/
 public class Forecast2{
     private City city;
     private int cnt;

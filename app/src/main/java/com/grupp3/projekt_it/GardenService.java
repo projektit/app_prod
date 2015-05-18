@@ -1,25 +1,25 @@
 package com.grupp3.projekt_it;
 
-import android.annotation.TargetApi;
 import android.app.IntentService;
-import android.app.Notification;
-import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.Build;
 import android.util.Log;
-
-import com.google.gson.Gson;
-
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
 
 //service which will run in background according to alarm setup in OnBootReceiver class
-
+/*
+ *
+ * @author Marcus Elwin
+ * @author Daniel Freberg
+ * @author Esra Kahraman
+ * @author Oscar Melin
+ * @author Mikael Mölder
+ * @author Erik Nordell
+ * @author Felicia Schnell
+ *
+*/
 public class GardenService extends IntentService {
     String TAG = "com.grupp3.projekt_it";
     public GardenService() {

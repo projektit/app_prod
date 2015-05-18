@@ -11,10 +11,8 @@ import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.preference.PreferenceManager;
-import android.provider.CalendarContract;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
-
 import java.lang.*;
 import java.util.ArrayList;
 
@@ -24,7 +22,16 @@ import java.util.ArrayList;
  * <p/>
  * TODO: Customize class - update intent actions, extra parameters and static
  * helper methods.
- */
+ *
+ * @author Marcus Elwin
+ * @author Daniel Freberg
+ * @author Esra Kahraman
+ * @author Oscar Melin
+ * @author Mikael Mölder
+ * @author Erik Nordell
+ * @author Felicia Schnell
+ *
+*/
 public class DailyService extends IntentService {
     String TAG = "com.grupp3.projekt_it";
 

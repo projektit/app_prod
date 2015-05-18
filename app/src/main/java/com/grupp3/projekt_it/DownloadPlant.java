@@ -4,8 +4,6 @@
     import android.app.FragmentManager;
     import android.content.Context;
     import android.content.Intent;
-    import android.graphics.Bitmap;
-    import android.graphics.drawable.Drawable;
     import android.net.ConnectivityManager;
     import android.net.NetworkInfo;
     import android.os.AsyncTask;
@@ -21,26 +19,28 @@
     import android.widget.ListView;
     import android.widget.TextView;
     import android.widget.Toast;
-
     import com.google.gson.Gson;
     import com.google.gson.stream.JsonReader;
     import com.squareup.picasso.Picasso;
-
-    import org.json.JSONObject;
-
     import java.io.BufferedReader;
-    import java.io.FileInputStream;
-    import java.io.FileNotFoundException;
-    import java.io.FileOutputStream;
-    import java.io.IOException;
     import java.io.InputStreamReader;
     import java.io.StringReader;
     import java.net.HttpURLConnection;
     import java.net.URL;
     import java.util.ArrayList;
     import java.util.Arrays;
-    import java.util.HashMap;
 
+    /*
+     *
+     * @author Marcus Elwin
+     * @author Daniel Freberg
+     * @author Esra Kahraman
+     * @author Oscar Melin
+     * @author Mikael Mölder
+     * @author Erik Nordell
+     * @author Felicia Schnell
+     *
+    */
     public class DownloadPlant extends AsyncTask<String, Void, String> {
         String TAG = "com.grupp3.projekt_it";
         Context context;

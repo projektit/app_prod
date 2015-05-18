@@ -56,7 +56,16 @@ import java.util.List;
  * This activity reads the content of a local file and displays it in a listview. It gives the user
  * of the application month related tips for his/her garden witch can be of interest. The information
  * displayed is changed automatically every month.
- */
+ *
+ * @author Marcus Elwin
+ * @author Daniel Freberg
+ * @author Esra Kahraman
+ * @author Oscar Melin
+ * @author Mikael Mölder
+ * @author Erik Nordell
+ * @author Felicia Schnell
+ *
+*/
 public class MainActivity extends BaseActivity {
     private static final int TIME_INTERVAL = 2000; // # milliseconds, desired time passed between two back presses.
     private long mBackPressed;
@@ -97,7 +106,7 @@ public class MainActivity extends BaseActivity {
         int currentMonth = calendar.get(Calendar.MONTH);
         ArrayList <String> divList = new ArrayList<>();
         ArrayList <String> urlList = new ArrayList<>();
-        // Read data from html file and store it to a string
+        // Read data from html file and store it as a string
         try{
             InputStream stream = this.getAssets().open(tipsArray[currentMonth]);
             int streamSize = stream.available();
@@ -152,6 +161,7 @@ public class MainActivity extends BaseActivity {
         }
         buildList();
     }
+
     private void buildList(){
         ArrayList<MainItemObject> toLeftList = new ArrayList<>();
         ArrayList<MainItemObject> toRightList = new ArrayList<>();
@@ -187,6 +197,7 @@ public class MainActivity extends BaseActivity {
             linearLayoutRight.addView(item, layoutParams);
         }
     }
+
     @Override
      public boolean onPrepareOptionsMenu(Menu menu){
         MenuItem item = menu.findItem(R.id.action_settings);
@@ -215,6 +226,7 @@ public class MainActivity extends BaseActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
     @Override
     protected void openActivity(int position) {
 
@@ -275,6 +287,9 @@ public class MainActivity extends BaseActivity {
             mBackPressed = java.lang.System.currentTimeMillis();
         }
     }
+    /*
+     * Takes in a sequence of chars to make a substring.
+     */
     public static String substringBetween(String str, String open, String close) {
         if (str == null || open == null || close == null) {
             return null;
@@ -288,6 +303,7 @@ public class MainActivity extends BaseActivity {
         }
         return null;
     }
+
     private class MainListAdapter extends ArrayAdapter<MainItemObject> {
         ArrayList<MainItemObject> someMainItemObjects;
         public MainListAdapter(ArrayList<MainItemObject> someMainItemObjects){

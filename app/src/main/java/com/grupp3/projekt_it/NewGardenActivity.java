@@ -1,20 +1,26 @@
 package com.grupp3.projekt_it;
 
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.TextView;
 
+/*
+ *
+ * @author Marcus Elwin
+ * @author Daniel Freberg
+ * @author Esra Kahraman
+ * @author Oscar Melin
+ * @author Mikael Mölder
+ * @author Erik Nordell
+ * @author Felicia Schnell
+ *
+*/
 public class NewGardenActivity extends ActionBarActivity {
     EditText editText1;
     Spinner spinner1;
@@ -29,9 +35,7 @@ public class NewGardenActivity extends ActionBarActivity {
         editText1.setBackgroundDrawable(null);
         spinner1 = (Spinner) findViewById((R.id.spinner1));
         editText1.setBackgroundResource(R.drawable.garden_name_textbox);
-        //spinner2 = (Spinner) findViewById((R.id.spinner2));
         buildSpinnerView1();
-        //buildSpinnerView2();
     }
 
 
@@ -44,7 +48,6 @@ public class NewGardenActivity extends ActionBarActivity {
     public void save(View view){
         String name = editText1.getText().toString();
         String location = spinner1.getSelectedItem().toString();
-        //String zone = spinner2.getSelectedItem().toString();
         String zone = "1";
         String[] result = {name, location +", SE", zone};
         Intent intent = getIntent(); //get intent that started this activity
@@ -84,11 +87,6 @@ public class NewGardenActivity extends ActionBarActivity {
                 "Örebro","Öregrund","Örnsköldsvik","Östersund","Östhammar"};
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, items);
         spinner1.setAdapter(adapter);
-    }
-    private void buildSpinnerView2() {
-        String [] items = {"1", "2", "3", "4", "5", "6", "7", "8", "9"};
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, items);
-        spinner2.setAdapter(adapter);
     }
 
     @Override

@@ -10,7 +10,16 @@ import android.view.MenuItem;
  * This activity is used to be shown at the startup of the application. It contains a background
  * witch is shown for a chosen amount of time. When the time is up the activity changes to an
  * other.
- */
+ *
+ * @author Marcus Elwin
+ * @author Daniel Freberg
+ * @author Esra Kahraman
+ * @author Oscar Melin
+ * @author Mikael Mölder
+ * @author Erik Nordell
+ * @author Felicia Schnell
+ *
+*/
 
 public class Init extends ActionBarActivity {
     // Time the init activity runs on startup (ms)
@@ -63,7 +72,6 @@ public class Init extends ActionBarActivity {
         if (id == R.id.action_settings) {
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 }

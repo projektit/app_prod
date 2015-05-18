@@ -4,9 +4,20 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.os.Bundle;
-import android.widget.DatePicker;
 
-import java.util.Calendar;
+/*
+ * This fragment displays a date picker so that the user of the application can pick a specific
+ * time for the created notification to be triggered.
+ *
+ * @author Marcus Elwin
+ * @author Daniel Freberg
+ * @author Esra Kahraman
+ * @author Oscar Melin
+ * @author Mikael Mölder
+ * @author Erik Nordell
+ * @author Felicia Schnell
+ *
+*/
 
 public class DatePickerFragment extends DialogFragment {
 

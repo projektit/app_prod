@@ -1,14 +1,12 @@
 package com.grupp3.projekt_it;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +15,16 @@ import android.widget.LinearLayout;
 /*
  * A preference activity for turning notification sound and vibration on and off. The state of each
  * preference item is remembered for future notifications.
- */
+ *
+ * @author Marcus Elwin
+ * @author Daniel Freberg
+ * @author Esra Kahraman
+ * @author Oscar Melin
+ * @author Mikael Mölder
+ * @author Erik Nordell
+ * @author Felicia Schnell
+ *
+*/
 public class Preferences extends PreferenceActivity {
     private Preference mPreference;
     private Toolbar mActionBar;

@@ -38,6 +38,15 @@ import java.net.SocketTimeoutException;
  * that the subscription is inactive
  * result = 1, -1, 0 corresponds to true, false, other cases e.g. network error.
  * @Throws SocketTimeOutException
+ *
+ * @author Marcus Elwin
+ * @author Daniel Freberg
+ * @author Esra Kahraman
+ * @author Oscar Melin
+ * @author Mikael Mölder
+ * @author Erik Nordell
+ * @author Felicia Schnell
+ *
  **********************************************************************************************/
 
 public class Login extends ActionBarActivity {

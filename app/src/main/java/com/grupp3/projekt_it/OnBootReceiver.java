@@ -5,25 +5,30 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.nfc.Tag;
 import android.os.SystemClock;
 import android.util.Log;
-
 import com.google.gson.Gson;
-
 import java.lang.*;
 import java.lang.System;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 
 //Extends broadcast receiver allows another context to execute application code with same permissions
     // onReceive receives broadcast messages from OS, see manifest
-
+/*
+ *
+ * @author Marcus Elwin
+ * @author Daniel Freberg
+ * @author Esra Kahraman
+ * @author Oscar Melin
+ * @author Mikael Mölder
+ * @author Erik Nordell
+ * @author Felicia Schnell
+ *
+*/
 public class OnBootReceiver extends BroadcastReceiver{
     static String TAG = "com.grupp3.projekt_it";
     private static final int PERIOD = 1000 * 60 * 60;
-    //private static final int PERIOD = 1000 * 6;
 
     //on receive restarts alarm after device reboot
     @Override
@@ -79,15 +84,6 @@ public class OnBootReceiver extends BroadcastReceiver{
         if(pendingIntent != null){
             alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
         }
-
-        /*
-        AlarmManager alarmManager= (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(context, DailyService.class);
-        PendingIntent pendingIntent = PendingIntent.getService(context, 0, intent, 0);
-        alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime(), 60*1000, pendingIntent);
-        */
-
-
     }
 
     static void setAllUserAlarms(Context context) {
@@ -110,13 +106,13 @@ public class OnBootReceiver extends BroadcastReceiver{
             AlarmManager alarmManager= (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
             Intent intent = new Intent(context, UserNotificationService.class);
             intent.putExtra("jsonUserNotification", json);
-            //intent.putExtra("Notification file id", userNotification.getId());
             PendingIntent pendingIntent = PendingIntent.getService(context, userNotification.getId(), intent, PendingIntent.FLAG_CANCEL_CURRENT);
             if(pendingIntent != null) {
                 alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
             }
         }
     }
+
     static void setUserAlarm(Context context, UserNotification userNotification){
         Log.i(TAG, "User alarm set");
         Calendar calendar = Calendar.getInstance();
@@ -134,7 +130,6 @@ public class OnBootReceiver extends BroadcastReceiver{
         AlarmManager alarmManager= (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(context, UserNotificationService.class);
         intent.putExtra("jsonUserNotification", json);
-        //intent.putExtra("Notification file id", userNotification.getId());
         PendingIntent pendingIntent = PendingIntent.getService(context, userNotification.getId(), intent, PendingIntent.FLAG_CANCEL_CURRENT);
         if(pendingIntent != null) {
             alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);

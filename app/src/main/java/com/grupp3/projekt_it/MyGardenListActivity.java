@@ -3,35 +3,35 @@ package com.grupp3.projekt_it;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.text.Layout;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListAdapter;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.squareup.picasso.Picasso;
-
 import java.lang.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+/*
+ *
+ * @author Marcus Elwin
+ * @author Daniel Freberg
+ * @author Esra Kahraman
+ * @author Oscar Melin
+ * @author Mikael Mölder
+ * @author Erik Nordell
+ * @author Felicia Schnell
+ *
+*/
 public class MyGardenListActivity extends BaseActivity {
     String TAG = "com.grupp3.projekt_it";
     Menu menu;
@@ -45,7 +45,6 @@ public class MyGardenListActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_my_garden_list);
         /**
          * Adding our layout to parent class frame layout.
          */
@@ -331,9 +330,6 @@ public class MyGardenListActivity extends BaseActivity {
          * to not be able to launch another instance of itself from navigation bar.
          * Remove correct startActivity(..) call to do so.
          */
-
-//		mDrawerList.setItemChecked(position, true);
-//		setTitle(listArray[position]);
         mDrawerLayout.closeDrawer(mDrawerList);
         BaseActivity.position = position; //Setting currently selected position in this field so that it will be available in our child activities.
 

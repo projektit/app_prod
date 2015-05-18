@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -23,7 +22,17 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
-
+/*
+ *
+ * @author Marcus Elwin
+ * @author Daniel Freberg
+ * @author Esra Kahraman
+ * @author Oscar Melin
+ * @author Mikael Mölder
+ * @author Erik Nordell
+ * @author Felicia Schnell
+ *
+*/
 public class PlantSearchActivity extends BaseActivity {
     //initialing variables
     String TAG = "com.grupp3.projekt_it_sok";
@@ -58,7 +67,6 @@ public class PlantSearchActivity extends BaseActivity {
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
     }
 
-
     @Override
     protected void openActivity(int position) {
         Log.i(TAG, "openActivity(int position)");
@@ -68,9 +76,6 @@ public class PlantSearchActivity extends BaseActivity {
          * to not be able to launch another instance of itself from navigation bar.
          * Remove correct startActivity(..) call to do so.
          */
-
-        //mDrawerList.setItemChecked(position, true);
-        //setTitle(listArray[position]);
         mDrawerLayout.closeDrawer(mDrawerList);
         BaseActivity.position = position; //Setting currently selected position in this field so that it will be available in our child activities.
 
@@ -97,7 +102,6 @@ public class PlantSearchActivity extends BaseActivity {
         }
     }
 
-
     // method for searching stuff
     public void search(){
         Log.i(TAG, "search()");
@@ -118,12 +122,10 @@ public class PlantSearchActivity extends BaseActivity {
                 Activity activity = this;
                 String urlPlant = SearchEditText.getText().toString();
                 urlPlant = inputFilter(urlPlant);
-                //Log.i(TAG, urlPlant);
                 new DownloadPlant(context, listView, fragmentManager, activity, getLayoutInflater())
                         .execute("http://xn--trdgrdsappen-hcbq.nu/api" + "?name=" + urlPlant);
             } catch (Exception e) {
                 e.printStackTrace();
-                //Log.i(TAG, "Connected but failed anyway");
             }
         }
     }
@@ -149,11 +151,9 @@ public class PlantSearchActivity extends BaseActivity {
                         .execute("http://xn--trdgrdsappen-hcbq.nu/api" + "?name=" + urlPlant);
             } catch (Exception e) {
                 e.printStackTrace();
-                //Log.i(TAG, "Connected but failed anyway");
             }
         }
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -163,7 +163,6 @@ public class PlantSearchActivity extends BaseActivity {
         return true;
     }
 
-
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         Log.i(TAG, "onPrepareOptionsMenu");
@@ -171,11 +170,8 @@ public class PlantSearchActivity extends BaseActivity {
         searchItem = menu.findItem(R.id.search);
         MenuItem item = menu.findItem(R.id.action_settings);
         item.setVisible(false);
-        //closeKeyBoard();
         return true;
-        //return super.onPrepareOptionsMenu(menu);
     }
-
 
     @Override
     public void onBackPressed() {
@@ -184,7 +180,6 @@ public class PlantSearchActivity extends BaseActivity {
         setResult(RESULT_OK, intent); // set result
         finish();
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -207,7 +202,6 @@ public class PlantSearchActivity extends BaseActivity {
             }
             return true;
         }
-
 
         else if (id == R.id.action_settings) {
             Log.i(TAG, "id == R.id.action_settings");
@@ -272,7 +266,6 @@ public class PlantSearchActivity extends BaseActivity {
         // Change search icon accordingly.
         searchItem.setIcon(closeSearchIcon);
         SearchOpened = true;
-
     }
 
     private void closeSearchBar() {
@@ -300,19 +293,8 @@ public class PlantSearchActivity extends BaseActivity {
     private void closeKeyBoard(){
         Log.i(TAG, "closeKeyBoard");
         View view = this.getCurrentFocus();
-        //InputMethodManager inputManager = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
         inputManager.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
     }
-
-
-    private void toggleKeyBoard(){
-        Log.i(TAG, "toggleKeyBoard");
-        View view = this.getCurrentFocus();
-        InputMethodManager inputManager = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
-        //inputManager.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_IMPLICIT_ONLY);
-        inputManager.toggleSoftInputFromWindow(view.getWindowToken(), InputMethodManager.SHOW_FORCED, 0);
-    }
-
 
     private void openKeyBoard() {
         Log.i(TAG, "openKeyBoard");
