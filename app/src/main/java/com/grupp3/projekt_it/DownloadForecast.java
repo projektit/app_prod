@@ -21,6 +21,11 @@ import java.net.URL;
  * @author Felicia Schnell
  *
 */
+/**
+ * Created by Daniel on 2015-04-15.
+ * Class for handling download of a json String representation of a forecast for current day and location from open weather map
+ * On download completion the forecast will be saved locally with its corresponding garden
+ */
 public class DownloadForecast extends AsyncTask<String, Void, String> {
     String TAG = "com.grupp3.projekt_it";
     String fileName;

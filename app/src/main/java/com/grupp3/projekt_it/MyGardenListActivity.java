@@ -31,7 +31,10 @@ import java.util.Arrays;
  * @author Erik Nordell
  * @author Felicia Schnell
  *
-*/
+/**
+ * Activity class which displays all the gardens stored locally on the device
+ */
+
 public class MyGardenListActivity extends BaseActivity {
     String TAG = "com.grupp3.projekt_it";
     Menu menu;

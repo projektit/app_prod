@@ -20,6 +20,15 @@ import android.widget.EditText;
  * @author Felicia Schnell
  *
  */
+/**
+ * Created by Daniel on 2015-04-21.
+ * Class defining the change garden name dialog fragment and the logic behind its clickable buttons
+ * onCreateDialog takes a bundle from previous activity which contains the current garden name
+ * One editText is defined where the user types in a new name
+ * Two buttons are defined where one is positive and one negative
+ * positive press changes the saved gardens name to the contents of the edit text
+ * negative press cancels the change garden name process
+ */
 public class ChangeGardenNameFragment extends DialogFragment {
     String TAG = "com.grupp3.projekt_it";
     @Override

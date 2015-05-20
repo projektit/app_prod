@@ -22,6 +22,14 @@ import com.google.gson.Gson;
  * @author Felicia Schnell
  *
 */
+/**
+ * Created by Daniel on 2015-04-27.
+ * Class defining the in garden flower options dialog fragment and the logic behind its clickable buttons
+ * onCreateDialog takes a bundle from previous activity which contains a json String representation of a flower as saved on
+ * the device in the SQLite databse and the selected gardens name
+ * Clicking on "Visa växtinfo" opens a new activity which displays the flower
+ * Clicking on "Ta bort" removes the selcted flower from the SQLite database table corresponding to the current garden.
+ */
 public class GardenFragment extends DialogFragment {
     String TAG = "com.grupp3.projekt_it";
     @Override

@@ -10,7 +10,15 @@ import com.google.gson.Gson;
 import java.lang.*;
 import java.util.ArrayList;
 
-//Fragment which allows users to pick a garden in which the selected flower will be saved
+
+/**
+ * Created by Daniel on 2015-04-23.
+ * Class defining the pick garden dialog fragment and the logic behind its clickable list items, items correspond to gardens saved
+ * on the device
+ * onCreateDialog takes a bundle from previous activity which contains a json String representation of a flower as received from
+ * the web server.
+ * Clicking on an item results in the flower being saved into a SQLite database table corresponding to the corresponding garden.
+ */
 public class ChooseGardenFragment extends DialogFragment {
     String TAG = "com.grupp3.projekt_it";
     @Override

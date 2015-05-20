@@ -21,6 +21,12 @@ import java.net.URLConnection;
  * @author Felicia Schnell
  *
 */
+/**
+ * Created by Daniel on 2015-05-04.
+ * Class for handling download of flower pictures
+ * On download completion the pictures will be added to a selected imageview
+ * IMPORTANT! currently not in use, replaced by picasso
+ */
 public class DownloadImage extends AsyncTask <String, Void, byte[]>{
     String TAG = "com.grupp3.projekt_it";
     ImageView imageView;

@@ -32,6 +32,14 @@ import java.util.ArrayList;
  * @author Felicia Schnell
  *
 */
+/**
+ * Class is a service which is fired by alarm manager defined in onBootReceiver class
+ * Once activated all gardens several days forecast will be examined:
+ * if temperature drops below zero within the next 24 hours in any of the gardens, a notification will be launched
+ * (NOT DONE) if flowers min zone in any garden corresponds to a temperature higher than any temperature within the 24 hours,
+ * a notification will be launched... IMPORTANT! zone to temperature translation is completely made up and zones are currently
+ * not used for any flowers on the web database
+ */
 public class DailyService extends IntentService {
     String TAG = "com.grupp3.projekt_it";
 

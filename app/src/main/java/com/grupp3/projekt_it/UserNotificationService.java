@@ -22,6 +22,11 @@ import com.google.gson.Gson;
  * @author Felicia Schnell
  *
 */
+/**
+ * Created by Daniel on 2015-05-06.
+ * Class is a service which is fired by alarm manager defined in onBootReceiver class
+ * Once fired the onHandleIntent method will launch a notification as specified by the user and saved on the device
+ */
 public class UserNotificationService  extends IntentService {
     String TAG = "com.grupp3.projekt_it";
 

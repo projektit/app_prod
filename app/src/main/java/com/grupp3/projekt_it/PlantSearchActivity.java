@@ -33,6 +33,10 @@ import android.widget.TextView;
  * @author Felicia Schnell
  *
 */
+/**
+ * Activity class which allows users to search for flowers in web server and add a certain flower to a garden saved on device
+ */
+
 public class PlantSearchActivity extends BaseActivity {
     //initialing variables
     String TAG = "com.grupp3.projekt_it_sok";

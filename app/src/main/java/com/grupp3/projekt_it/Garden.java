@@ -13,6 +13,10 @@ package com.grupp3.projekt_it;
  * @author Felicia Schnell
  *
 */
+/**
+ * POJO class created to easily use googles GSON library to parse json String objects into java objects
+ * Defines all information saved locally about a garden
+ */
 public class Garden {
     String tableName;
     String location;

@@ -10,7 +10,11 @@ package com.grupp3.projekt_it;
  * @author Felicia Schnell
  *
 */
-//Plant POJO
+/**
+ * Created by Daniel on 2015-04-22.
+ * POJO class to hold information about flowers in the same format as they are in webserver
+ */
+
 public class Plant {
     int id;
     String name;

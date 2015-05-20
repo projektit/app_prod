@@ -26,6 +26,13 @@ import java.util.Calendar;
  * @author Felicia Schnell
  *
 */
+/**
+ * Created by Daniel on 2015-04-17.
+ * Class contains methods accessible from other classes to set alarms for certain services
+ * Class extend BroadcastReceiver and onReceive is specified to "receive" when device boots (see manifest),
+ * meaning alarms will restart when device reboots
+ */
+
 public class OnBootReceiver extends BroadcastReceiver{
     static String TAG = "com.grupp3.projekt_it";
     private static final int PERIOD = 1000 * 60 * 60;

@@ -19,6 +19,10 @@ import java.util.ArrayList;
  * @author Felicia Schnell
  *
 */
+/**
+ * Created by Daniel on 2015-04-23.
+ * Class which handles tables to respective gardens
+ */
 class SQLPlantHelper extends SQLiteOpenHelper {
     String TAG = "com.grupp3.projekt_it";
     private static final int DATABASE_VERSION = 1;

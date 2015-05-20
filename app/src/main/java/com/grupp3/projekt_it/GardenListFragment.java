@@ -20,6 +20,15 @@ import android.os.Bundle;
  * @author Felicia Schnell
  *
 */
+/**
+ * Created by Daniel on 2015-04-21.
+ * Class defining the pick garden dialog fragment and the logic behind its clickable list items
+ * onCreateDialog takes a bundle from previous activity which contains the current gardens name
+ * Clicking on item "Öppna trädgård" starts a new activity, "MyGardenActivity"
+ * Clicking on item "Byt namn" results in another fragment, "ChangeGardenNameFragment"
+ * Clicking on item "Ta bort" results in the deletion of the loaclly saved garden and its corresponding table in SQLite database
+ * Clicking on item "Lägg till växt" starts  a new activity "PlantSearchActivity"
+ */
 public class GardenListFragment extends DialogFragment {
     String TAG = "com.grupp3.projekt_it";
     @Override

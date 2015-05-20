@@ -23,6 +23,10 @@ import java.util.List;
  * @author Felicia Schnell
  *
 */
+/**
+ * Created by Daniel on 2015-04-22.
+ * Class containing the most frequently methods in the app, all file saving and file loading are done through this class
+ */
 public class GardenUtil {
     public void saveGarden(Garden garden, Context context){
         Gson gson = new Gson();

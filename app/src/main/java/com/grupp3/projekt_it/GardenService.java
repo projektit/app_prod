@@ -20,6 +20,12 @@ import java.util.ArrayList;
  * @author Felicia Schnell
  *
 */
+/**
+ * Created by Daniel on 2015-04-17.
+ * Class is a service which is fired by alarm manager defined in onBootReceiver class
+ * Once service is fired both types of forecasts are updated for all gardens stored on the device (forecast and forecast2)
+ */
+
 public class GardenService extends IntentService {
     String TAG = "com.grupp3.projekt_it";
     public GardenService() {

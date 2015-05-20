@@ -21,6 +21,10 @@ import android.widget.Spinner;
  * @author Felicia Schnell
  *
 */
+/**
+ * Activity class which allows users to create a new garden and file
+ */
+
 public class NewGardenActivity extends ActionBarActivity {
     EditText editText1;
     Spinner spinner1;

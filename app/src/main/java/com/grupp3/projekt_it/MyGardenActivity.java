@@ -38,6 +38,10 @@ import java.util.Comparator;
  * @author Felicia Schnell
  *
 */
+/**
+ * Activity class which displays all flowers stored in the gardens corresponding SQLite database table
+ */
+
 public class MyGardenActivity extends ActionBarActivity {
     String TAG = "com.grupp3.projekt_it";
     String gardenName;

@@ -14,12 +14,6 @@ import android.support.v4.app.NotificationCompat;
 import java.util.Calendar;
 
 /**
- * An {@link IntentService} subclass for handling asynchronous task requests in
- * a service on a separate handler thread.
- * <p/>
- * TODO: Customize class - update intent actions, extra parameters and static
- * helper methods.
- *
  * @author Marcus Elwin
  * @author Daniel Freberg
  * @author Esra Kahraman
@@ -27,8 +21,11 @@ import java.util.Calendar;
  * @author Mikael Mölder
  * @author Erik Nordell
  * @author Felicia Schnell
- *
 */
+/**
+ * Class is a service which is fired by alarm manager defined in onBootReceiver class
+ * Once service is fired a notifications is launched reminding the user the new monthly advice are now available
+ */
 public class MonthlyUpdateService extends IntentService {
     String TAG = "com.grupp3.projekt_it";
 

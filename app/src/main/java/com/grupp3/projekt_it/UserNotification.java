@@ -10,6 +10,10 @@ package com.grupp3.projekt_it;
  * @author Felicia Schnell
  *
 */
+/**
+ * Created by Daniel on 2015-05-06.
+ * POJO class to hold information about user notifications
+ */
 public class UserNotification {
     int id;
     int year;

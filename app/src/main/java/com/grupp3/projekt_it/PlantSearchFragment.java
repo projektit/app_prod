@@ -20,6 +20,13 @@ import android.os.Bundle;
  * @author Felicia Schnell
  *
 */
+/**
+ * Created by Daniel on 2015-04-23.
+ * Class defining the flower options dialog fragment and the logic behind its clickable buttons
+ * onCreateDialog takes a bundle from previous activity which contains the json String representation of the flower
+ * if item "Lägg till i trädgård" is clicked, a new fragment will appear, "ChoseGardenFragment"
+ * if item "Visa" is clicked, a new activity is started "MyFlowerWebActivity"
+ */
 public class PlantSearchFragment extends DialogFragment {
     String TAG = "com.grupp3.projekt_it";
     @Override

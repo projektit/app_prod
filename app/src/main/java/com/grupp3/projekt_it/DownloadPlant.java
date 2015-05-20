@@ -41,6 +41,11 @@
      * @author Felicia Schnell
      *
     */
+    /**
+     * Created by Daniel on 2015-04-21.
+     * Class for handling download of json String representations of flowers from web server
+     * On download completion a list of the flowers will be constructed.
+     */
     public class DownloadPlant extends AsyncTask<String, Void, String> {
         String TAG = "com.grupp3.projekt_it";
         Context context;

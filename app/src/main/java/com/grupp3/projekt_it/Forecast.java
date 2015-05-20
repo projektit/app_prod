@@ -14,6 +14,12 @@ import com.google.gson.annotations.SerializedName;
  * @author Felicia Schnell
  *
 */
+/**
+ * Created by Daniel on 2015-04-15.
+ * POJO class created to easily use googles GSON library to parse json String objects into java objects
+ * Used for one day forecasts
+ */
+
 public class Forecast {
     Long id;
     Long dt;
