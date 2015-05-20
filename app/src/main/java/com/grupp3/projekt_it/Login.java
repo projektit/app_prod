@@ -89,9 +89,15 @@ public class Login extends ActionBarActivity {
             public void onClick(View v) {
                 // get text from textbox
                 user = mUserLogin.getText().toString().trim();
-                //Start Async Task for Login save responses
-                new LoginTask().execute(user);
-                //boolean serviceResponse = doLogin(user);
+                //temporary key for non authorized ips
+                if("planB".equals(user)){
+                    Intent intent = new Intent(Login.this, MainActivity.class);
+                    startActivity(intent);
+                }else {
+                    //Start Async Task for Login save responses
+                    new LoginTask().execute(user);
+                    //boolean serviceResponse = doLogin(user);
+                }
             }
         });
     }
