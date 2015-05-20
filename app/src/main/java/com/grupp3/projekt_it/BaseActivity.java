@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -24,15 +25,6 @@ import android.widget.TextView;
  * This activity will add Navigation Drawer for our application and all the code related to navigation drawer.
  * We are going to extend all our other activites from this BaseActivity so that every activity will have Navigation Drawer in it.
  * This activity layout contain one frame layout in which we will add our child activity layout.
- *
- * @author Marcus Elwin
- * @author Daniel Freberg
- * @author Esra Kahraman
- * @author Oscar Melin
- * @author Mikael Mölder
- * @author Erik Nordell
- * @author Felicia Schnell
- *
  */
 public class BaseActivity extends ActionBarActivity {
 
@@ -86,9 +78,14 @@ public class BaseActivity extends ActionBarActivity {
         frameLayout = (FrameLayout)findViewById(R.id.content_frame);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
+
+        // set a custom shadow that overlays the main content when the drawer opens
+        //mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
+
+        // set up the drawer's list view with items and click listener
+        //mDrawerList.setAdapter(new ArrayAdapter<String>(this, R.layout.navigation_drawer_list_item, listArray));
         myAdapter = new MyAdapter(this);
         mDrawerList.setAdapter(myAdapter);
-
         mDrawerList.setOnItemClickListener(new OnItemClickListener() {
 
             @Override
@@ -172,6 +169,9 @@ public class BaseActivity extends ActionBarActivity {
          * to not be able to launch another instance of itself from navigation bar.
          * Remove correct startActivity(..) call to do so.
          */
+
+//		mDrawerList.setItemChecked(position, true);
+//		setTitle(listArray[position]);
         mDrawerLayout.closeDrawer(mDrawerList);
         BaseActivity.position = position; //Setting currently selected position in this field so that it will be available in our child activities.
 
@@ -272,14 +272,14 @@ class MyAdapter extends BaseAdapter{
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-       View row = null;
+        View row = null;
         if(convertView == null){
-          LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-          row = inflater.inflate(R.layout.navigation_drawer_list_item, parent, false);
-       }
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            row = inflater.inflate(R.layout.navigation_drawer_list_item, parent, false);
+        }
         else{
-           row = convertView;
-       }
+            row = convertView;
+        }
         TextView tv = (TextView) row.findViewById(R.id.textView);
         ImageView im = (ImageView) row.findViewById(R.id.imageView2);
         tv.setText(listItems[position]);
