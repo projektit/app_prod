@@ -74,7 +74,6 @@ public class DownloadImage extends AsyncTask <String, Void, byte[]>{
     protected void onPostExecute(byte[] result) {
         if(result == null){
             Log.i(TAG,"ImageDownloader; image is null" );
-            imageView.setImageResource(R.drawable.garden_lits_item_picture);
             return;
         }
         //process message

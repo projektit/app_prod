@@ -18,7 +18,6 @@
         android:layout_height="wrap_content"
         android:scaleType="fitCenter"
         android:adjustViewBounds="true"
-        android:src="@drawable/garden_lits_item_picture"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
 
